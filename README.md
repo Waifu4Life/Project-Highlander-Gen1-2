@@ -134,6 +134,7 @@ A Gen2-based Pokédex for all six games, drawn at Game Boy size and framed in ea
 | Lock OG Layout | On | Keeps the battle on the cartridge's 160×144 layout. Off allows WIDE again. |
 | Low HP Beeping | Reduce | On / Off / Reduce. |
 | Modern EXP Share | On | Pokémon that didn't fight share half EXP, announced in one line. Off = Whatever EXP share the games used before. |
+| Unlimited PP | Off | Your Pokémon's moves never lose PP (Gen 2's Spite on you included); PP that goes up, like a Berry's, is kept. Not in link battles. |
 
 ### Overworld Screen
 | Option | Default | What it does |
