@@ -23,6 +23,10 @@
 -- the game's music; when they end, the Jukebox song comes back instead of
 -- the area's (through the game's music.select hook: only the "map" and
 -- "bike" song choices are swapped). A short note shows the song's name.
+--
+-- In the JUKEBOX sub-menu, SELECT on a song plays it (its row shows PLAY)
+-- until SELECT is pressed on it again or the sub-menu is left; SELECT on
+-- another song switches to that one.
 return function(mod)
   local J = { active = false, pos = 0, song = nil, held = false }
 
@@ -381,6 +385,65 @@ return function(mod)
     playAt(list, pos)
   end
 
+  -- ------------------------------------------------------------- preview
+  -- SELECT on a song in the JUKEBOX sub-menu plays it, looping, until SELECT
+  -- is pressed again (on that song) or the sub-menu is left. SELECT on
+  -- another song switches to it. Then the music from before comes back.
+
+  local preview = nil  -- { name, page, before } while a song is previewed
+  local lastPlay = nil -- the last song asked of Music.play (not a preview)
+
+  pcall(function()
+    local M = Music()
+    if type(M) ~= "table" or M._phJukeboxPlay or type(M.play) ~= "function" then return end
+    M._phJukeboxPlay = true
+    local origPlay = M.play
+    M.play = function(data, name, loop, opts, ...)
+      local reason = type(opts) == "table" and opts.reason or nil
+      if reason ~= "jukebox_preview" and type(name) == "string" then
+        lastPlay = { data = data, name = name, loop = loop, opts = opts }
+      end
+      return origPlay(data, name, loop, opts, ...)
+    end
+  end)
+
+  function J.previewing() return preview and preview.name or nil end
+
+  function J.preview(page, name)
+    local M, data = Music(), audioData()
+    if not (M and data and data.audio.songs[name]) then return end
+    if not preview then preview = { before = lastPlay } end
+    preview.name, preview.page = name, page
+    pcall(M.play, data, name, true, { reason = "jukebox_preview", fade = 4 })
+  end
+
+  function J.stopPreview()
+    if not preview then return end
+    local before = preview.before
+    preview = nil
+    local M, data = Music(), audioData()
+    if not (M and data) then return end
+    if J.active and J.song and data.audio.songs[J.song] then
+      pcall(M.play, data, J.song, true, { reason = "jukebox", fade = 4 })
+    elseif before and before.name then
+      pcall(M.play, before.data or data, before.name, before.loop, before.opts)
+    elseif type(M.restoreMap) == "function" then
+      pcall(M.restoreMap, data, "map")
+    end
+  end
+
+  -- leaving the sub-menu (B, or anything else that closes it) ends the preview
+  local function previewWatch(game)
+    if not preview or type(game) ~= "table" then return end
+    local stack = game.stack
+    local top = nil
+    if stack and type(stack.top) == "function" then
+      local ok, t = pcall(stack.top, stack)
+      if ok then top = t end
+    end
+    if top ~= preview.page then J.stopPreview() end
+  end
+
   -- The game's own song choices: an area song ("map", "bike") becomes the
   -- Jukebox song while it plays. Battles, scripts, jingles keep theirs.
   pcall(function()
@@ -503,6 +566,7 @@ return function(mod)
   pcall(function()
     mod.hooks:wrap("input.step", function(nextFn, game, dt)
       if type(game) == "table" then activeGame = game end
+      pcall(previewWatch, game)
       return nextFn(game, dt)
     end)
   end)
@@ -542,4 +606,7 @@ return function(mod)
   mod.exports.play = J.play
   mod.exports.stop = J.stop
   mod.exports.skip = J.skip
+  mod.exports.preview = J.preview
+  mod.exports.stopPreview = J.stopPreview
+  mod.exports.previewing = J.previewing
 end

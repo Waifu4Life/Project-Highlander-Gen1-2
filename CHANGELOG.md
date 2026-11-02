@@ -1,3 +1,11 @@
+## [1.58.0] — Jukebox preview, Green Start Menu, Pokédex Pictures OG/CRYSTAL
+- JUKEBOX: SELECT on a song plays it right away, looping (its row shows PLAY), until SELECT is pressed on it again or you leave the JUKEBOX sub-menu; SELECT on another song switches to it. The music from before (or the playing Jukebox song) comes back afterwards.
+- START MENU > COLOUR: AUTOMATIC now uses the Green colour when OTHER SETTINGS > BLUE INTO GREEN is On, like Custom Borders. A colour chosen per Game for Blue is kept. Highlander PC follows it too.
+- CRYSTAL > POKéDEX PICTURES: OG / CRYSTAL instead of OFF / ON, like the other rows. An old ON reads as CRYSTAL and an old OFF as OG; the default is OG.
+
+## [1.57.0] — Move Colours are Gen 1 only
+- BATTLE SCREEN, Gold/Silver/Crystal: COLORED MOVES and COLORED POKEBALLS are no longer listed. Gen 2 already colours its move animations and thrown balls itself, and these two options only ever worked on the Gen 1 battle screen, so in Gen 2 they did nothing. Red/Blue/Yellow/Green are unchanged.
+
 ## [1.56.0] — GitHub updates
 - G1R can now offer Project Highlander Gen1+2 updates: the manifest points to the new GitHub repo (github.com/Waifu4Life/Project-Highlander-Gen1-2), so the MODS panel shows Update and Versions for this and future releases.
 - New README.md on GitHub with every feature and requirement; RELEASE_NOTES.md rewritten for the first public release.

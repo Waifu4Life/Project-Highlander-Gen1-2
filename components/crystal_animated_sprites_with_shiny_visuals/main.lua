@@ -26,8 +26,11 @@ return function(mod)
       default = "gen2",
       choices = { { "OG", "og" }, { "GEN2", "gen2" } } },
     -- PH Pokédex pictures from Crystal in Red/Blue/Yellow/Gold/Silver.
-    { key = "crystalDexPictures", label = "POKéDEX PICTURES", type = "toggle",
-      default = false },
+    -- OG / CRYSTAL like BATTLE SPRITES (was ON/OFF before 1.58.0: an old
+    -- true reads as CRYSTAL, an old false as OG).
+    { key = "crystalDexPictures", label = "POKéDEX PICTURES", type = "choice",
+      default = "og",
+      choices = { { "OG", "og" }, { "CRYSTAL", "crystal" } } },
   })
 
   local function liveGame()

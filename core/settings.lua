@@ -84,7 +84,21 @@ return function(mainMod, parts)
     return game
   end
 
+  -- Settings that changed from ON/OFF to a choice: an old saved true/false
+  -- reads as the matching choice.
+  local OLD_TOGGLES = {
+    crystalDexPictures = { [true] = "crystal", [false] = "og" },
+  }
+
+  local rawGet
   function Store:get(idOrPart, key)
+    local value = rawGet(self, idOrPart, key)
+    local map = OLD_TOGGLES[key]
+    if map and type(value) == "boolean" then return map[value] end
+    return value
+  end
+
+  rawGet = function(self, idOrPart, key)
     local part = partOf(self, idOrPart)
     if part.alwaysOn and isSwitch(key) then return true end
     local full = self:keyFor(part, key)

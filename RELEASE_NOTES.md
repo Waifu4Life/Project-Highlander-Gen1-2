@@ -1,4 +1,4 @@
-# Project Highlander Gen1+2 — v1.56.0 (First Release)
+# Project Highlander Gen1+2 — v1.58.0 (First Release)
 
 The first public release of **Project Highlander Gen1+2**: modern full-screen interfaces and quality-of-life for Pokémon **Red, Blue, Yellow, Gold, Silver and Crystal** on Gen1 Recomp, all in one mod.
 
@@ -33,6 +33,16 @@ See the [README](https://github.com/Waifu4Life/Project-Highlander-Gen1-2#readme)
 
 - **Disable or remove** the old *Project Highlander (Modern UI Suite Fork)* and *Modern UI Suite* — they conflict with this mod.
 - Settings were renamed in 1.51.0, so options start from their defaults. Saves and the data stored in them (Item Shortcuts, Start Menu layout) keep working.
+
+## Changes in 1.58.0
+
+- **Jukebox**: SELECT on a song plays it, looping, until you press SELECT on it again or leave the Jukebox page. SELECT on another song switches to it.
+- **Start Menu > Colour**: Automatic uses Green when Blue Into Green is On, like Custom Borders.
+- **Crystal > Pokédex Pictures**: OG / Crystal instead of Off / On, like the other rows. Your old setting carries over.
+
+## Changes in 1.57.0
+
+- **Battle Screen**, Gold/Silver/Crystal: Colored Moves and Colored Pokeballs are no longer listed. Gen 2 already colours its move animations and balls, and these options only work on the Gen 1 battle screen.
 
 ## Changes in 1.56.0
 

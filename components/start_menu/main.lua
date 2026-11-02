@@ -73,6 +73,24 @@ return function(mod)
     return "red"
   end
 
+  -- AUTOMATIC's colour. Like Custom Borders: with OTHER SETTINGS > BLUE INTO
+  -- GREEN On, the Blue cart dressed as Green gets the Green colour. (cart()
+  -- itself stays "blue", so a COLOUR chosen per Game for Blue is kept.)
+  local function autoCart()
+    local id = cart()
+    if id == "blue" and mod.highlander and type(mod.highlander.option) == "function" then
+      local okOpt, on = pcall(mod.highlander.option, "other_settings", "blue_into_green")
+      local okEn, qolOn = true, true
+      if type(mod.highlander.enabled) == "function" then
+        okEn, qolOn = pcall(mod.highlander.enabled, "other_settings")
+      end
+      if okOpt and on == true and not (okEn and qolOn == false) then
+        return "green"
+      end
+    end
+    return id
+  end
+
   local function saveBucket(game, create)
     game = liveGame(game)
     local save = game and game.save
@@ -116,7 +134,10 @@ return function(mod)
 
   local function palette(game)
     local v = storedColour(game)
-    if v == "auto" then v = PALETTES[cart()] and cart() or "red" end
+    if v == "auto" then
+      local auto = autoCart()
+      v = PALETTES[auto] and auto or "red"
+    end
     return PALETTES[v]
   end
 

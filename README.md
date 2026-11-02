@@ -73,7 +73,7 @@ Pages are alphabetical, with "Highlander" rows first. There are no Back rows: **
 ### Highlander Start Menu
 A full-screen Start Menu (160×144, the cart's own font) with 2 columns × 5 rows of tiles, extra pages when needed, a clock bar and a footer.
 
-- **COLOUR**: Automatic (follows the cart, Green for Blue-as-Green), Red, Blue, Green, Yellow, Gold, Silver, Crystal.
+- **COLOUR**: Automatic (follows the cart; Green when *Blue Into Green* is On), Red, Blue, Green, Yellow, Gold, Silver, Crystal.
 - **COLOUR SCOPE**: per Game or per Save.
 - **CLOCK**: Off, Device (`Sun 2026-10-18 23:50`), Play time, In-Game (Gold/Silver/Crystal) or **Rotation** (default, cycles every 3 s).
 - **CUSTOM ICONS**: pick a 16×16 icon for non-system tiles.
@@ -189,7 +189,7 @@ Type-chart presets: **Vanilla**, **Gen II (Steel + Dark)**, **Gen VI (Steel + Da
 | **Highlander Dex** | On | Highlander Dex on/off. |
 | **Highlander Party** | On | Highlander Party on/off. |
 | **Highlander PC** | On | Highlander PC on/off. |
-| Blue Into Green | Off | *(Blue only)* Title, logo colour, "Green Version" and Nidorino intro turn Blue into Green. Custom Borders' Automatic picks the Green border. |
+| Blue Into Green | Off | *(Blue only)* Title, logo colour, "Green Version" and Nidorino intro turn Blue into Green. Custom Borders' and the Start Menu's Automatic pick Green. |
 | Decap. Words | On | Turns ALL-CAPS game text into normal case, keeping abbreviations (TM, HM, PKMN, HP, PP…) in capitals. |
 | Gender Mod | On | Boy/Girl choice in Red/Blue/Yellow/Gold/Silver (Red/Green, Gold/Kris): portrait, battle back sprite and overworld walk/bike. Hidden in Crystal. |
 | Pikachu Sound | Yellow | *(Yellow only)* Yellow's Pikachu voice or the original cry. |
@@ -232,6 +232,8 @@ Only the page for the running generation is shown. Every option is On by default
 ### Jukebox
 Every background song of the game you're playing, each On by default (ALL SONGS on top). The songs that are On form a playlist. Hold **Full Control > Jukebox Button** on the overworld with **Up** (play), **Down** (stop), **Left/Right** (previous/next). The song continues across maps, Surf and Bicycle; battles and events keep the game's music. Each game keeps its own list.
 
+To listen to a song, press **SELECT** on it in the Jukebox page: it plays, looping (the row shows PLAY), until you press SELECT on it again or leave the page. SELECT on another song switches to it.
+
 ### Custom Borders
 Super Game Boy-style borders around the 4:3 screen (title, Options, Trainer ID, OG battles, Start Menu).
 - **Border**: Automatic, Classic/Modern 1/Modern 2 Red, Classic/Modern 1/Modern 2 Green, Classic/Modern Blue, Yellow, Classic/Modern Gold, Silver and Crystal, Custom 1-4.
@@ -241,7 +243,7 @@ Super Game Boy-style borders around the 4:3 screen (title, Options, Trainer ID, 
 ### Crystal *(by TRW)*
 Crystal's animated Pokémon sprites and shiny visuals, read from **your own Pokémon Crystal install** in G1R (no Pokémon sprites are bundled).
 - **Front NPCs** / **Overworld NPCs** *(Gen 1)*: OG or GEN2 trainers.
-- **Pokédex Pictures** (Off): Crystal's pictures in the Highlander Dex *(not in Crystal)*.
+- **Pokédex Pictures**: OG (default) or Crystal — Crystal's animated pictures in the Highlander Dex *(not in Crystal)*.
 - **Battle Sprites**: OG or Crystal *(not in Crystal)*.
 - **Animations**: Loop or Play Once.
 - An INSTALLED / NOT INSTALLED line tells you if Crystal was found.

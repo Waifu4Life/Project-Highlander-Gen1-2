@@ -413,8 +413,16 @@ return function(mod, settings, state, components)
       }
     end
     if pageId == "battle_screen" then
+      -- COLORED MOVES / COLORED POKEBALLS: Gen 1 only. Gold/Silver/Crystal
+      -- already colour their move animations and thrown balls, and the
+      -- Move Colours code only reaches the Gen 1 battle screen.
+      local generation = 1
+      pcall(function()
+        local GV = require("src.core.GameVersion")
+        if type(GV.generation) == "function" then generation = GV.generation() end
+      end)
       local colors = settings.byId.move_colors
-      if colors then
+      if colors and generation ~= 2 then
         addRows(body, colors, pick(colors))
       end
       local other = settings.byId.other_settings
@@ -771,8 +779,14 @@ return function(mod, settings, state, components)
       local song = entry
       pageRows[#pageRows + 1] = {
         id = "jukebox." .. song.name,
+        song = song.name,
         label = song.label,
-        value = function() return JB.isOn(song.name) and "ON" or "OFF" end,
+        value = function()
+          if type(JB.previewing) == "function" and JB.previewing() == song.name then
+            return "PLAY"
+          end
+          return JB.isOn(song.name) and "ON" or "OFF"
+        end,
         step = function(activeGame)
           activeGame = activeGame or game
           JB.toggle(activeGame, song.name)
@@ -785,6 +799,23 @@ return function(mod, settings, state, components)
     page.rows, page.view = pageRows, pageRows
     page.index, page.scroll, page.sub = 1, 0, true
     page.highlanderComponent = "jukebox"
+    -- SELECT on a song: play it until SELECT again (or leaving the page).
+    local baseUpdate = page.update
+    page.update = function(self, dt, ...)
+      local input = self.game and self.game.input
+      local rows = self.view or self.rows or {}
+      local row = rows[self.index]
+      if input and row and row.song and input:wasPressed("select")
+          and type(JB.preview) == "function" then
+        if JB.previewing() == row.song then
+          JB.stopPreview()
+        else
+          JB.preview(self, row.song)
+        end
+        return
+      end
+      return baseUpdate(self, dt, ...)
+    end
     trimBack(page)
     game.stack:push(page)
     return true

@@ -399,7 +399,8 @@ return function(mod, D)
     local okA, avail = pcall(src.available)
     if not (okA and avail) then return nil end
     if self.ctx.key == "crystal" then return src end
-    return crystalOption("crystalDexPictures") == true and src or nil
+    local pick = crystalOption("crystalDexPictures")
+    return (pick == "crystal" or pick == true) and src or nil
   end
 
   -- The species' own Gen 1 colours (the same ones the game's Pokédex uses).
