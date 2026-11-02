@@ -1,0 +1,2423 @@
+## [1.56.0] — GitHub updates
+- G1R can now offer Project Highlander Gen1+2 updates: the manifest points to the new GitHub repo (github.com/Waifu4Life/Project-Highlander-Gen1-2), so the MODS panel shows Update and Versions for this and future releases.
+- New README.md on GitHub with every feature and requirement; RELEASE_NOTES.md rewritten for the first public release.
+
+## [1.55.0] — PC buttons swapped, Auto-Grab, left stick back
+- HIGHLANDER PC, new buttons:
+  - A opens the Pokémon's menu.
+  - SELECT turns AUTO-GRAB on/off. With it on, A grabs and drops like before (B puts the Pokémon back); SELECT again gives A back to the menu. AUTO-GRAB is off every time the PC opens. While it's on, a GRAB badge sits under the PARTY badge.
+  - MULTIPLE SELECTIONS: A marks, SELECT drops, B ends.
+  - Hold START and press RIGHT / LEFT to jump a page (6 rows).
+  - The header help follows: A:MENU / SELECT:GRAB (or A:GRAB / SELECT:MENU) taking turns with START+L/R / JUMP SCROLL; A:MARK with SELECT:DROP / B:END.
+- FULL CONTROL: LEFT ANALOG FOR D-PAD works again. The game now sends the left stick as pad presses of its own, which Full Control's button map didn't know.
+
+## [1.54.0] — Held items in the PC
+- HIGHLANDER PC, Gen 2: START on a Pokémon now has ITEM, right under SUMMARY (not on an EGG). It opens Gold/Silver/Crystal's own GIVE / TAKE menu over the PC, with the PACK, the "Switch items?" question and the game's own messages, for party AND boxed Pokémon.
+  - Boxed Pokémon can't be given MAIL (MAIL never goes in the BOX: "This item can't be held.").
+  - A party Pokémon holding MAIL gets "Remove MAIL first." (the party menu's MAIL > TAKE handles letters).
+
+## [1.53.0] — Running Shoes back, PC jump hint
+- Running Shoes, Gen 1: running works again on saves from before 1.51.0. 1.51.0 renamed the mod's save flags, so the sneakers Mom gave you were no longer found and the game waited for a sneakers story you'd already done. The old flags are carried over (once per save), and a save that already has Oak's POKéDEX but no sneakers gets them quietly.
+- HIGHLANDER PC: when idle, the header takes turns between A:GRAB / START:MENU and SELECT+L/R / JUMP SCROLL.
+- SAFARI ZONE: UNLIMITED SAFARI BALLS is now UNLIMITED BALLS.
+
+## [1.52.0] — Safari Zone, wider Gen 2 pages, PC page jumps
+- HIGHLANDER PC, MULTIPLE SELECTIONS: A marks / unmarks the Pokémon (all on the same side), START drops them on the Pokémon under the cursor, so they can now trade places on the SAME side too (box with box, party with party), not only box with party. START on an empty slot moves them to the end of that side. B still ends it. The header's second line takes turns between START:DROP and B:END.
+- HIGHLANDER PC: hold SELECT and press RIGHT / LEFT to jump a page (6 rows) down / up from the row the cursor is on (stops at the first row or the last Pokémon). On the party column it scrolls the big box beside it.
+- Gen 2 sub-menus: the value now starts on the left like Gen 1's (": " then the value from the third column, 16 characters) instead of past the middle of the page (8 characters), so values that fit in Gen 1 no longer scroll in Gen 2.
+- CRYSTAL sub-menu: new order — FRONT NPCS and OVERWORLD NPCS (Gen 1), then the note "Pokémon Crystal needs to be installed to have the Crystal Sprites w/ or w/o animation." (every game but Crystal, with INSTALLED / NOT INSTALLED under it; replaces NO CRYSTAL INSTALLED), POKéDEX PICTURES, BATTLE SPRITES, ANIMATIONS, and Copyright (c) TRW at the bottom. Crystal itself shows ANIMATIONS and the copyright. DECAP. WORDS now leaves "TRW" in capitals.
+- New MECHANICS > SAFARI ZONE (Red/Blue/Yellow/Green; Gen 2 has no Safari Zone), after GAME CORNER:
+  - INFINITE SAFARI moved here from OVERWORLD SCREEN.
+  - UNLIMITED SAFARI BALLS (ON by default): the count stays at 30, so you never run out.
+  - NO RUNNING AWAY (ON by default): wild Safari Zone Pokémon never run; "is eating!" / "is angry!" and the BAIT/ROCK effects on the catch rate still work.
+
+## [1.51.2] — Relearn and HMs in Gen 2
+- PokéMoves, Gen 2: RELEARN (Party menu) with four moves already known now uses Gold/Silver/Crystal's own "trying to learn… Delete an older move?" questions and move list instead of the Gen 1 list. With FORGETTABLE HMS on, an HM can now be picked there. This was broken before 1.51.0 too: the Gen 1 list always refused HMs in Gen 2.
+
+## [1.51.1] — Forgettable HMs fix
+- PokéMoves, Gen 2: FORGETTABLE HMS works again. Its hooks are now refreshed every time the game starts or loads a save instead of being set up only once, it also catches the move list when it is opened without the usual route, and it writes a line to the log ("Forgettable HMs: …") the first time it lets an HM go. If Gen 2 PokéMoves ever fails to load, the log now says why.
+
+## [1.51.0] — All Project Highlander
+- The core of the mod (start-up, settings, the per-part setup and the PROJECTHIGHLANDER menu) is rewritten from scratch. Every settings page shows the same rows and works the same way.
+- PokéMoves, Gen 2: FORGETTABLE HMS now lets the game's own "forget a move" screens do the work (in and out of battle) instead of a copy of them. TMS FOREVER and the INSTANT TMS/HMS SELECT list were rewritten too.
+- Other Settings, Gen 2: GET BOOSTED EXP, MODERN EXP SHARE, SPARKLING HIDDEN ITEMS, SHOW AREA NAMES and MODERN STORES rewritten from scratch; they look and work the same.
+- Removed unused leftovers: the old aspect-ratio framing, portrait and menu-icon loaders, the shiny-catch tracker nothing displayed, the MENU SPRITES row, the old screen markers and the bridge for the separate "Gender Mod" (♂/♀ icons) and "Crystal 251" mods.
+- Internal names cleaned up: setting prefixes are now other_settings, battle_screen, custom_borders and shortcuts; the Options entry is highlander_settings; save flags and helper names use "ph" instead of "suite". Settings start from their defaults, and one-off Get All Pokémon events can happen again on old test saves.
+- Removed the one-time imports of settings from the old Project Highlander and the old Modern Start Menu.
+- LICENSE, mod.card and the notices now credit Project Highlander as Waifu4Life's own work.
+
+## [1.50.0] — Original icons past Wilds of Kanto Revival
+- Gen 1 ORIGINAL icons (PC and Party): mods run sealed off from each other, so 1.49.0 could never reach WoK's sprite service. Our icons now go through the one door WoK's icon wrapper always leaves open to the game's own drawing (the trade animation's), with the still frame / bounce worked out the usual way. WoK's followers elsewhere and WILD FOLLOWERS are unchanged.
+
+## [1.49.0] — Original icons beside Wilds of Kanto Revival
+- Gen 1 ORIGINAL icons (PC and Party) now work with Wilds of Kanto Revival installed. WoK replaces the game's party-icon drawing with its followers; for our ORIGINAL icons its follower step is now told "no" for that one draw, so the game's own icon comes through. WoK's followers everywhere else are untouched, and WILD FOLLOWERS is unchanged.
+
+## [1.48.0] — Original icons, found the right way
+- Gen 1 ORIGINAL icons (PC and Party): the private copy of the game's icon code is now found the same way the game finds its own files, so it loads however the game is installed. 1.47.0 could miss it and fall back to the shared copy that Wilds of Kanto Revival draws its followers through.
+
+## [1.47.0] — Original icons, for real
+- Gen 1: POKéICONS > ICONS FOR PC and ICONS FOR PARTY set to ORIGINAL now draw with a private copy of the game's own icon code and the icon table as the game loaded it, so a mod that replaces the icon drawing itself (Wilds of Kanto's followers, icon packs) can't take over any more. WILD FOLLOWERS is unchanged.
+
+## [1.46.0] — PC badge, Original icons, one bag counter
+- HIGHLANDER PC: PARTY is now a small badge (tiny letters on a dark tab) instead of the big drawn word.
+- Gen 1: POKéICONS > ICONS FOR PC and ICONS FOR PARTY set to ORIGINAL now really show the game's own icons, in the PC and on the party screen. Another mod's icons (Wilds of Kanto's followers, icon packs) no longer take over; WILD FOLLOWERS still shows the followers.
+- Gen 2 HIGHLANDER BAG: the counter is now the whole bag, all pockets together, out of 255 (the same number on every pocket). The 255 is for the whole bag: a new item needs a free slot, more of an item you already have always fits.
+
+## [1.45.0] — Highlander PC
+- New HIGHLANDER PC, written from scratch: the Pokémon Storage screen for Red/Blue/Yellow/Green and Gold/Silver/Crystal. Ish's Modern PC UI (its screens, the PC sub-menu and BOX EXCLUSIVE) is gone: it was the last of Ish's screens.
+  - All the boxes are shown as one big box, 5 across: 240 Pokémon in Gen 1 (48 rows), 280 in Gen 2 (56 rows). Six rows are on screen; flashing arrows show when there are Pokémon above or below.
+  - Your party is the first column and never scrolls. The word PARTY is drawn over it.
+  - The header shows the nickname of the Pokémon under the cursor (the species when it has none), and the buttons: A:GRAB / START:MENU (A:DROP / B:CANCEL while holding one, A:MARK / B:END in Multiple Selections).
+  - A grabs a Pokémon; A again swaps it with the one there, or moves it to the end of the party / big box on an empty slot. B puts it back.
+  - START on a party Pokémon: SUMMARY, SEND TO BOX, MULTIPLE SELECTIONS, CANCEL. On a boxed one: SUMMARY, SEND TO PARTY, RELEASE (asks first, NO by default), MULTIPLE SELECTIONS, CANCEL.
+  - MULTIPLE SELECTIONS: A marks or unmarks Pokémon on the same side, then A on the other side drops the group there (swapping with whoever is in the way), or A on an empty slot moves them to the end. B ends it.
+  - Colours follow the Start Menu's COLOUR, even with the Start Menu off. Icons follow POKéICONS > ICONS FOR PC (Wild Followers or Original) in both generations.
+- The big box is always packed: no gaps, new Pokémon go at the end. Underneath, the save still has the game's own boxes (filled box 1 first), so turning the PC off or exporting a cartridge save works as before.
+- Catching with a full party keeps filling the big box until all of it is full (Gen 2 used to stop at a full current box).
+- The game's rules stay: you can't leave the party without a healthy Pokémon, Gen 2 MAIL has to be removed before a Pokémon goes in a box, eggs can't be released, Yellow's Pikachu stays loyal. Like the game's own DEPOSIT/WITHDRAW, changes are kept when you save.
+- OTHER SETTINGS > HIGHLANDER PC (ON by default) replaces SYSTEM > PC. OFF gives the game's own PC back.
+
+## [1.44.0] — Shorter bag choices
+- OTHER SETTINGS > HIGHLANDER BAG: DEFAULT POKéBALLS is now DEFAULT BALLS and DEFAULT KEY ITEMS is now DEFAULT KeyItems (drawn as written, Decapitalize leaves it alone), so neither has to scroll.
+
+## [1.43.0] — Bag opens where you want
+- OTHER SETTINGS > HIGHLANDER BAG is now a choice instead of ON/OFF: OFF, DEFAULT ITEMS, DEFAULT TMs/HMs, DEFAULT POKéBALLS, DEFAULT KEY ITEMS or LAST OPENED (the default).
+  - A DEFAULT pocket opens every time, in and out of battle.
+  - LAST OPENED reopens the pocket you were last in, in and out of battle; it's kept in the save, so it survives quitting the game.
+  - OFF gives the game's own bag back, as before.
+- Gen 2: when the game itself asks for a pocket (the item PC's DEPOSIT, the mart's SELL), that pocket still wins.
+
+## [1.42.0] — START: SORT
+- HIGHLANDER BAG: the header now reads START: SORT, in the same capitals as POCKET and ITEMS (easier to read).
+
+## [1.41.0] — Highlander Bag
+- New HIGHLANDER BAG, written from scratch: Gold/Silver/Crystal's PACK in both generations. Ish's Modern Bag (its screens, the ITEM BAG sub-menu, BAG POCKET ORDER, OPEN ON, HIDE ALL and the item artwork) is gone.
+  - Header: ◀▶ POCKET ▼▲ ITEMS Start:Sort (START: SORT since 1.42.0). Money under the header, the bag's used/255 under the pocket plaque.
+  - Gen 1: the PACK rebuilt for Red, Blue, Yellow and Green with four pockets (Items, Balls, Key Items, TM/HM), Crystal's bag pictures and plaques, five items per page with the count underneath, and a description for every item (TMs/HMs show their move's). LEFT/RIGHT change pocket with the pocket click. Using, tossing, throwing balls and teaching TMs is still the game's own Bag.
+  - Gen 2: the game's own PACK with the new header, money and counter; counts up to ×999.
+  - START opens SORT BY: Category Asc/Desc and Names A-Z/Z-A, for the pocket you're in. The TM/HM pocket is in number order until sorted by name; that choice is kept in the save.
+  - SELECT moves an item in its pocket ("Where should this be moved to?"), not in TM/HM.
+- OTHER SETTINGS > HIGHLANDER BAG (ON by default) replaces SYSTEM > ITEM BAG. OFF gives the game's own bag back.
+- The bigger bag stays, always on: 255 different items (per pocket in Gen 2), stacks up to 999, and the Gen 1 item PC holds 255 too.
+
+## [1.40.0] — Highlander HUD first
+- BATTLE SCREEN: HIGHLANDER HUD is now the first row (the rest stay alphabetical).
+
+## [1.39.0] — Main menu tidy
+- MECHANICS: Game Corner moved above Steel/Fairy.
+- The ProjectHighlander main menu has no BACK row any more: B leaves, like every sub-menu.
+
+## [1.38.0] — Main menu categories
+- The ProjectHighlander menu (its title is now "ProjectHighlander") has three categories instead of one long list:
+  - MECHANICS: Battle Screen, Overworld Screen, PokéMoves, Shortcuts, Steel/Fairy, Game Corner.
+  - SYSTEM: Start Menu, Item Bag, PC, Other Settings, Full Control, Cont. Rumble, Get All Pokémon.
+  - COSMETICS: Jukebox, Custom Borders, Crystal, PokéIcons.
+- Renamed: Start → Start Menu, Bag → Item Bag, Pokemoves → PokéMoves, Poke Icons → PokéIcons, Cont.Rumble → Cont. Rumble. ProjectHighlander, Start Menu, PokéMoves and PokéIcons are drawn exactly as written (Decapitalize leaves them alone).
+- Start Menu: Project Highlander's tile is called "P.High" by default. CUSTOM RENAME still changes it, and an empty name brings "P.High" back.
+
+## [1.37.0] — Trainer ID always on
+- The Highlander Trainer ID is now always on in Gen 1: OTHER SETTINGS > HIGHLANDER ID is gone (the game's own card can cut the portrait off on some PCs).
+
+## [1.36.0] — Highlander Trainer ID
+- New Gen 1 Trainer ID, built on Gold's card: the checkered frame with NAME/, ID No and MONEY over the portrait box, then two pages.
+  - Page 1 (STATUS): POKéDEX (Pokémon owned), PLAY TIME with Gold's blinking colon, and BADGES▶.
+  - Page 2 (BADGES): the eight Kanto leaders with their numbers; each earned badge spins beside its leader.
+  - LEFT/RIGHT turn the page, A turns it (and closes on page 2), B or START closes. Every press blips.
+- The portrait is drawn by the screen itself (trimmed and stood on the bottom of the box), no longer through the game's portrait window, which is what cut it off on some PCs.
+- New OTHER SETTINGS > HIGHLANDER ID (ON by default, Gen 1 only). OFF gives the game's own Trainer ID back, untouched.
+- Gen 2's Trainer ID is unchanged (coloured Johto badges, Kanto page 3). The old Gen 1 add-ons to the game's own card are gone.
+
+## [1.35.0] — Empty tiles, sunnier Yellow
+- SORT MENU: empty tiles can be picked too, so a row can be moved into an empty spot and leave a gap behind. The pages are filled with empty tiles (shown by their corners), with always at least one free. The Start Menu keeps the gaps; the cursor jumps over them.
+- COLOUR YELLOW is a brighter sunflower yellow.
+
+## [1.34.0] — Start Menu polish
+- CUSTOM RENAME names are shown exactly as typed: Decapitalize leaves them alone (on the Start Menu, the SORT MENU and the CUSTOM RENAME page).
+- The Start Menu's page number is only in the top bar now. With more than one page, the DEVICE clock leaves off the day to make room for it ("2026-10-18 23:50 1/2").
+- SORT MENU: SELECT no longer resets the order, and the footer just says "A MOVE  B DONE".
+
+## [1.33.0] — Custom Rename, per-save layout
+- Everything on HIDE ITEMS shows by default, the shortcuts to mods' Options pages (PROJECTHIGHLANDER included) too.
+- QUIT can be moved in the SORT MENU like any other tile. Until it's moved it stays the last tile, with new tiles going in before it.
+- New START > CUSTOM RENAME: every Start Menu tile (the game's own, POKEBOX, MODS, other mods', shortcuts, hidden ones too) can be renamed with the game's keyboard, up to 6 characters. Only the Start Menu tile changes. Confirm an empty name to get the usual one back.
+- CUSTOM ICONS, CUSTOM RENAME, HIDE ITEMS and the SORT MENU are now kept per save file (COLOUR and CLOCK work as before). The layout from earlier builds moves into the first save you load; other saves start with the default layout. Like everything kept in a save, changes stick once the game is saved.
+
+## [1.32.0] — Options shortcuts on START
+- HIDE ITEMS no longer hides anything in the game's Options menu. Instead, every mod row there that opens a page (PROJECTHIGHLANDER included) can be put on the Start Menu as a shortcut: switch it to "START: SHOW". They start out hidden.
+- A shortcut opens that mod's page straight from the Start Menu; backing out returns to the Start Menu. It uses the OPTION icon unless you pick another (shortcuts can be sorted like any other tile).
+
+## [1.31.0] — Hide Items
+- New START > HIDE ITEMS: show or hide every Start Menu row that isn't one of the game's own (POKEBOX, MODS, and any other mod's row), plus every other mod's row in the game's Options menu. Each row says where it lives: "START: SHOW" / "OPTIONS: HIDE".
+- POKEBOX moved there from the START sub-menu (your setting is kept).
+- The game's own rows (Pokedex, Pokemon, Item/Pack, trainer, Pokegear, Save, Option, Quit) can't be hidden, and neither can PROJECTHIGHLANDER in the Options menu, so HIDE ITEMS can always be reached.
+- Options-menu rows appear in the list once the Options menu has been opened with that mod installed.
+
+## [1.30.0] — Small fixes
+- START > CLOCK is ROTATION by default (a clock you already picked is kept).
+- Gen 1 sub-menus no longer have a BACK row, like Gen 2's: the cursor wraps from the last row to the first, and B leaves.
+- Gen 2 SAVE from the Start Menu is drawn in the Start Menu's COLOUR, like Gen 1's.
+- The game's Options menu row is now PROJECTHIGHLANDER, and Decapitalize shows it as "ProjectHighlander".
+
+## [1.29.0] — Start Menu clock
+- START > CLOCK now has five settings for the Start Menu's top bar:
+  - OFF: no clock (the page number stays).
+  - DEVICE: your device's date and time, "SUN 2026-10-18 23:50".
+  - PLAY: play time, "PLAY 12:34".
+  - IN-GAME: Gold, Silver and Crystal's own clock, "GAME MON 10:30" (Gen 2 only; skipped in Gen 1, where it shows DEVICE).
+  - ROTATION: each available clock in turn, 3 seconds apiece.
+
+## [1.28.0] — Sort Menu fix
+- START > SORT MENU now shows the Start Menu's tiles instead of "Open Start once first". It now reads the menu the same way pressing START would, instead of needing the Start Menu open underneath.
+
+## [1.27.0] — Highlander Start Menu
+- New Start Menu component, written from scratch: the last of Ish's Start Menu code is gone. It looks and works the same: the FULL SCREEN page, QUIT bottom-right, SELECT for the SORT MENU, the clock bar, POKEBOX and CUSTOM ICONS.
+- Your START settings, menu order and custom icons carry over automatically the first time you launch.
+- Red, Blue and Yellow have new colour values of our own.
+- Gen 2 Bug-Catching Contest: "end the Contest?" now asks on the page itself, like QUIT.
+
+## [1.26.0] — Start Menu clean-up
+- The FULL SCREEN Start Menu is now the only one. Ish's Modern Start Menu (the floating phone panel) is gone, with everything that only served it: the wide-screen redraw, the 24x24 icon strip, its old settings page and the flat Options rows.
+- START sub-menu: removed POSITION and STYLE. COLOUR no longer offers DMG (too close to Green); a game or save set to DMG goes back to AUTOMATIC.
+- The CUSTOM ICONS picker always shows the 16x16 icons the Start Menu uses.
+
+## [1.25.0] — Highlander Party polish 4
+- Gen 2 move screen: the upper box's right line now runs down into the lower box's top-right corner, so the frames join on both sides.
+
+## [1.24.0] — Highlander Party polish 3
+- Gen 1 summary: the white notch is centred in the open page's square.
+- Moves table (both gens): the PP numbers moved 1 px back right, so the first digit no longer touches the column line.
+- Move screen (both gens): 2 px of the frame line are cleared left of the Pokémon's name.
+- Gen 2 move screen: the upper box's left line now runs down into the TYPE tab's corner, so the two frames join like in Gen 1.
+- Gen 2 blue page: SPEED's number is back on screen (it stays 2 px higher than the other values).
+
+## [1.23.0] — Highlander Party polish 2
+- Gen 1 summary: the page arrows and coloured squares are now Gold's, pixel for pixel (the open page's square has Gold's white down-notch), and the row sits 2 px lower so the big square no longer touches the species name.
+- Moves table (both gens): the PP numbers moved 3 px left, off the table's right edge.
+- Blue page (both gens): the stats column is 2 px lower, so ATTACK no longer touches the line above.
+- Move screen: Gen 1's moves moved down 1 px. Gen 2's move screen now uses the same spacing as Gen 1 (moves higher with more room, Type/Attk and the description lower), and its TYPE tab is drawn with the box's own border pieces, so the lower box's left edge is no longer broken.
+- Summary (both gens): Left and Right now blip like A when turning pages.
+- Gen 2 party list now uses the Gen 1 layout: icon, name, level and status on the first line, HP bar with the HP numbers beside it on the second, XP bar on the third.
+
+## [1.22.0] — Highlander Party polish
+- Text that touched the screen's left edge or top now has a pixel or two of room (party lists and the summary pages, both gens).
+- The A menu loops: Up on the first row jumps to the last, Down on the last back to the first.
+- The A menu shows at most 8 rows; with more it scrolls, with small up/down arrows when there's more to see.
+- Gen 1 summary: the Pokémon's picture shows again with CRYSTAL > BATTLE SPRITES on Crystal; the page squares carry a down arrow (not a "T"); the left arrow points left; the small black line after the HP bar is gone.
+- Gen 1 move screen: the moves sit higher with a bit more room between them, and the Type/Attk row and the description sit lower.
+- Gen 2 party: no CANCEL row (B backs out), so names no longer cut into the XP label above them. Party icons follow POKE ICONS > ICONS FOR PARTY (both gens).
+- POKE ICONS: removed ICONS FOR POKEDEX (the Highlander Dex has no icons).
+- Summary (both gens) and the Highlander Dex play the game's menu blip on A and B.
+
+## [1.21.0] — Highlander Party
+- New party screen and Pokémon summary, Gen 1 and Gen 2: OTHER SETTINGS > HIGHLANDER PARTY (ON by default). OFF gives the game's own screens back, untouched. The old PARTY sub-menu (Modern Party UI) is gone.
+- Party list keeps the game's own look, with the bottom text box removed: each Pokémon gets more room and an XP bar under its HP bar ("XP:", blue). Gen 2 keeps its CANCEL row (rows tighten a little with 6 Pokémon). Works everywhere you pick a Pokémon: items, TMs/HMs, stones, battle switches, field moves.
+- SELECT on a Pokémon picks it up, SELECT (or A) on another swaps them; B lets go.
+- The A menu opens as a box in the middle of the screen, in the usual order: Stats, (Gen 2: Move, Item), Switch, Relearn, Rename, Dismiss/Follow, TM moves, HM moves, Cancel.
+- New RENAME: opens the game's own naming keyboard. Confirm an empty name to go back to the species name. Any Pokémon can be renamed, traded ones included.
+- Summary (both gens) follows Gold's three pages, white below the line:
+  - Pink: HP, status, the types as coloured labels, EXP.
+  - Green: Item and "Moves:" with the Highlander HUD's moves table (type colours, PP; no effectiveness column), and a SELECT hint under it.
+  - Blue: ID No., OT and the stats. Gen 1 shows one SPECIAL row and no item or gender.
+- Gen 1 gets Gold's move screen: SELECT on the green page shows each move's type, power and description; A picks a move up and puts it down to reorder (not during a battle); Left/Right change Pokémon; B or SELECT goes back. Gen 2 keeps its own.
+- Gen 1 move descriptions are bundled (Crystal's text), so they show with no Gen 2 game installed. Growth, Psychic, Light Screen and Amnesia say SPECIAL instead of SPCL.ATK/SPCL.DEF.
+- OTHER SETTINGS lists its HIGHLANDER rows first.
+
+## [1.20.0] — Highlander HUD help
+- Press START while picking a move (HIGHLANDER HUD on, Gen 1 and Gen 2) for a help screen: every type in the game written in its own colour, and what 0x, ½x, 1x and 2x mean. A, B or START closes it; the battle waits while it's open.
+
+## [1.19.0] — Highlander HUD polish
+- Gen 1: your Pokémon is no longer cut off while picking a move with the HIGHLANDER HUD. The game hides the picture's lower rows during FIGHT to make room for its TYPE/PP box, which the HUD doesn't use.
+- Move names, PP and the 0x/1x/2x icons sit 1 px lower so they're centred in their rows.
+- The row lines in the effectiveness column now run all the way to the box's frame.
+
+## [1.18.0] — Highlander HUD fix
+- Fixed the HIGHLANDER HUD's squashed, overlapping text (letters and PP digits missing or stacked). Letter widths were read back from the screen while it was drawing, which came back wrong on real hardware; they're now read straight from the font sheet's pixels, once, before anything is drawn.
+- Redrew the ½x icon so it reads as ½ instead of %: a 1 with its base, a clear slash and a full 2.
+
+## [1.17.0] — Highlander HUD
+- BATTLE SCREEN > HIGHLANDER HUD (ON by default, Gen 1 and Gen 2): FIGHT opens one full-width box with 3 columns and 4 rows instead of the game's move list and TYPE/PP box.
+  - Column 1: the move name on its type's colour (Steel, Dark, Fairy and ??? included), with the selection arrow and the hollow swap arrow. Letters are packed to their real width so 13-letter names fit. A disabled move is greyed out.
+  - Column 2: current/max PP, lined up on the "/".
+  - Column 3: how the move hits the foe right now, as the 0x / ½x / 1x / 2x icons (from the type chart, Steel/Fairy rows included; 4x shows as 2x and ¼x as ½x). Gen 2 Hidden Power uses its own type.
+  - Turn it OFF for the game's own move menu. Not used in the WIDE layout.
+- The Gen 1 EXP bar no longer has a row: it's always on.
+
+## [1.16.0] — Gen 1 EXP bar
+- BATTLE SCREEN > EXP BAR (ON by default, Red/Blue/Yellow): Gen 2's blue EXP bar is back under your Pokémon's HP numbers, rebuilt from scratch. It fills from right to left with a rising tick while the "gained EXP. Points!" text is up, and the text waits for it like in Gold/Silver/Crystal.
+- On a new level the bar hits full, the game goes straight on to "grew to level" with its level-up music (no button press on that page), and the bar starts again from empty for the leftover EXP once the stats box closes.
+- Drawn with the game's own HUD (the bracket under your Pokémon drops 4 px, with Gen 2's end cap), not on a separate layer like the old one. Not shown in the WIDE layout.
+
+## [1.15.0] — Lock OG Layout
+- BATTLE SCREEN > LOCK OG LAYOUT (ON by default): keeps the game's OPTION > BATTLE LAYOUT on OG, the cartridge's 160x144 battle screen, in Gen 1 and Gen 2. While it's ON, BATTLE LAYOUT shows OG and can't be changed (BATTLE HUD stays STANDARD, as the game does for OG). Turn it OFF to choose WIDE again.
+
+## [1.14.0] — Battle Screen remake
+- BATTLE SCREEN now has only: Colored Moves, Colored Pokeballs, Enemy HP Counter, Gen3 Catch Rate, Get Boosted EXP, Low HP Beeping and Modern EXP Share.
+- Removed rows: Aspect Ratio, Battle Colors, Battle Opacity, Box Color, Color Strength, Info Windows, Move Effect, Move Layout, Text Only, Text Position and Unlimited PP.
+- Removed Ish's Battle Info HUD and Typed Move Colors code: the blue EXP bar and its tick sound, the HP/EXP meters, status shown beside the level, the coloured move cards, the Gen 2 wide battle layout, the "keep both HUDs during attacks" change, and the BATTLE INFO / MOVE COLOURS rows in the game's own Options menu. Battles now use the game's own HUD, move menu and wide layouts.
+- Unlimited PP is gone (Gen 1 and Gen 2).
+- Gen 2: removed an old extra rumble on every HP drop that ignored the RUMBLE settings; RUMBLE alone handles it now.
+- Enemy HP Counter rebuilt (Gen 1): the numbers are drawn with the game's own HUD instead of on a separate layer, so they appear, colour and shake exactly like the rest of the HUD. Gen 2 unchanged. Not shown in the Gen 1 WIDE layout.
+- Kept: the caught-ball marker (Gen 1 and Gen 2) and the Gender Mod / Crystal 251 battle bridges.
+- Removed the temporary Gen 1 diagnostic file (highlander_gen1_diag.txt).
+
+## [1.13.0] — Entry page gaps
+- Entry page: a green line closes the bottom of the picture box again, and a green line runs under the whole P.1 / type row before the description box.
+
+## [1.12.0] — Entry page outlines
+- Entry page: the data panel, the type row and the P.1 tab are solid black with no white outline, so the data panel and type row read as one shape.
+
+## [1.11.0] — White Family page
+- FAMILY: the page is now white with black names (the white cards behind each picture are gone). Evolution methods and the page counter use the frame's dark colour so they stay readable on white.
+
+## [1.10.0] — Family pictures, scrolling text, update check
+- FAMILY: every picture sits on a white card like the rest of the Dex, so white parts of a Pokémon (Growlithe's mane) and the gaps inside a picture (between Raichu and its tail, inside Gyarados's coils) no longer show as holes or white patches on the black page.
+- Long methods such as "Trade w/ King's Rock" scroll inside their space instead of running past the frame (any text with an apostrophe, colon or % now scrolls or stops at its edge).
+- Gen 1 intro: Mom's gender-neutral line is now "All kids leave home some day." "All children leave" was one letter too long for the text box, which cut the last "e".
+- G1R no longer offers Project Highlander 3.75.0 as an "update": the manifest no longer points to the old GitHub repo (it will point to the new one once it exists).
+
+## [1.9.0] — Gen 1 Trainer ID portrait and battle info
+- Battle (Red/Blue/Yellow): the enemy HP numbers and the EXP bar were drawn every frame, but in the middle of the battle frame, so the game's pictures and animations painted over them afterwards (more or less of them depending on the Pokémon). They are now drawn last.
+- Trainer ID (Red/Blue/Yellow): the Gender Mod portrait is mirrored from its own file instead of from an on-screen copy. That copy could be cut by the window's clipping area, which left only part of Green (or nothing of Red) depending on the window size, and is why Gold (which already used the file) and other screens were fine.
+- Any picture copy the mod makes now ignores the window's clipping area.
+
+## [1.8.0] — Gen 1 colours fix (Trainer ID portrait, EXP bar)
+- Found the cause of the Gen 1 Trainer ID / EXP bar bug: G1R now only lets full-colour pieces skip its palette pass in the RED++ colour mode. In every other colour mode, the Gender Mod portrait and the blue EXP bar were bleached (light colours turned white). Project Highlander now passes those pieces to the palette pass itself, so they keep their colours in every mode.
+- Trainer ID: the Gender Mod portrait is recognised through the Crystal component as well as by its colours.
+
+## [1.7.0] — Gen 1 Trainer ID fix + battle diagnostic
+- Trainer ID (Red/Blue/Yellow): the Gender Mod portrait is full-colour art, but the game was only told so through a flag that wasn't coming back, so the card's palette pass turned its light colours white (Green showed only her legs, Red vanished). The card now checks the picture itself: a coloured portrait always skips the palette pass.
+- The mod no longer appears twice in G1R's list of loaded mods (old "project_highlander" name, added in 1.2.0).
+- Diagnostic file: the battle block is now written when you first choose a move (after the intro), with how often the enemy HP numbers / EXP bar were actually drawn.
+
+## [1.6.0] — Gen 1 diagnostic build
+- Temporary: Red/Blue/Yellow write highlander_gen1_diag.txt in the G1R save folder. Each battle adds one block (about 2 seconds in): Battle Info settings, whether the mod's battle drawing is still the one in charge or another mod replaced it, why the extras are on or off, the battle layout options and the list of installed mods. Opening the Trainer ID adds one line with where and how the game drew the portrait.
+
+## [1.5.0] — Engine hooks fix (Gen 1 Trainer ID / battle info)
+- Every place where the mod wraps one of the game's own drawing functions (Crystal sprites, Battle Screen HUD, Trainer Card) now starts again from the game's original function each time the mod loads. Before, switching games or updating the mod in the same G1R session could keep an old copy of the mod in charge, or stack a second copy on top of the first. That can leave the Trainer ID portrait cropped or missing and remove the enemy HP numbers and EXP bar.
+- Trainer ID: the portrait is recognised by its picture instead of by exact coordinates, and is shown whole if its edges can't be measured.
+- Diagnostics: the log now says once per battle why the battle info extras stayed off, and where the game drew the Trainer ID portrait.
+
+## [1.4.0] — Highlander Dex
+- PH Pokédex is now called Highlander Dex (OTHER SETTINGS > HIGHLANDER DEX).
+- Red/Blue/Yellow: with CRYSTAL > POKéDEX PICTURES OFF, pictures were black and white; they now wear each species' own colours, like the game's own Pokédex.
+- FAMILY: one page per evolution line, UP/DOWN to change page (Eevee 5 pages, Tyrogue 3, Oddish and Poliwag 2), with a page counter top-right. 1 Pokémon: centred. 2: first top-left with its name beside it, second lower right with its method and name to its left. 3: first top-left, second right in the middle (method and name to its left), third bottom-left (method and name to its right).
+
+## [1.3.0] — PH Pokédex fixes
+- Pictures: the Pokédex now takes each game's own picture straight from its files, so Gold/Silver/Crystal no longer show wrong colours or blank pictures, and CRYSTAL > POKéDEX PICTURES OFF really shows the game's own art (BATTLE SPRITES no longer leaks into the Pokédex).
+- Crystal pictures (in Crystal, or with POKéDEX PICTURES ON) are animated and follow CRYSTAL > ANIMATIONS: LOOP repeats, PLAY ONCE plays once each time a Pokémon is shown.
+- Entry page: the type row reaches further left, so both types are written in full; "CatchRate" is written as one word with both capitals.
+- FAMILY: the first Pokémon's name sits at the top, pictures moved down to match; every name is white.
+- LOCATIONS: A opens the SORT BY pop-up again (Location, Reverse Location, Level, Reverse Level, Rate, Reverse Rate); SELECT opens COLOR CODES; the footer takes turns showing A: Sort, Select: Color Codes and B: Back. Colours are the old chart's colours again.
+
+## [1.2.0] — PH Pokédex fixes
+- Gen 1 Trainer ID picture and battle info (enemy HP numbers, EXP bar): the suite is published under its old id "project_highlander" again, for the mods that still look for that name since the 1.0.0 rename.
+- Text is no longer squeezed together: OPTION and SEARCH descriptions reworded to fit, and names only tighten by 1px when they really have to.
+- Catch rate: the number sits at the edge of the panel, away from "Rate".
+- One more pixel after every colon (B: Back, A: Sort...).
+- FAMILY: full-size pictures laid out left, right, left with names beside them; families that branch (Eevee, Oddish, Poliwag, Slowpoke, Tyrogue) show the first stage plus a list of every evolution.
+- LOCATIONS: the LV column moved away from RATE, and a slot found at two levels ("12,13") now shows as two rows.
+- AREA: the SELECT: LOCATIONS tag is a small corner label (bottom-right in Kanto, top-left in Gold/Silver/Crystal) so it no longer hides nests.
+
+## [1.1.0] — PH Pokédex
+- New Pokédex for Red, Blue, Yellow, Gold, Silver and Crystal, built on Gold's layout and drawn at the Game Boy's own size, so Custom Borders frames every page. It replaces the Modern UI Suite Pokédex.
+- The frame takes each game's colour (Red, Blue, Yellow, Gold, Silver, Crystal; Green with BLUE INTO GREEN).
+- Main list: the picture is always in colour on white (no more green picture in Gold/Silver). LEFT/RIGHT jump a page in every game. SELECT opens OPTION (Gen 1: Pokédex Mode / A to Z Mode; Gen 2: New, Old, A to Z, and Unown Mode once unlocked). START opens SEARCH by type, now in Gen 1 too.
+- Entry page: No. at the top, catch rate, both types in their colours, and two rows of actions: INFO (page 1/2), AREA, CRY, PRNT / STATS, FAMILY, MOVES.
+- AREA shows the game's nest map with a SELECT: LOCATIONS box; SELECT opens the locations chart (scrolling place names, coloured by method, A changes the sort: location, level, rate).
+- PRNT now works in Red and Blue too (saves the page as a picture in the prints folder).
+- STATS: base stats and total. FAMILY: the evolution line with pictures, names and how each one evolves.
+- MOVES: level-up, TM/HM, Gen 2 egg moves and Crystal's tutor moves, read from the game you are playing, each move coloured by its type. A shows the move's power, accuracy, PP and description; LEFT/RIGHT jump a page.
+- A Pokémon only seen (not caught) shows its picture, types, AREA, CRY, STATS and FAMILY; INFO and MOVES stay greyed out, like the original games.
+- OTHER SETTINGS > PH POKéDEX turns it on or off (off = the game's own Pokédex). The old Pokédex sub-menu is gone.
+- CRYSTAL > POKéDEX PICTURES (off by default, Red/Blue/Yellow/Gold/Silver, needs Crystal installed): the Pokédex uses Crystal's pictures.
+
+## [1.0.0] — Project Highlander Gen1+2
+- New name: Project Highlander Gen1+2 (was Project Highlander - A Modern UI Suite Fork, last build 3.75.0). Version numbers start again at 1.0.0.
+- New mod id `project_highlander_gen1_2`. Your Project Highlander settings are copied over the first time a game loads, so nothing needs setting up again.
+- The old Project Highlander is now listed as a conflict: keep only one of them enabled.
+- Item Shortcuts and other data stored in your saves keep working as before.
+
+## [3.75.0]
+- New SORT MENU, like Project Highlander Gen3's: the Start Menu's own full-screen page (2 x 5 tiles, pages when needed) where you move the items around. Open it with SELECT on the Start Menu (FULL SCREEN and PHONE styles), or from START MENU SETTINGS > SORT MENU (this replaces the old START ICON ORDER list).
+  - A picks an item up (a small arrow marks it), A on another item swaps the two; B drops it, or leaves when nothing is held. SELECT puts the default order back (other mods' items after the built-in ones).
+  - Other mods' items move like the built-in ones. QUIT stays bottom-right of the last page and can't be picked up.
+  - The footer alternates "A MOVE  B DONE" / "SELECT  RESET" every 2 seconds. Every swap is saved at once, and the Start Menu shows the new order as soon as you leave.
+  - SELECT on the Start Menu now opens the Sort Menu, so another mod's SELECT shortcut on the Start Menu (e.g. Gen1MenuManager's) no longer reaches it.
+
+## [3.74.0]
+- START ICON ORDER: the items other mods add to the Start Menu are listed and move like the others. The order list is now read from the Start Menu that's open (it used to be a copy taken when START opened, which missed items added a moment later, so they stayed between the built-in items and QUIT). The Start Menu also re-sorts itself when an item shows up late or when the order is changed while it's open underneath the Options, keeping the cursor on the same item.
+
+## [3.73.0]
+- START MENU SETTINGS: ICON OVERRIDES is now called CUSTOM ICONS. With START MENU STYLE: FULL SCREEN (the default), its CHOOSE ICON picker shows the 16x16 icons of start_menu_icons_16.png, the same ones the Start Menu shows, 7 x 5 on a single page (all 33 choices). PHONE style keeps the 24x24 picker.
+- CUSTOM ICONS remembers the items other mods add to the Start Menu, so they're listed even before START has been opened this session (it used to say NO MOD ENTRIES until then).
+
+## [3.72.0]
+- FULL SCREEN Start Menu: saving in Red, Blue, Yellow and Green with UI LAYOUT: DYNAMIC slid the whole screen to the right edge of the window, so the save boxes were cut off behind the Custom Borders. Anything opened from the full-screen menu now stays inside the normal 160x144 screen.
+
+## [3.71.0]
+- CRYSTAL sub-menu: no more global ON/OFF row. ANIMATIONS, BATTLE SPRITES, FRONT NPCS and OVERWORLD NPCS each work on their own; a CRYSTAL switch you had turned off before no longer blocks them. To see the games' own art, set BATTLE SPRITES, FRONT NPCS and OVERWORLD NPCS to OG. GENDER MOD (Other Settings) no longer depends on the CRYSTAL switch either.
+
+## [3.70.1] (test build)
+- Gold/Silver/Crystal: your Pokémon's back sprite was sometimes mirrored. Crystal's back pics are no longer flipped.
+- The save now keeps FRONT SPRITES ON and BATTLE PIC FRONT (3.69's own values) even though 3.70 no longer uses them, so going back to 3.69 really restores 3.69. 3.70.0 had written OFF / BACK into the save.
+
+## [3.70.0] (test build)
+- CRYSTAL sprites no longer ship with the mod (about 36 MB and 8,000 files lighter). With Pokémon Crystal installed in G1R Deluxe, the Pokémon front and back sprites, their animations and their normal/shiny colours are read from Crystal's own files, like Project Highlander Gen3 does with Emerald. Without Crystal, the games keep their own sprites.
+- Animations now use Crystal's real timing (also in Gold, Silver, Crystal and the Dex/Party/PC portraits, which used a fixed speed before).
+- OTHER SETTINGS: FORCE CRYSTAL SETTINGS is now GENDER MOD (On). It handles the player's own pictures in Red, Blue, Yellow, Gold and Silver: portrait, battle back pic and overworld walk/bike (Red/Green, Gold/Kris; Gold/Silver keep the game's own Gold walker). Off: the game's own player. Hidden in Crystal.
+- CRYSTAL sub-menu is now:
+  - ANIMATIONS: LOOP / PLAY ONCE (all 6 games).
+  - BATTLE SPRITES: OG / CRYSTAL (not in Crystal). OG keeps the game's own Pokémon sprites and Pokémon Tower ghost; CRYSTAL uses Crystal's sprites and the mod's ghost.
+  - FRONT NPCS: OG / GEN2 (Gen 1 only): the trainers' battle pictures.
+  - OVERWORLD NPCS: OG / GEN2 (Gen 1 only): the trainers' overworld sprites.
+  - "NO CRYSTAL INSTALLED" shows when Crystal's files can't be found.
+  - PLAYER SPRITE and REPLACE SPRITES moved to GENDER MOD; FRONT SPRITES and BATTLE PIC were removed (always OFF / BACK).
+- Decapitalize keeps OG in capitals (NPC / NPCs were already kept).
+- New file: components/crystal_animated_sprites_with_shiny_visuals/crystal_source.lua. Removed: animation_data.lua, dimensions.lua, assets/front (except the ghost) and assets/back.
+
+## [3.69.0]
+- JUKEBOX: the song note was drawn twice too big on high-DPI screens (Gen 1 gives the HUD its scale in screen pixels). It's now sized from the game area, so it's the same size as the game's own text boxes.
+
+## [3.68.0]
+- New sub-menu: JUKEBOX (Red, Blue, Yellow, Gold, Silver, Crystal), same rules as Project Highlander Gen3. ALL SONGS on top (ON / OFF / SOME: one press turns them all Off, or all On when none is), then every background song of the game you're playing, A-Z, each On by default. Each game keeps its own list. The songs that are On are the playlist, in the menu's order. Jingles (heal, item, caught, Jigglypuff's song...), intros, credits and the evolution music aren't listed.
+- FULL CONTROL: new JUKEBOX BUTTON (last row, NONE by default: set a key or pad). It needs Full Control enabled and works in the free overworld only; it's held with a direction (the button alone does nothing; while it's held you stay put and the directions only work the Jukebox):
+  - + UP: play the playlist, from the song it was on last (already playing: shows its name).
+  - + DOWN: stop it and go back to the game's own music.
+  - + LEFT: previous song (from the first, goes round to the last).
+  - + RIGHT: next song (from the last, goes round to the first).
+  - LEFT / RIGHT do nothing while the playlist isn't playing.
+  - The Jukebox song stays on through new maps, Surf and Bicycle. Battles, trainer encounters, evolutions, scripted events and jingles keep the game's music, and the Jukebox song comes back after them.
+  - A short note at the top of the screen shows the song's name.
+- HIGHLANDER menu: JUKEBOX sits after GAME CORNER.
+- New file: components/jukebox/main.lua.
+
+## [3.67.0]
+- Rumble (Gen 2) redone from scratch: it fires with the hit itself, when the target's damage shake and the hit sound start (in whichever order the game starts them), instead of when the HP bar starts dropping. No more delay, and getting hit always rumbles. The shake says who was hit, the hit sound how effective it was.
+- Rumble: the diagnostic rumble_log.txt is kept for now (components/rumble/ in the mod folder, or the save folder).
+- Gen 2 battle move box: POWER and PP use tighter spacing when the line doesn't fit, so double-digit PP (19/20) is no longer cut to "19/.".
+
+## [3.66.1] (diagnostic)
+- Rumble: temporary log. Every rumble writes an entry (time, cause, what the battle was doing) to components/rumble/rumble_log.txt in the mod folder, or rumble_log.txt in the game's save folder if the mod folder can't be written. Used to track down the Gen 2 rumble that fires before a move.
+
+## [3.66.0]
+- Rumble (Gen 2) rebuilt: it now fires when the HP bar starts dropping on a move's hit, using the battle's own damage record for who was hit and how effective it was. No more rumble when a move is chosen. Damage that isn't a move hit (poison, Wrap's turn damage, recoil) doesn't rumble.
+- Rumble: new WILD BATTLE START (one solid pulse when a wild battle begins: grass, caves, water, and Wilds of Kanto's visible Pokemon) and TRAINER BATTLE START (two strong pulses as the trainer battle wipe begins), Gen 1 and Gen 2, both On.
+
+## [3.65.0]
+- Rumble (Gen 2): no more extra rumble when a move is chosen; the controller now rumbles only on the hit shake. The same side hit twice within 0.4 s counts as one hit.
+- Other Settings: PIKACHU SOUND only appears in Yellow.
+- Custom Borders order and names: Automatic, Classic Red, Modern Red 1, Modern Red 2, Classic Green, Modern Green 1, Modern Green 2, Classic Blue, Modern Blue, Yellow, Classic Gold, Modern Gold, Classic Silver, Modern Silver, Classic Crystal, Modern Crystal, then Custom 1-4. Saved choices are unchanged.
+
+## [3.64.0]
+- No more global ON/OFF rows on Battle Screen (both the Battle Screen and the old Move Colours switch), Other Settings, Cont. Rumble and PokeMoves: every option on those pages works on its own. A switch you had turned off before no longer blocks the page.
+- Other Settings: BLUE INTO GREEN only appears in Blue.
+- Cont. Rumble: INTENSITY now has OFF (Off / Low / Medium / High).
+- Gen 1 FULL SCREEN / PHONE Start Menu: QUIT asks RETURN TO TITLE? YES/NO inside the menu, like Gen 2, instead of closing it and asking over the overworld (No is selected first).
+- New start_menu_icons_16.png.
+- OPTION is back to "OPTION" (OPTIONS was cut to "OPTIO."); ITEMS stays.
+- Gen 2 battles: the attacker's HUD no longer disappears while its move animation plays.
+- Clean-up: component folders renamed to today's names (battle_screen, move_colors, other_settings, rumble, shortcuts, custom_borders); comments, names and messages updated from Battle Info HUD / Typed Move Colors / QoL / Controller Rumble / Modern UI Suite. Component ids and saved setting keys are unchanged, so settings and other mods keep working.
+
+## [3.63.0]
+- Settings clean-up. Every option now starts On (defaults only change for settings you never touched; anything you set keeps your value). Kept Off: Blue Into Green, Unlimited PP, Text Only, Screen Ratio, Right Analog for D-Pad.
+- Start Menu: new COLOUR choice AUTOMATIC (the default) picks the cart's colour (Green when Blue is launched as Green). Clock defaults to Device. Default icon order: Pokedex, Pokemon, Items, PokeBox, ID card, Save, Options, Mods, Quit. The carts' "ITEM" and "OPTION" now read "ITEMS" and "OPTIONS".
+- Party: HP and EXP display default to Values. Bag: Open On defaults to Medicine; default pocket order Items, Balls, Medicine, TMs/HMs, Key Items; Hide All Items On. PC: Box Exclusive On.
+- Battle HUD is now BATTLE SCREEN: Low HP Beeping defaults to Reduce, Enemy HP Counter On, and it holds all of the old Move Colours page (Box Colour White, Info Windows Right, Text Position Right by default, plus a MOVE COLORS on/off row) and Gen3 Catch Rate, Get Boosted EXP, Modern EXP Share and Unlimited PP.
+- Move Colours sub-menu removed; MENU COLORS is gone (always off).
+- New OVERWORLD SCREEN sub-menu: Infinite Safari, Modern Stores, Rematch Anyone, Running Shoes (Hold B by default), Show Area Names, Sparkling Hidden Items, Use Repel Again.
+- QoL renamed OTHER SETTINGS. Game Corner defaults: 2x Coins, Bigger Payouts, All Lucky On, Slot Odds Lucky.
+- Get All Pokemon: only the running generation's page is shown, named GET ALL POKEMON; every feature defaults On.
+- Cont. Rumble rebuilt from Project Highlander Gen3's Rumble: ENABLE, INTENSITY (Low/Medium/High), PRESS SELECT TO TEST, WHEN I GET HIT, WHEN I HIT. Rumbles on the hit sound; not very effective = a tap, effective = a pulse, super effective = two strong pulses; your side leads with the left motor, the foe's with the right. Replaces masterwebx's Controller Rumble (credit and license removed with its code).
+- Full Control: new SELECT VISUAL COMBOS (On): SELECT + A/B/X/Y/LB run the game's display shortcuts again while Full Control is on; Off lets those buttons act normally.
+- Shortcuts and Custom Borders are enabled by default. PokeMoves options and Crystal Front Sprites default On.
+- Fishing with a custom character (Green, Kris, ...) no longer shows Red's / Chris's body in the character's colours: the pose keeps the character's own bottom row and takes only the hands and rod from the vanilla fishing art.
+
+## [3.62.0]
+- Gen 2 "Get Exclusive PKMN From Other Gen2 Games" fixed in Gold, Silver and Crystal. The old per-route encounter tables never loaded (Gen 2 only accepts the encounter kinds grass/water/... as ids, and the error was silenced), so all that worked was a 50% swap with the cart's own counterpart, at that counterpart's routes and times. Crystal got nothing at all for Mareep, Flaaffy, Girafarig or Remoraid.
+- The missing species now turn up where the Pokedex says they are (it lists the other cart's spots with this option on), at half the other cart's rate so the cart's own Pokemon still appear. Crystal: Mareep (Routes 32/42/43), Flaaffy (42/43), Girafarig (43), Mankey (42/9), Primeape (9), Vulpix (36/37/7/8, any time) and Remoraid (Route 44, Good/Super Rod). Gold: Ledyba in the morning, Meowth on Routes 5-8/38/39, Delibird in Ice Path, plus Phanpy, Skarmory, Donphan, Ledian, Persian, Arbok. Silver: Spinarak at night, Mankey on Routes 42/9, Mantine surfing on Route 41, plus Teddiursa, Gligar, Ursaring, Ariados, Primeape, Sandslash.
+- The Growlithe/Vulpix-style 50% swap is gone (it put Delibird on the water in Gold and Mantine in Ice Path in Silver).
+
+## [3.61.0] — Milestone build
+- Milestone covering 3.45.0 to 3.60.0: FULL SCREEN Start Menu with Custom Borders support, Party header with full type names, Modern Bag 0.1.43 item artwork, Gold/Silver/Crystal Classic borders, Screen Ratio 16:9, Game Corner options and the Decapitalize fixes.
+- RELEASE_NOTES.md rewritten for Project Highlander 3.61.0 (it still showed the old Modern UI Suite 0.1.23 notes).
+- Notices: mod.card credits now include Screen Smith (CC0 Openmon item icons) and Ish's 0.1.43 Bag artwork, matching THIRD_PARTY_NOTICES.md.
+
+## [3.60.0]
+- Modern Bag UI updated to Modern UI Suite 0.1.43's makeover (Gen 1 and Gen 2): every named Red/Blue/Yellow/Gold/Silver/Crystal item now has its own colour illustration in the detail card and next to the selected row (round capture balls, TM/HM discs coloured by the move's type), and the category tabs use the new pouch / medicine / ball / disc / key glyphs without the count marks underneath. Pocket tab names use the game's own font (small TTF labels lost strokes). The new key symbol, text spacing that follows the active font, and description handling also come from 0.1.43. Items from other mods keep the category symbol.
+- Kept from Project Highlander: the pocket-switch sound in Gen 1, the classic backpack picture, Key Items without counts, the larger pockets (255), the TM/HM and GS Ball descriptions, OPEN ON always choosing the opening tab, no CANCEL row in Gen 2 (B leaves the bag, like Gen 1) and the "L/R POCKET" button hints.
+- New files: components/modern_bag_ui/item_icons.lua, item_icon_map.lua, item_icon_spans.lua, tab_icons.lua, assets/item_icons/ (items-24.png, items-12.png, CREDITS.md, CC0-1.0.txt) and assets/tab_icons/CREDITS.md. Credits added to THIRD_PARTY_NOTICES.md.
+
+## [3.59.0]
+- FULL SCREEN Start Menu: QUIT always takes the bottom-right tile of the last page; everything else fills the tiles in order before it. Navigation skips the empty tiles in between.
+- FULL SCREEN Start Menu: names too wide for a tile use short forms: PK DEX, PKMN and PK BOX (shown as "PK Dex", "PKMN", "PK Box" with Decapitalize on). A translated name that fits is kept as is.
+- FULL SCREEN Start Menu: with the CLOCK set to DEVICE the bar shows the full date and time, e.g. "SUN 2026-10-18 23:50" ("Sun ..." with Decapitalize). The page number moves to the footer when there is more than one page. PLAY still shows "PLAY 12:34" and the page on the right.
+- Decapitalize Words (Gen 1 and Gen 2): more words stay in capitals: PKMN, OT, LV, DV, EV, IV, NPC, HUD, UI, AI, RNG, CPU, SFX, BGM, GB, GBC, SGB, DMG, VS, UFO, USA, SOS, DJ, MC (on top of HP, PP, PC, TM, HM, OK, TV, CD, ID, KO, EXP, SS, VIP, PK, MN, SEEN, OWNED). Plurals and mixed case keep their shape: TMs, HMs, QoL, DVs, EVs, IVs, PCs, NPCs, KOs.
+
+## [3.58.0]
+- Modern Start Menu: new FULL SCREEN style (now the default). START opens a whole 160x144 page in the cart's own 8x8 font and four shades: a clock bar on top (your chosen clock on the left, page on the right), 2 columns x 5 rows of tiles with a 16px icon and the full name, and an "A OK  B BACK" footer (Safari Zone: steps and balls). The selected tile is drawn dark with white text. Your START MENU COLOUR theme colours the whole page. Left/Right switch column, Up/Down move a row and wrap, more than 10 entries go onto further pages. Gen 2's "Return to title?" gets a matching YES/NO box.
+- The FULL SCREEN Start Menu is a proper full screen like the Trainer ID and Options screens: the overworld stops drawing behind it, and Custom Borders now frames it. In Gen 2, SAVE opens on top of the menu.
+- New setting: Modern Start Menu > STYLE (FULL SCREEN / PHONE). PHONE is the previous floating panel and still uses POSITION.
+- New art: components/modern_start_menu_ui/assets/start_menu_icons_16.png (16px icons: Pokedex, Poke Ball, Trainer card and PokeBox redrawn at 16px, the rest are the centres of the 24px icons). Icon Overrides use it too.
+
+## [3.57.0]
+- Modern Party UI header: "6/6" and "POKéMON" now sit together on the left, which frees the right side to spell out both types in full (GRASS/POISON instead of GRS/PSN). Works in Gen 1 and Gen 2; Gen 2 used to show only the first type and now shows both. Single-type Pokémon show one name. On a narrow 160-pixel screen the short names come back when the full ones don't fit.
+
+## [3.56.0]
+- Game Corner: "ALL LUCKY MACHINES" is renamed "ALL LUCKY SLOT M." (same option, your setting is kept).
+
+## [3.55.0]
+- Game Corner: SLOT ODDS, BIGGER PAYOUTS and ALL LUCKY MACHINES now work in Gen 2 (Gold/Silver/Crystal) too. Gen 2's machine picks a "target" symbol for some spins and nudges the reels toward it; all other spins are steered away from any match. GENEROUS: about 45% of spins get a target (game: about 19%), SEVEN about twice as often, and the reels can be nudged up to 8 slots instead of 4. LUCKY: about 80% of spins get a target, SEVEN about 5x as often, and the reels can be nudged a full turn. ALL LUCKY MACHINES gives every machine the lucky machine's table (about 31% of spins get a target), and BIGGER PAYOUTS doubles every win, including the "Won N coins!" text.
+
+## [3.54.0]
+- New GAME CORNER sub-menu on the Highlander hub. 2X COINS FOR CASH moved here from QoL (your setting is kept).
+- New: SLOT ODDS (NORMAL / GENEROUS / LUCKY). NORMAL is the game's own odds (about 18% of spins can win). GENEROUS: about 45% of spins can win, 7/BAR spins about 4x as often, and the third reel looks twice as far for a match. LUCKY: about 80% of spins can win, 7/BAR spins about 12x as often, and the third reel searches the whole reel.
+- New: BIGGER PAYOUTS (ON/OFF). Every slot win pays double (still capped at 9999 coins).
+- New: ALL LUCKY MACHINES (ON/OFF). Every machine gets the hidden lucky machine's better 7/BAR chance, so there's no need to hunt for it.
+- The slot options work in Gen 1 (Red/Blue/Yellow). Gen 2's slot machine is a different screen and isn't changed yet. New file: components/unlimited_pp/slots.lua.
+- GEN1 GET ALL THE POKEMON: GET ??? is now the last row (before CANCEL) instead of the first.
+
+## [3.53.0]
+- Modern Party UI (Gen 2): MOVE and ITEM now sit right under STATS. Full order: STATS, MOVE, ITEM, SWITCH, RELEARN, DISMISS/FOLLOW, TM field moves, HM field moves, anything else, CANCEL.
+- Fix (Gen 2): HMs the Pokémon already knows showed twice (CUT, CUT, SURF, SURF). No Learn HM only checked Gen 1's way of naming the row, so in Gen 2 it added a second copy. It now recognises Gen 2 rows too, and the party menu also drops any field move listed twice as a safety net.
+- Window focus on launch, second try: it now finds the game window through the game's own process instead of by its title, checks which window Windows really has in front (LÖVE's own focus flag could say yes when it wasn't), and uses a stronger method to bring the game forward. Each step is written to the log as "Window focus: ...".
+
+## [3.52.0]
+- Trainer Card (ID): the whole trainer picture is shown again. Newer Recomp builds draw the portrait through a smaller window, which cut off her hand, hair and feet. The card now trims the picture's empty edges and places all of it against the right side of the top frame, centred top to bottom.
+- Modern Party UI: the A-button ACTIONS list always uses the same order: STATS, SWITCH, RELEARN, DISMISS/FOLLOW, TM field moves (Headbutt, Rock Smash, Sweet Scent, Dig, Teleport), HM field moves (Cut, Fly, Surf, Strength, Flash, Whirlpool, Waterfall), anything else (Rename, Item, Softboiled...), then CANCEL. Works for Gen 1 and Gen 2; battle menus keep the game's own order.
+- New: window focus on launch. When the game is started from a frontend, Playnite or a -red / -blue shortcut, it now takes keyboard and gamepad focus by itself during the first seconds, so you no longer have to click the window first. New file: core/window_focus.lua.
+- DECAPITALIZE: "POKéMON" now becomes "Pokémon" instead of "PokéMon" (same for Pokédex).
+
+## [3.51.0]
+- Fix: with DECAPITALIZE on, the play time on the save screen and the ID / Trainer Card showed "18 Colon 04" instead of "18:04". Newer Recomp builds write that colon as a <COLON> text code, and decapitalizing turned it into "<Colon>", which the font no longer recognises. Decapitalizing now leaves every <...> and {...} text code untouched and only changes the words around them.
+- Modern Start Menu: updated start_menu_icons.png.
+
+## [3.50.0]
+- Modern Start Menu: bigger icons. start_menu_icons.png is now redrawn at 24x24 per icon (was 16x16), centred in each 30px tile. The icon offset now follows the size set in icons.lua, so the art and the code can't drift apart.
+- Start Menu icon picker (CHOOSE ICON): taller cells so the 24x24 icons fit; it now shows 12 icons per page (4 x 3) instead of 16.
+
+## [3.49.0]
+- Quality of Life: new BLUE INTO GREEN toggle (off by default). With the Blue cart loaded, the title screen shows Green and "Green Version" with a green logo colour, and the intro fight shows Nidorino instead of Jigglypuff. Custom Borders on AUTOMATIC picks the Green Modern border. Nothing is copied into the game's "blue" cache folder: mods can't write there, and a redump wipes it anyway. The Green art ships inside Highlander (components/unlimited_pp/assets/blue_into_green/) and is swapped in when the title or intro is built, so turning the toggle off brings back the stock Blue art and survives redumps and Recomp updates. Changes show the next time the title or intro plays. The launcher's cart (name, colour, letter, label) is outside what mods can reach.
+
+## [3.48.0]
+- Screen Ratio on phones: a second way to run. Some builds (the Android one) end each frame through their own copy of LÖVE's present call, which Screen Ratio never saw, so it stayed off. It now also follows the game's own render.present mod hook: once that hook has been seen closing 60 frames in a row, Screen Ratio uses it to copy the 16:9 picture to the screen. The Steam Deck/desktop path is unchanged and is always preferred when available.
+- Screen Ratio status on the menu: the SCREEN RATIO row now shows what is actually happening, because the log can't be opened on a phone. 16:9 = running. 16:9 WAITING = just switched on, checking (a few seconds). 16:9 NO FRAME = the game never showed Screen Ratio where its frames end, so it stays off. 16:9 PORTRAIT = the window reports as portrait, which Screen Ratio leaves alone. 16:9 FITS = the screen is already 16:9. 16:9 ERROR = it hit a problem and switched itself off until restart.
+
+## [3.47.2]
+- Screen Ratio: second fix for the start-up crash at 16:9 ("love.event.pump cannot be called while a Canvas is active"). The game reads input through its own copy of LÖVE's event function, so 3.47.1's guard never ran. Screen Ratio no longer leaves its 16:9 canvas active between frames at all: drawing is aimed at it when the frame starts drawing and released at present, before the game reads input again. It also stays off unless the game's frames end through love.graphics.present, so it can't hold the canvas on a game it can't composite for.
+
+## [3.47.1]
+- Screen Ratio: fixed a crash on start-up with SCREEN RATIO at 16:9 ("love.event.pump cannot be called while a Canvas is active"). LÖVE won't read input or change window modes while drawing is pointed at a canvas, so Screen Ratio now steps off its 16:9 canvas for event pumping and window mode changes (setMode, updateMode, setFullscreen) and back on afterwards.
+
+## [3.47.0]
+- Custom Borders: new SCREEN RATIO row (OFF / 16:9). At 16:9 the whole game runs in a 16:9 area on screens of any other shape (Steam Deck, phones, ultrawide monitors), centred with black bars. The game is told the window is 16:9, so every widescreen and Modern UI layout follows; the picture is copied 1:1 with no stretching or blur, and mouse and touch positions are shifted to match. Works whether the border art is on or off; portrait windows are left alone. If compositing ever fails it turns itself off for the session and the log says why ("Screen Ratio: ..."). New file: components/custom_letterbox/screen_ratio.lua.
+
+## [3.46.0]
+- Custom Borders: three new borders, GOLD CLASSIC, SILVER CLASSIC and CRYSTAL CLASSIC, each listed right after its game's original border (20 choices). New art: gold_classic.png, silver_classic.png, crystal_classic.png.
+- Modern Start Menu: updated start_menu_icons.png.
+
+## [3.45.0]
+- Gen 1 Ether / Max Ether (in and out of battle) staying on the party screen after picking the move: second pass. Every Project Highlander hook that replaces one of the game's own functions now passes all of the game's arguments and return values straight through. Several only forwarded the first few, which can silently drop instructions the game sends along (for example where to show "PP was restored." and what to close first). These hooks load even with their options off, which is why turning everything off didn't help:
+  - Text box hooks: PokéMoves (Instant TMs/HMs), Use Repel Again, Gen 2 Get All The Pokémon (two), Running Shoes, Controller Rumble fishing.
+  - PokéMoves' HM "say" hook, Force Crystal's screen-opening hook, Use Repel Again's item-use hook, Controller Rumble's heal hook.
+  - From the first pass: Controller Rumble's menu, move-list, battle-screen, party-screen and item-use hooks; PokéMoves' Relearn and item-use hooks; the Modern Store list hook; Modern Party's arrow-key path.
+
+## [3.44.0]
+- Item Shortcuts: the SELECT box uses the same 16 px row spacing as the TM/HM rows, with the divider centred between the shortcuts and the field moves (a very long field-move list falls back to tight rows so it still fits). The box is wide enough for ITEMFINDER, so shortcut names no longer scroll.
+- Ball Shortcuts: the battle note is now actually drawn in red in Gen 1 and Gen 2 (the font's black ink is recoloured, not just tinted).
+- Notices: Controller Rumble (masterwebx, MIT) added to THIRD_PARTY_NOTICES.md; mod.card credits now list everyone named in the notices.
+
+## [3.43.0]
+- Item Shortcuts: ITEM SHORTCUT 1-3 only offer the reusable field items the games let you register to SELECT: Old Rod, Good Rod, Super Rod, Itemfinder, Bicycle, and the map (Gen 1 Town Map, Gen 2 Pokégear MAP). Anything else set earlier is treated as NONE.
+- Item Shortcuts (Gen 2): no manual setup needed. The first time a shortcut is used, the mod registers that item with the Pack's own SEL behind the scenes, learns where the game keeps it, puts your own registered item back and uses the shortcut. This happens once; after that, shortcuts always go through the game's SELECT path.
+
+## [3.42.0]
+- Item Shortcuts (Gen 2): finding the game's registered (SELECT) item is now done by comparing the save before and after a Pack visit in which SEL was used, at any depth and whichever way the Pack handled it. The result is announced on screen when the Pack closes: "ITEM SHORTCUTS learned the SELECT item." or "...couldn't find the SELECT item.". Once learned, shortcuts use the game's own SELECT path, with no Pack and no flashing.
+
+## [3.41.0]
+- Item Shortcuts (Gen 2): the mod now learns where the game stores its registered (SELECT) item by watching the Pack's own SEL once. Register any item with SEL in the Pack one time; from then on shortcuts use the game's registered-item path straight from the overworld (no Pack, no flashing, rod messages on the overworld). What it learned is kept in project_highlander_registered_field.txt in the save folder, and the log shows "[ItemShortcuts] registered item field: ...".
+
+## [3.40.0]
+- Item Shortcuts (Gen 2): items are now used through the game's own registered-item SELECT, straight from the overworld, the same way the MAP shortcut skips the Pack. No Pack, no flashing, and an item that can't be used there (a Fishing Rod with no water) shows its message on the overworld. Your own registered item is left as it was. The Pack route remains only as a fallback.
+
+## [3.39.0]
+- Item Shortcuts (Gen 2): no more flashing when using a shortcut. While the Pack works behind the scenes it now shows the overworld instead of a blank frame.
+- Item Shortcuts (Gen 2): after an item that can't be used there (a Fishing Rod with no water, ...), its message is shown and the Pack then closes instead of staying open.
+- Item Shortcuts (Gen 2): new choice MAP opens the Pokégear straight on its map; B goes back to the overworld instead of the Pokégear.
+
+## [3.38.0]
+- Item Shortcuts (Gen 1): Gym Badges no longer appear among the Key Items offered for ITEM SHORTCUT 1-3.
+- Item Shortcuts (Gen 2): using an item from the SELECT menu no longer flashes the Pack while it is being set up. The Pack stays hidden and only appears if the item answers with a message inside it.
+- Ball Shortcuts (Gen 2): the battle note now shows in the command box, like Gen 1. Wild battles are also recognised more reliably.
+- Modern Start Menu: updated start_menu_icons.png.
+
+## [3.37.0]
+- The PokéBall Shortcuts sub-menu is now SHORTCUTS. Its top ON/OFF row is BALL SHORTCUTS, followed by SELECT W/ UP / DOWN / LEFT / RIGHT ("+" can't be shown by the game's font).
+- New in SHORTCUTS: ITEM SHORTCUTS (ON/OFF, on by default) and ITEM SHORTCUT 1 / 2 / 3. Left/Right cycles NONE and every Key Item in the bag; the choice is saved per save file. With ITEM SHORTCUTS off, SELECT goes back to PokéMoves' field-move menu (or the game's own SELECT).
+- Removed SHORT.1 / SHORT.2 / SHORT.3 from the Bag's item menu.
+- Using a shortcut item no longer leaves the original Bag on screen behind its result (Town Map, Itemfinder message...), and closes it afterwards. In Gen 2 the Pack also closes once the item is done.
+- Ball Shortcuts' battle note is drawn at full size again. Where the command box only fits six letters (160-pixel screen) it reads BALL / SHORT- / CUTS; with room it reads PokéBall / Shortcuts / Active.
+
+## [3.36.0]
+- Custom Borders: two new borders, RED MODERN 2 and GREEN MODERN 2 (17 choices).
+- Full Control: buttons are listed in controller order (Up, Down, Left, Right, A, B, Start, Select, Speed +, Speed -) instead of alphabetically, in Gen 1 and Gen 2. The analog toggles follow. Other sub-menus stay alphabetical.
+- New sub-menu POKéBALL SHORTCUTS (off by default): SELECT + Up / Down / Left / Right throws the assigned ball from a wild battle's command menu. Gen 1: Poké, Great, Ultra. Gen 2 adds Fast, Level, Lure, Heavy, Love, Friend, Moon. Never Safari, Sport or Master Ball; never in the Safari Zone, the Bug-Catching Contest, trainer/link battles or the Old Man's demo. A red "PokéBall Shortcuts Active" note shows in the command box while it can be used.
+- Item Shortcuts (always on): A on a Key Item adds SHORT.1 / SHORT.2 / SHORT.3 to its menu; choosing one puts the item on that shortcut, replacing the old one without asking. SELECT on the overworld lists the three shortcuts by item name (long names scroll), then a divider, then PokéMoves field moves (when Instant TMs/HMs is on), then CANCEL. Saved per save file. Gen 2: bag rows need the Modern Bag's modern look; with no shortcuts set, SELECT keeps the game's own registered item.
+
+## [3.35.0]
+- Gen 2 Legendary Birds: talking to an ordinary bird the game draws with the Moltres sprite (or any NPC whose text mentions a bird's name) no longer starts a Moltres / Zapdos / Articuno battle. Only this mod's own static birds start those fights; catching, hiding after capture and everything else about the feature is unchanged.
+
+## [3.34.0]
+- Modern Party, Gen 2 Move Stats: pressing SELECT on a move now shows "WHERE SHOULD IT MOVE?" in the description box, outlines the held move in blue, and changes the footer to "SEL DROP  B CANCEL" until you drop or cancel. (The page was checking the game's own swap flag, which Project Highlander's SELECT swap never sets.)
+
+## [3.33.0]
+- Modern Party, Gen 2 Summary: the MOVES page footer now reads "L/R PAGE  B BACK  SELECT MOVE STATS" (shortens on narrow layouts so it never cuts off mid-word).
+- Modern Party, Gen 2 Move Stats: the footer now ends in "B BACK" instead of a lone "B".
+- Modern Party, Gen 2 Move Stats: move descriptions show both cartridge lines as one sentence, and scroll left when they don't fit (same timing as the Bag: 1 s hold, glide, 3/4 s hold, repeat). The scroll restarts when you pick another move.
+
+## [3.32.0]
+- Running Shoes, Gen 2: scrapped the sneakers story (Elm's "your mom called" line and Mom's "you forgot your outdoor sneakers"). Running works from the start of a new game, following the RUNNING SHOES setting. Gen 1 keeps its Oak/Mom sneakers story, which still prevents running before the starter.
+
+## [3.31.0]
+- Full Control: third pass on the controller "stuck direction". 3.30.0 covered every press Full Control makes itself, but the left stick is passed straight to the game's own handling. While the last input was a controller, any direction the game still holds for about 1/4 second with no D-pad, left stick (past 40%) or movement key behind it is now released, exactly like tapping it.
+- Modern Start Menu: the POKEBOX shortcut is hidden until the party has at least one PKMN (it could lock up a brand-new Gen 1 or Gen 2 game).
+
+## [3.30.0]
+- Full Control: second pass on movement occasionally sticking in a direction.
+  - The game's live input object was given our D-pad press handler at startup but not our matching release handler, so on that object a release could still go to the game's own handler, which never saw the press. Both now go through Full Control.
+  - Keyboard extras, the right stick (as D-pad and as bound buttons) and the triggers now release through the same path they press with; the right stick bound to a button never released at all before.
+  - New safety net: every press remembers which key/button/stick caused it, and each frame any press whose control is no longer physically held is released. This covers releases the game never receives (alt-tab, Steam overlay, a controller sleeping or disconnecting).
+
+## [3.29.0]
+- Project Highlander no longer writes anything to the game's AppData save folder. The Gen 1 caught marker (the ball beside a caught wild PKMN's name) is now drawn in code, so transforms.lua and its generated images are gone.
+- Fixed: that Gen 1 caught marker never appeared, because the HUD looked for its images under the old modern_ui_suite name.
+
+## [3.28.0]
+- The game font has no "&", so the two labels that used it now use "/": INSTANT TMS/HMS and GET MEW/MEWTWO.
+
+## [3.27.0]
+- Main menu: removed every "OPEN"; long names now get the full row width before they scroll.
+- Renamed CUSTOM LETTERBOX to CUSTOM BORDERS.
+- Every sub-menu is alphabetical (ENABLED stays on top, copyright lines stay at the bottom), including Full Control, Poke Icons and both Get All The Pokemon pages.
+- Renames: COLORED MOVES; QoL: 2X COINS FOR CASH, GET BOOSTED EXP, DECAP. WORDS, SHOW AREA NAMES, MODERN EXP SHARE; PokeMoves: INSTANT TMS & HMS; Gen1 Get All: GET ALL STARTERS, GET OTHER FOSSIL, GET OTHER FIGHTER, GET MORE EEVEES, TRADE W/ LINK C.; Gen2 Get All: GET ALL STARTERS, TRADE W/ LINK C., GET OG STARTERS, GET LEGEND. BIRDS, GET MEW & MEWTWO. Saved settings are unchanged (only labels changed).
+
+## [3.26.0]
+- Gen 1 Battle HUD: the bracket lowering now works by moving the game's own painted pixels (3.25.0 tried to catch the tiles by position and missed). Enemy bracket drops 5 px under the HP readout; player bracket drops 4 px under the EXP bar, with the right edge extended to stay joined.
+- Gen 1 Battle HUD: the enemy HP readout and the EXP bar only appear on frames where the game itself has drawn that HUD, so they come in together with it.
+- Gen 1 EXP bar: now fills gradually (about 60 px/s) with a rising tick sound, runs to full and restarts on level up, like Gen 2.
+- Gen 2 Battle HUD: with ENEMY HP COUNTER on, the enemy bracket's corner, bottom line and arrow drop 2 px so the readout no longer touches it.
+
+## [3.25.0]
+- Battle HUD, Gen 1 (OG 4:3 battle): the game's own HP bars are back for both sides. ENEMY HP COUNTER now shows a plain "85/115" under the enemy HP bar; with it ON, the enemy bracket drops 4 px to make room (OFF = untouched original). The player keeps the game's own HP bar and HP numbers, and gets a Gen 2 style EXP bar (2 px, blue, fills right to left) under them; the player bracket drops 4 px to fit it.
+- Battle HUD, Gen 2: the custom enemy bar is gone; the game's own bar shows. ENEMY HP COUNTER adds a plain "85/115" squeezed under it (no bracket change needed). Player HUD unchanged.
+- Widescreen Gen 1 battles and staged-companion battles keep their previous HUD for now.
+- Party and PokeDex: removed the BACKDROP option; every screen is now plain (no grid).
+- Gen 2 Modern Party: removed the leftover diagonal grid that showed between cards even with PLAIN (main party screen and the modern backdrop). Gen 2 PokeDex backdrop is plain too.
+
+## [3.24.0]
+- Fixed "INFINITE TRIES FOR LIMITED ENCOUNTERS" showing up twice on the main QoL page. Its Gen1 and Gen2 keys were never added to the list of toggles that live only in the GEN1/GEN2 GET ALL PKMN sub-menus, so both leaked onto the main page. They now appear only in their sub-menus; saved ON/OFF values are unchanged.
+
+## [3.23.0]
+- Custom Letterbox now has 15 BORDER choices. RED, GREEN and BLUE are renamed RED MODERN, GREEN MODERN and BLUE MODERN, and each gains a CLASSIC companion: RED CLASSIC, GREEN CLASSIC, BLUE CLASSIC.
+- New art: red_modern.png, red_classic.png, green_modern.png, green_classic.png, blue_modern.png, blue_classic.png. The old red.png, green.png and blue.png are removed.
+- AUTOMATIC uses the MODERN border for Red, Green and Blue cartridges.
+- Existing choices carry over: a save or game previously set to RED, GREEN or BLUE now reads as the matching MODERN option (both BY SAVE and BY GAME).
+- Yellow, Gold, Silver, Crystal and Custom 1-4 are unchanged.
+
+## [3.22.0]
+- Gold/Silver boy now uses Crystal's actual boy portrait (the hand-on-chest sprite with the brown jacket and white cap) instead of the Gold/Silver one. The earlier 3.20.0/3.21.0 attempts could never have matched: the art in gold_flip.png was Gold/Silver's own pose recolored (its silhouette is pixel-identical to the native G/S boy, 1004 of 1004 pixels), not Crystal's boy, which is a different sprite. gold_flip.png now holds the real Crystal boy, extracted losslessly from an in-game Crystal capture (exact 15x grid, engine portrait box origin 48,32) and verified pixel-for-pixel against that capture.
+- Because gold_flip.png is the one file every Gold/Silver boy screen draws from, this applies to the opening presentation, the Trainer ID, the Hall of Fame, and existing Gold/Silver saves with no new game needed. It also changes the PLAYER SPRITE "GOLD" option and the boy's portrait in battle when BATTLE PIC is on FRONT; the dedicated back-view sprite (BATTLE PIC: BACK) is unchanged.
+- Fixed a latent hole in the intro portrait swap: it excluded Oak, the rival and the animated Marill demo, but not the engine's own Marill pic, so with the Crystal Sprites animation inactive the Marill screen would have shown the player's portrait instead of Marill. It is now excluded.
+- Crystal cartridges are untouched (native intro, native Trainer ID). The girl/Kris path is unchanged.
+- Tested against a mock engine (boy, girl, Crystal cart, Trainer ID) and a pixel-level art check. The real engine's Oak/Trainer Card code is not available to test against, so the opening presentation still needs an in-game look.
+
+## [3.21.0]
+- Gold/Silver boy Crystal look (retry): gold_flip.png baked to true RGBA; Oak drawPic swaps player portrait slot to Crystal art and clears picColors; Trainer ID draws gold_flip/kris_flip directly on Gen2 when gender is known.
+
+## [3.20.0]
+- Gold/Silver boy intro + Trainer ID: use Crystal Gold art (`gold_flip.png`) with true-color (nil palette), same path as Kris — matches the red-jacket Crystal look instead of the muted G/S intro sheet.
+
+## [3.19.0]
+- Crystal intro: fully native again. Oak.new, playerPicNow, and name presets no longer run Force Crystal / dressSpeech on the Crystal cart (boy/girl presentation is the game's own).
+- Gold/Silver Kris intro: still Crystal true-color art; palette tables cleared (nil colors) so Gen2 OakSpeech does not recolor the RGBA sheet to gray/B&W.
+
+## [3.18.0]
+- Reverted Crystal interference from 3.17.0: Force Crystal / dressSpeech no longer touch Crystal PLAYER SPRITE or Oak intro art (fixes Kris going B&W on Crystal).
+- Gold/Silver only: Kris Oak intro still uses Crystal true-color kris_flip art (blue as on Crystal), not the pink G/S palette.
+
+## [3.17.0]
+- Force Crystal Settings on **Crystal**: locks PLAYER SPRITE to **Default** (never gold_flip/kris_flip). Crystal already has native Boy/Girl; overriding with a fixed Gold file was why Kris could appear as Gold. Gold/Silver and Gen1 still lock to the hero chosen at the start.
+- Gold/Silver Kris intro (Oak speech): use Crystal Kris art with **true-color** so she keeps Crystal blue instead of the pink G/S palette. Prefer crystal `kris_flip.png` over `assets/generated/intro/kris.png`.
+
+## [3.16.0]
+- Found the actual remaining cause of both the "Force Crystal Settings not defaulting to Default" and "Kris rendered in black and white" reports -- they were the same bug. The options schema's own PLAYER SPRITE default is "red.png" regardless of generation, and the function that's supposed to correct an invalid-for-this-generation stored choice (the same one that already fixes a stray "silver.png" or "blue.png") never handled "red.png" -- it returned it unchanged. That meant a Gen2 save could easily have "red.png" literally persisted as its player sprite, which the game tried to render as a Gen2 character.
+- This also fully explains the black-and-white rendering, confirmed directly in this file's own comments: red.png is authored as part of a grayscale set that relies on Gen1-specific PaletteFX internals to add its color, which naturally aren't available when rendering in a Gen2 context -- so it rendered with no color pass applied at all.
+- Fixed by having that same correction function also catch "red.png" specifically when the active game is Gen2 (Gen1 games are completely unaffected -- red.png is their own correct, legitimate default and is left alone there). A stale "red.png" now correctly resolves to "default" on Crystal and to gold_flip.png on Gold/Silver, matching the 3.15.0 fix's intent.
+- Verified this one with a real end-to-end test against the actual file (not a mocked/mirrored copy) -- confirmed it fails on 3.15.0 in exactly the stale-red.png scenarios and passes on the fix.
+
+## [3.15.0]
+- Confirmed working in both Gold and Crystal: Infinite Tries for Limited Encounters (Gen1 half) and the pokemoves CUT/"cute" fix.
+- Fixed Force Crystal Settings defaulting an actual Crystal cartridge to the Gold sprite instead of Kris. Crystal has its own real native Boy/Girl choice (with a real Kris walker), so forcing a specific sprite the way Gold/Silver need was both unnecessary and wrong there. The fallback now defaults to "default" (keep the game's own native portrait) specifically for Crystal; Gold, Silver and the Gen1 games are unchanged and still lock in whichever player was chosen at the start.
+- Fixed Kris's colors in Gold and Silver: her battle-intro portrait and battle back sprite were using the wrong blue/skin tones (a cooler, more purple blue and a pinker skin tone) instead of her real Crystal colors. Recolored both to match the already-correct overworld sprite's palette exactly.
+- Fixed Roaming Hunter (the Entei/Raikou/Suicune feature) spawning the beasts immediately on a brand new save, before the Burned Tower event that actually releases them in the real games. The feature was creating roamer entries from scratch whenever the toggle was on, regardless of story progress, bypassing whatever the native game uses to gate that. It's now strictly an enhancement (100% encounter, no flee, no Roar) for beasts the native game has already started roaming on its own -- it no longer creates any roamer entries itself.
+
+## [3.14.0]
+- Proactively fixed the same bug class in Gen1 (pokemoves/main.lua's installSkipConfirm, which runs for both generations -- it's not gated to Gen1 only). This one requires a rarer combination to misfire (a move name AND a separate context word both present in the same text, versus Gen2's single-word match), but has the identical "build an invisible box, fake completion instead of showing the real text" mechanism that caused the Gen2 hang, and several of its context words carry the same substring risk: TREE inside STREET, USE inside EXCUSE, DARK inside DARKNESS, CURRENT inside CURRENTLY, CALM inside CALMLY. Fixed with the same whole-word matching as the Gen2 fix.
+- Audited every other plain-substring text match across the project for the same dangerous pattern (skip-and-fake-completion). None of the others use it -- the remaining matches (EXP, STONE, GEAR, HIT, TOUCH, COIN and similar) are used for categorization or display logic, not skipping real content, so a false match there doesn't carry the same silent-hang risk.
+
+## [3.13.0]
+- Found and fixed the actual cause of the New Bark Town freeze, after the player's own methodical bisection testing (disabling every component one at a time) narrowed it down to Pokemoves' "Instant TMs and HMs" option -- something five previous attempts, all inside the wrong files, never got close to.
+- The bug: Gen2's Game2:say wrapper for this feature checks incoming dialogue text for HM move names (CUT, SURF, FLASH, etc.) using a plain substring search, intending to instantly auto-confirm real "would you like to use CUT?" prompts. But a plain substring search for "CUT" also matches inside ordinary words -- "Wow, that's a cute Pokemon." contains "CUT" as part of "CUTE". When that match fired, the wrapper treated an unrelated story message as an HM prompt and skipped actually displaying it, faking completion instead of showing the real text. That desync between what the engine expected and what actually happened is consistent with a silent total hang with nothing to log, exactly matching what was reported.
+- Fixed by matching each flavor word (HEADBUTT, ROCK SMASH, CUT, SURF, STRENGTH, FLASH, WHIRLPOOL, WATERFALL, SWEET SCENT) as a whole word instead of a bare substring, so "CUTE" no longer matches "CUT" and "SURFACE" no longer matches "SURF", while real flavor-text prompts for these moves still match correctly.
+
+## [3.12.0]
+- Reverted the 3.11.0 removal of Gen2's Running Shoes quest -- confirmed by testing it did not resolve the freeze. sneakers.lua is back to exactly its 3.10.0 state.
+- Confirmed the freeze is a genuine total engine hang (no input at all, not even Start -- only a hard reset recovers), which rules out a stuck player.frozen flag (a menu would still open for that) and points at a real uncaught Lua error somewhere.
+- Compared against Waifu4Life's original Modern UI Suite (0.1.35, the base this project forked from, confirmed to not have this freeze): its unlimited_pp folder has only main.lua -- none of secret_mew.lua, all_pkmn_gen2.lua, sneakers.lua, or six other files exist upstream at all. Checked every remaining file in this project that touches OverworldState/talkTo/showMapText; none besides all_pkmn_gen2.lua's own Elm/starter system plausibly reach Mom's conversation.
+- Traced a concrete mechanism by hand: Elm's real "go see your Mom" message almost certainly contains the literal word "ELM" (as a speaker label), which makes all_pkmn_gen2.lua's interceptTalk rebuild its npc parameter from scratch using the entire message as text, before handleElm ever sees it. Manual tracing through handleElm's own logic for this exact shape did not conclusively find a crash, and a build with this traced scenario reproduced in a test does not crash either -- so this is not a certain fix.
+- Given three previous narrower attempts did not resolve the actual report, added a safety net instead of a fourth guess: all 8 handlers chained in interceptTalk (handleStaticTalk, handleElm, handleElmBall, handleOak, handleKim, handleLinkC, handleGsCenter, handleKurt) now run inside a single pcall. Any error anywhere in that chain is caught, logged with the exact message and the text being shown, and falls through to ordinary vanilla dialogue instead of ever being able to hang the game again. If this was the actual cause, the next freeze attempt should instead show normal dialogue, and the log will name the exact error for a permanent, precise fix.
+
+## [3.11.0]
+- The 3.10.0 fix (handleStaticTalk crashing on a nil NPC) was real but didn't resolve the reported Gen2 freeze -- confirmed by further testing. Rather than keep patching this piece by piece, removed the Running Shoes quest/dialogue entirely from Gen2: it only existed there to mirror Gen1 (where running before getting a starter caused its own freeze), and no amount of gating around Gen2's own "Elm sends you to see Mom" story conversation stopped the freeze, even with 3.8.0's "let the first conversation through" fix. There were also four separate trigger paths for this (talking to Mom, talking to Elm/Oak, an idle auto-trigger, and a "got Elm's phone number" text hook) -- auditing and gating all four individually was a much larger risk than removing it outright.
+- Gen2 now bypasses all four of those paths completely, and running is functional from the very start of a Gen2 save -- no quest, no dialogue, no conditions. Gen1's quest is completely unchanged (it still exists there for the reason it was originally added).
+
+## [3.10.0]
+- Fixed the Gen2 freeze after talking to Mom following the rival/police/Elm sequence in New Bark Town. Found via the player's own testing: disabling every toggleable feature still froze, which ruled out anything gated by a setting. Of the 8 handlers chained in all_pkmn_gen2.lua's Elm/starter dialogue system, handleStaticTalk is the one with no feature toggle at all (by design -- it always needs to catch this mod's own bird/Mew/Celebi NPCs) -- but that also meant it ran for every piece of Gen2 scripted text shown through showMapText's unconditional branch, not just real NPC interactions. A generic, narrator-style line with no NPC attached (e.g. "Wow, that's a cute Pokemon.") passed npc as nil, and indexing npc.id immediately threw -- uncaught, since this runs during real gameplay rather than the one-time setup block that installs the hook. An uncaught error in the middle of the engine's own "resume this script" callback is a very plausible freeze rather than a clean crash. handleStaticTalk now returns false immediately for anything that isn't a real NPC table, same as every other handler already does.
+
+## [3.9.0]
+- Correction: the 3.8.0 Mom-conversation fix doesn't explain the reported freeze after all -- confirmed the player already had the Running Shoes by that point, which means sneakers.lua's own gotSneakers check would already have skipped its interception, untouched. The 3.8.0 fix is kept (it's still a real, separate bug for anyone who reaches that story beat before getting the shoes), but it isn't the cause here.
+- Found a stronger lead instead: all_pkmn_gen2.lua's Elm/starter system (Gen2 Get All The Pokemon) hooks OverworldState:showMapText, and one of its two intercept checks runs unconditionally for ANY Gen2 scripted text shown that way -- not gated by being in Elm's lab or by badge count the way the other check is. If that chain (8 handlers deep: birds/Mew/Celebi, Elm, the extra-starter ball, Oak, Kim, Link C., the GS Center, Kurt) incorrectly claims a piece of real story text, the actual vanilla dialogue never runs at all, which fits a freeze like this.
+- Rather than guess which of those 8 handlers is actually misfiring and risk breaking one that already works correctly, this version only adds diagnostic logging: every time any handler claims a piece of text, and every time the unconditional branch intercepts anything, it's now logged with the handler name and the exact text. No behavior changes yet.
+- If this happens again, the log should show exactly which handler fired right before the freeze -- that's what's needed to fix the real cause with confidence instead of guessing a third time.
+
+## [3.8.0]
+- Fixed a Gen2 freeze: after the rival battle, the police, and Elm's "go see your mom" line in New Bark Town, talking to Mom could leave the player permanently stuck. The Running Shoes feature's Mom-interception (sneakers.lua, present before this collaboration started) replaced that conversation outright with "Honey, you forgot your outdoor sneakers" instead of letting it play -- skipping whatever that real conversation needed to set or continue. The very first qualifying Mom conversation after getting a starter now always plays through untouched; the sneakers offer starts from the next conversation with her instead. Elm's own side of this file is unchanged, since nothing pointed to it being involved.
+
+## [3.7.0]
+- Infinite Tries for Limited Encounters (Gen1): added the battle cry (sound + text) before the fight for Articuno, Zapdos, Moltres and Mewtwo, missing from the 3.6.0 takeover -- the same oversight Grok's own first pass at this had. Reuses the exact cry lines and Sound.playCry/TextBox sequencing all_pkmn_gen2.lua's own startWild already uses for these same four species in its Gen 2 Kanto encounters, rather than inventing new lines. The fight now only begins once the cry text box is dismissed, matching how it already works there.
+- No behavior change to catching, persistence, or the Snorlax exclusion -- this only adds the cry in front of the existing 3.6.0 flow.
+- Gen2 unchanged (still detection-only; nothing to attach a cry to yet since it doesn't take over the encounter).
+
+## [3.6.0]
+- Infinite Tries for Limited Encounters (Gen1): rebuilt from scratch around a different, proven architecture, after beating Articuno still left it gone on two previous attempts to passively detect the vanilla fight. Instead of watching for the vanilla battle to start, this now copies the approach secret_mew.lua already uses successfully for a real Gen 1 persistent encounter: OverworldState:talkTo is wrapped, and talking to one of these four NPCs is fully taken over -- the mod starts the fight itself with BattleState.newWild (the same confirmed call Mew's own fight uses) and tracks catch/not-caught with its own SUITE_*_CAUGHT save flag, the same way SUITE_MEW_CAUGHT already works. The vanilla trigger never runs for these four at all, so whatever its own bookkeeping does no longer matters.
+- Scope note: this covers Articuno, Zapdos, Moltres and Mewtwo only. The two Route Snorlax are deliberately left out of this feature -- unlike the birds, their map data has no pokemon= tag, and they're normally gated behind playing the Poke Flute to wake up first; taking over their talk handler the same way risked bypassing that mechanic entirely, which wasn't confirmed safe.
+- Gen2 is unchanged from 3.4.0/3.5.0 (still detection-only).
+
+## [3.5.0]
+- Infinite Tries for Limited Encounters (Gen1): fixed the Kanto Birds/Mewtwo not actually coming back after a non-catch (confirmed in testing: beating Articuno still left it gone). The previous version only wrapped BattleState.newWild, on the assumption these fights start the same way Mew's own mod-spawned fight does -- but the birds' own trainer_headers.lua data uses the same event/battle/won shape as a regular trainer, not wild-encounter data, so that assumption was likely wrong. Now also wraps BattleState.newTrainer and checks what it actually produced (a single-Pokemon enemy party matching one of the tracked species), since there's no way to predict the class/index arguments a bird would be started with.
+- Infinite Tries for Limited Encounters (Gen1): added a short re-assertion window after a non-catch, re-writing the objectToggles flag for a couple of seconds in case the engine sets it back to true sometime after onFinish runs rather than before it. The first version only wrote it once.
+- Both changes are Gen1-only; Gen2 is still detection-only, unchanged from 3.4.0.
+
+## [3.4.0]
+- Infinite Tries for Limited Encounters (new, under both GEN1 GET ALL THE POKEMON and GEN2 GET ALL THE POKEMON, off by default): stops the Kanto Birds, Mewtwo and the two Route Snorlax (Gen 1) -- and, detection-only for now, Lugia, Ho-Oh, the Route 11 Snorlax, Sudowoodo and Red Gyarados (Gen 2) -- from vanishing forever if you flee or fail to catch them without saving first.
+  - Gen 1 is fully active: confirmed directly against a real save file that the controlling field is save.objectToggles[MAP][OBJECT] (true = gone, false = still there), not the EVENT_BEAT_* flags the trainer_headers data seemed to suggest (those don't actually appear in a save at all). On a non-catch outcome, that flag is set back to false, undoing whatever the game just set; a catch is left alone, since vanilla's "gone for good" is correct in that case.
+  - Gen 2 only logs for now (species, map id, catch/no-catch) rather than writing anything -- the battle-detection hook is proven (reuses the same World.startBattle wrap the existing Kanto-birds-in-Gen2 feature already relies on), but the objectToggles key format for these five Gen 2 locations isn't confirmed yet, unlike Gen 1's.
+- Removed ENABLE ALL UI, DISABLE ALL UI and ASPECT RATIO from the main Project Highlander menu (sub-menus unaffected -- each component's own ENABLED toggle and ASPECT RATIO option still work normally from within its own page).
+- Removed the SPRITE row from the Battle HUD sub-menu. It was a specially-injected row controlling a global menu-icon-source setting unrelated to Battle HUD itself; the setting is untouched, just no longer editable from that page.
+
+## [3.3.0]
+- Based on 2.99.0. Battle Floors (3.0.0-3.2.0) is removed: testing confirmed it draws on top of the opponent's sprite rather than behind it, with no fix possible given the hooks exposed to mods, so it's been scrapped rather than shipped half-working.
+- Fixed a real crash, found while investigating an unrelated save-file test: in Gen 2's Kanto post-game bird/Mew/Celebi spawning (Project Highlander's own code, present since before this collaboration started), spawnStatic fell back to a hardcoded sprite name (SPRITE_MONSTER or SPRITE_HO_OH) whenever it couldn't find a proper sprite to use, without ever confirming that name was a real asset. In Gen 1, SPRITE_HO_OH is not a real asset at all, and the engine threw rather than drawing anything, crashing the game outright (src/world/NPC.lua:37: unknown sprite SPRITE_HO_OH). The surrounding code does check isGen2(game) before running at all, so why this fired in a Gen 1 Red save is not yet confirmed -- but a crash-causing fallback is worth fixing on its own regardless of how it was reached. It now aborts the spawn attempt instead of guessing, matching the safe pattern paintBird already used for the same "no sprite found" case a few lines below.
+
+## [2.99.0]
+- Custom Letterbox: fixed the border covering the Modern Party UI when it's opened mid-battle (e.g. switching Pokemon). The screen classifier checked "is this a battle" before "is this a suite screen", and the in-battle Party UI carries a reference to the current enemy (for its type-matchup display), so it was misidentified as a battle screen and given the border meant for the plain 160x144 game rect instead of being skipped like every other suite screen. Suite screens are now always checked first, regardless of what else they carry.
+
+## [2.98.0]
+- Custom Letterbox: small pixel fixes to the Blue border art (2 pixels, left side).
+
+## [2.97.0]
+- Custom Letterbox: replaced all 7 SGB-style borders (Red, Green, Blue, Yellow, Gold, Silver, Crystal) with hand-retouched art. The automatic downscale from the previous versions left the small sprites noisy; these are cleaned up by hand at native size. Layout, colours and template rules (art only in the red zones, centre fully transparent) are unchanged.
+
+## [2.96.0]
+- Modern Start Menu: the icon order now carries over between Gen 1 and Gen 2. The order was saved with per-game keys (Gen 1 "party" / "bag" / "option" vs Gen 2 "pokemon" / "pack", or a value or label instead of an id), so only the two entries this mod adds itself (Trainer ID and PokeBox) matched in the other game and jumped to the top. Built-in icons (Pokedex, Pokemon, Bag, Trainer, PokeBox, Save, Options, Mods, Quit, PokeGear) now order by a game-independent key, and orders saved by older versions are read the same way, so the order you set up already works.
+- The Gen 2-only POKeGEAR is not in a Gen 1 order, so it falls after the saved entries and lands on page 2. Moving it in either game is remembered for both.
+- Third-party menu entries keep the keys they had. Icon overrides (which picture an entry uses) are unchanged.
+- Build files are now named with dots (project_highlander-2.96.0.zip).
+
+## [2.95.0]
+- Gen 2 coin clerk (2X COINS on): the intro is now a single page. The game's intro is one text holding both "Do you need some game coins?" and "It costs 1000 for 50 coins. Do you want some?". The 2.94.0 greeting rule skipped it because it contains prices (digits). It now matches that text and replaces all of it with "Would you like to purchase some coins?", so the purchase menu follows straight after.
+- A stand-alone "It costs ... for 50 coins. Do you want some?" box, if the engine ever splits it out, is dismissed silently.
+- A box carrying a Yes/No callback is never dismissed silently, whatever its text.
+- Prize Corner "It costs N coins" lines are still untouched.
+
+## [2.94.0]
+- Gen 2 coin clerk dialogue now matches 2X COINS FOR MONEY (only while 2X is on):
+  - He greets with "Would you like to purchase some coins?" (same line Gen 1 uses).
+  - The "Here are your N coins" line shows the doubled number.
+  - The welcome line and the "No coins for you? Come again!" line are not shown. They are dismissed the frame they appear, by popping that exact box and running its own continuation (the Rock Smash method).
+- Lines are matched by meaning, not exact wording. Prize Corner, COIN CASE, not-enough-money and case-full lines are never touched. With 2X off, Gen 1 and Gen 3 nothing changes.
+- Logs one line per clerk line it changes or deliberately leaves alone, so any line that does not match can be named exactly.
+
+## [2.93.0]
+- 2X COINS FOR MONEY now works in Gen 2. The 2.92.0 version only armed itself when a Gen 1 style menu object appeared, but the Gen 2 coin clerk is the game's own script and never builds one, so nothing happened. Now:
+  - Bonus: when the game completes its own purchase (money down by exactly 1000 or 10000 and coins up by exactly 50 or 500, in either order, within a few seconds) the same number of coins is added again, capped at 9999. Reads only the save's player money/coins, so it does not depend on the menu.
+  - Menu: the two rows are drawn as 100 / 1000 at the same prices, using the same text hook as DECAPITALIZE. Only a line that starts with the amount and ends with the matching price is changed.
+- Gen 1 (menu replaced by the mod), and Gen 2 with 2X off, are unchanged. Gen 3 is untouched.
+- Writes a few short log lines (fields found, rows rewritten, bonus paid, and any unmatched text containing 1000) to help diagnose the Gen 2 menu if the rows do not change.
+
+## [2.92.0]
+- Custom Letterbox: no longer offered on the Modern UI Suite screens (Party, Bag, PC, Pokedex, Start menu); they are true 4:3 and the borders are made for the square Game Boy shape. Title, Options, Mods, Trainer ID and OG battles keep the frame.
+- Custom Letterbox: Gen 2 overworld no longer gets the frame. Gen 2 keeps its overworld off the screen stack (game.phase "play"), so the frame is now off whenever the world is running.
+- Custom Letterbox: removed the FireRed/LeafGreen entries (Gen 3 is widescreen only). Writes one log line whenever it decides to show or hide the frame, naming the screen.
+- Pokedex list: the follower icon on the selected row no longer sits in a grey square. Only the sprite's own pixels are claimed as true colour now, and the icon is drawn at its native 16px.
+- Game Corner (Gen 2): fixed the freeze after buying or cancelling at the coin clerk (Johto and Kanto). The Gen 1 coin hooks replaced the game's dialogue/menu callbacks; they now run on Gen 1 only, so with 2X COINS off nothing here touches Gen 2. With 2X COINS on, Gen 2 keeps its own menu and script, shows 100 / 1000 and adds the extra coins after the game's own purchase.
+- Game Corner: the hooks no longer drop extra arguments passed to TextBox / ChoiceBox.
+
+## [2.91.0]
+- Custom Letterbox is now its own PROJECT HIGHLANDER sub-menu (CUSTOM LETTERBOX) and is gone from QoL. ENABLED toggle (Off by default), BORDER and BORDER SCOPE.
+- BORDER: AUTOMATIC (follows the cartridge: R/B/Y/G/GS/C), Red, Green, Blue, Yellow, Gold, Silver, Crystal, Custom 1-4. New redesigned SGB-style borders; custom1-4.png are blank templates in components/custom_letterbox/assets/borders/.
+- BORDER SCOPE: BY SAVE or BY GAME, remembered like the Start Menu colour. BY SAVE with nothing stored yet inherits the BY GAME choice.
+- Frame now also shows on the Title screen, Mods menu and every other full-screen 4:3 menu, plus the Modern UI Suite screens (Party, Bag, PC, Pokedex) while their aspect ratio is 4:3. Still never over the overworld or widescreen battles.
+- The frame never draws over the game-screen area, so a custom PNG can leave its centre white or transparent.
+- Removed the old Leaf frame and the QoL letterbox toggle.
+
+## [2.90.0]
+- Custom Letterbox only on Options / Mods / Trainer ID / OG 4:3 battles. QoL list restored.
+
+## [2.89.0]
+- Custom Letterbox: Leaf SGB frame on the 4:3 pillars. QoL toggle plus UI Letterbox CUSTOM.
+
+## [2.88.0]
+- Dropped unused unlimited_pp ID draft PNGs. Kept sparkle.png and kanto_leaders_gen1.png.
+
+## [2.87.0]
+- Enemy status prints left of native Lv; Lv and gender stay put.
+
+## [2.86.0]
+- Enemy status + Lv are one left-aligned line (native tag is covered first).
+
+## [2.85.0]
+- Gen2 Kanto ID: Misty hair orange, Janine violet, Blue brown.
+- Enemy status no longer shoves Lv into the sprite.
+- Battle bag honors OPEN ON (battle was treated as a special pack).
+
+## [2.84.0]
+- Gen1 rematch flatten/PP refill is flagged from talkTo only. Gold no longer hits that path.
+
+## [2.83.0]
+- Gen1 rematch uses the existing isGen1Game check (game.version). Flatten still skipped on Gold/Silver/Crystal.
+
+## [2.82.0]
+- Gen2 rematch restored to 2.80 behavior. Move-ID flatten is Gen1-only (red/blue/yellow/green).
+
+## [2.81.0]
+- Gen1 rematch teams pass move IDs (not objects) so PP is valid and Struggle is not the only option. Gen2 rematch unchanged.
+
+## [2.80.0]
+- Gym rematch "No" no longer re-asks or starts the fight (interactBody was falling into startTrainerScript).
+
+## [2.79.0]
+- Rematch no longer adds a ghost first send-out (party tables are not replaced after Battle.new).
+
+## [2.78.0]
+- Rematch HP is forced to max after the team is rebuilt.
+- Gym rematches look up the class by name, then startBattle with Trainers.party (lookup needs the numeric class index).
+
+## [2.77.0]
+- Gen2 rematch starts battles again via startTrainerScript + loadtemptrainer (2.76 startScriptedBattle was a no-op).
+- Gym leaders look up their real trainer record before that script runs.
+
+## [2.76.0]
+- Gen2 rematch: start gym fights via startScriptedBattle (music no longer plays with no battle).
+- Rematch teams rebuild HP/stats and level-up moves; evos honor Gen2 methods.
+
+## [2.75.0]
+- Fixed Gen2 rematch load crash (`...` inside a nested callback).
+
+## [2.74.0]
+- Gen2 Rematch Anyone now covers Johto and Kanto Gym Leaders (badge-owned), not only field trainers.
+
+## [2.73.0]
+- PC action popup no longer shows gray follower-icon wells through the menu.
+- Rematch Anyone works in Gen2 (World:startTrainerScript). Parties still scale to the weakest party level and evolve.
+
+## [2.72.0]
+- Kanto badge spin set to frames/10 (Johto stays frames/8).
+- Lt. Surge face recropped so Erika's hair no longer sits under him.
+
+## [2.71.0]
+- Recropped Gen1 ID faces from kanto_leaders_Gen1.png (correct 16px rows).
+- Party action popup no longer shows gray follower-icon wells through the menu.
+
+## [2.70.0]
+- Kanto badge spin slowed (frames/20).
+- Gen1 ID uses kanto_leaders_gen1.png (Misty and the Gen1 roster, pre-colored).
+- Instant TMs and HMs: fixed Gen1 flavor match (CUT/SURF text) and skipped the Surf/Strength white flash.
+- Gen2 Pokédex follower icons slowed further (clock/3).
+
+## [2.69.0]
+- Gen1 Trainer ID uses the colored Kanto leader + spinning badge grid from Gen2 page 3.
+- Instant TMs and HMs now also skips the Gen1 "used Cut/Surf/Strength" lines.
+- Gen2 Pokédex icons use the same follower walk timing as Party/PC.
+
+## [2.68.0]
+- Follower icon walk uses sheet frames 1 and 4 (not 1 and 2).
+
+## [2.67.0]
+- Pokémon Icons menu renamed to POKE ICONS.
+- Bundled follower icons keep their authored colours on Gen 1 (true-color mark).
+- Icon animation uses only the front/down walk pair instead of rotating through every facing.
+- Kanto ID faces moved down 2px; numbers and badges unchanged.
+
+## [2.66.0]
+- New PROJECT HIGHLANDER → POKEMON ICONS menu: Pokédex, Party and PC each pick ORIGINAL or WILD FOLLOWERS. Bundled 16×96 GSC follower sheets (assets/poke_followers) are used directly; Wilds of Kanto is no longer required for those icons.
+- Removed ICON SOURCE from the Party submenu. Battle HUD SPRITE is unchanged.
+- Copyright (c) YoDrehDenSwagAuf on the Pokémon Icons page (MIT poke_followers art).
+
+## [2.65.0]
+- Running Shoes: removed a duplicate B-toggle handler inside the Player:update override that read Game.input (the required module) instead of the live game.input the input.step hook already uses correctly. Running the same "B just pressed" check twice per frame could toggle running on and back off within the same tick, feeding a bad state into the run-speed animClock/progress math and causing the rarer, running-only movement lock still seen after 2.64.0's D-pad fix.
+
+## [2.64.0]
+- Full Control: fixed movement occasionally sticking in a direction on gamepad. Its gamepadpressed override handled every D-pad/button press itself (native handler only ran during rebind capture), but gamepadreleased was never overridden, so a button's "held" state could be set on press and never cleared on release. Added a matching gamepadreleased override so press and release always go through the same code path.
+
+## [2.63.0]
+- Kanto faces and badges +1px Y; numbers unchanged.
+
+## [2.62.0]
+- Kanto ID badge block shifted down 1px to match Johto.
+
+## [2.61.0]\n- ID page 3 uses 22x16 Kanto faces. Johto badges on page 2 are colored.\n\n## [2.60.0]\n- ID page 3: human skin tones, transparent badges, badges left of faces.\n\n## [2.59.0]\n- ID page 3 embeds color Kanto faces/badges so the panel cannot load empty.\n\n## [2.58.0]
+- ID page 3: colored Kanto leaders + spinning badges in the Johto badge-page slots.
+
+## [2.57.0]
+- ID page 3: palette fill + embedded Kanto face/badge sheet so the panel cannot come up empty.
+
+## [2.56.0]
+- Pokegear Map: Select swaps Johto/Kanto like Fly Map. Post-2.53 map snaps removed.
+- ID page 3 loads Gen1 badges.png via mod:read and marks true-color.
+
+## [2.55.0]\n- Pokegear map cursor is clamped to the region you are standing in.\n- ID page 3 uses Johto badge chrome plus the Kanto face/badge sheet.\n\n## [2.54.0]
+- Pokegear map cursor snaps to the region you are in.
+- ID page 3 uses the Gen1 numbered Kanto badge grid.
+- Party A-menu up/down arrows are triangles.
+
+## [2.53.0]
+- Roaming Hunter seeds empty `roamers = {}` saves (Init was skipped).
+- Pokegear map region follows the map you flew to.
+- ID card page 3 maps Kanto badges onto the badge slots.
+- Gen2 battle HUD: custom player HP/EXP overlay removed; enemy HP kept.
+- Gen2 party A-menu shows 8 rows and scrolls with ^ / v.
+
+## [2.52.0]
+- Ilex GS Ball prompt only on the shrine tile (8,22), not on nearby Cut trees.
+
+## [2.51.0]
+- Syntax fix: Ilex TextBox hook is inside the module.
+
+## [2.50.0]
+- Ilex shrine plaque is intercepted; GS Ball prompt replaces the lore text.
+
+## [2.49.0]
+- Kurt grantGsBallItem is defined before use (crash fix).
+
+## [2.48.0]
+- Repel Again asks once.
+- Kurt returns GS Ball after a day and sends you to the Ilex shrine (8,22); Celebi Lv30.
+- Roaming Hunter seeds even if Dex owned is set (empty roamers on this save).
+
+## [2.47.0]
+- QoL: Use Repel Again? prompts to reuse the same Repel/Super/Max when it wears off.
+
+## [2.46.0]
+- Roaming Hunter: 100% on the beast's current route, no flee, no Roar. Seeds roam slots if missing.
+- Dex locations: Gen2 version exclusives now pull the counterpart game's routes (Vulpix on Gold, etc.).
+
+## [2.45.0]
+- Oak beast gift: any A-press in Oaks Lab with a beast in slot 1.
+
+## [2.44.0]
+- Oak beast gift runs when you talk to him (interact hook). Dex numbers 243-245 count as the beasts.
+
+## [2.43.0]
+- Register GS BALL as a real KEY_ITEM so Gold/Silver bag and Kurt can see it.
+
+## [2.42.0]
+- GS Ball despawns on pickup. Kurt no longer crashes (dayNumber order).
+
+## [2.41.0]
+- GS Ball on the floor in front of the Goldenrod counter (4,3).
+
+## [2.40.0]
+- GS Ball at 4,2. Enter plays the line only. Talk to the ball to pick it up into Key Items. Gold/silver palette.
+
+## [2.39.0]
+- GS Ball two tiles left (5,2). Message on Center enter, then the ball is removed.
+
+## [2.38.0]
+- GS Ball is a Poké Ball on the Goldenrod Center counter. Talk to pick it up. No more message on load.
+
+## [2.37.0]
+- From 2.31.0. GS Ball is given in the Goldenrod Center in Gold/Silver/Crystal (talk or walk in). Kurt wait uses the in-game clock.
+- Roaming Hunter from 2.32–2.36 is not in this build.
+
+## [2.31.0]
+- Mewtwo in Ruins of Alph Ho-Oh puzzle chamber (HOOH id). Tile 3,4 on the puzzle. Needs Mew in slot 1. Reunion line after catch.
+
+## [2.30.0]
+- Mew uses SPRITE_MONSTER. Hidden after catch like the birds. Telepathy line after capture pointing to Ruins of Alph.
+
+## [2.29.0]
+- Mew on any Victory Road 3F-like map; no Kanto gate; still shows if catch flag was stuck. Tile 13,8.
+
+## [2.28.0]
+- Mew is on Victory Road 3F (13,8 first guess at the marked platform). Cerulean remnant door removed.
+
+## [2.27.0]
+- GSC Cerulean remnant cave door on the west rock ledge (3,5). Warp into Diglett/Rock Tunnel stand-in with Mew inside. Tune tile like Moltres if needed.
+
+## [2.26.0]
+- Bird is a solid runtime map object again (cannot walk through). Stripped from the map only after a real catch. Stuck battle lock clears if no fight starts.
+
+## [2.25.0]
+- No-save reload: re-apply palettes and rebuild SpriteRenderer so the bird is visible. Retry spawn after sprites load.
+
+## [2.24.0]
+- Do not overwrite Npc.sprite with a string (Npc.lua:877 crash). Only spawn when a real spriteDef exists.
+
+## [2.23.0]
+- Bird is a real Gen2 Npc with px/py so World draw cannot crash on nil compare. Generic bird sprite kept.
+
+## [2.22.0]
+- Bird OW sprite is generic bird (Fearow/Spearow/Pidgey), never player. Repaint on map load so reload is visible.
+
+## [2.21.0]
+- Birds no longer baked into the map. Colored spriteDef + palette. Hide-by-tile like the Dojo ball. Catch flag from Battle.endBattle + pokemon.caught/given.
+
+## [2.20.0]
+- Catch writes save.player.suiteBirds + flags. World.startBattle onDone wrapped. Pending-bird catch event. Colored sprites kept.
+
+## [2.19.0]
+- Bird gone-after-catch uses save.flags only (like Mew). No-save continue restores the bird. Colored addRuntimeObject sprites restored.
+
+## [2.18.0]
+- Birds spawn like Gen1 Mew (ow.npcs only, no addRuntimeObject). Dex 144-146 map to names. Sweep hide each frame if owned.
+
+## [2.17.0]
+- Birds do not respawn if you already own that species. Catch also detected by party/box count going up.
+
+## [2.16.0]
+- Fix syntax error in placeStatics birdTaken calls.
+
+## [2.15.0]
+- Caught-bird memory lives on the session (module + game object) so a Pokemon Center warp cannot respawn them.
+
+## [2.14.0]
+- Caught bird flag persisted on save.flags, save.events, and save.suiteBirds so leaving a map cannot respawn it.
+
+## [2.13.0]
+- Caught Kanto birds disappear from the overworld (flag + hide NPC).
+
+## [2.12.0]
+- Bird cry + Gen1-style cry text box play before the battle transition.
+
+## [2.11.0]
+- Birds never flee (wrap tryEnemyFlee). Cry plays when the fight starts.
+
+## [2.10.0]
+- Kanto birds use BATTLETYPE_TRAP so they never flee and cannot be run/Roared from.
+
+## [2.9.0]
+- Birds no longer auto-battle on approach. Face the sprite and press A.
+- Short cooldown after a fight so defeat/run does not immediately retrigger.
+
+## [2.8.0]
+- Birds use World:startBattle({ wild = Mon.new(...) }). Gen1 newWild cannot open a Gen2 fight.
+- Wrap World.interact so A on the tile starts the battle.
+
+## [2.7.0]
+- Kanto birds use Gen1 Mew battle path (BattleState.newWild + pushBattle).
+- Moltres tile moved to Cinnabar 9,1 (one up, one right).
+
+## [2.6.0]
+- Kanto birds: startScriptedBattle(nil, wild, done) — previous call treated the bird as a trainer and drew NO BATTLE.
+
+## [2.5.0]
+- Fix Npc:draw crash: do not inject undrawable bird NPCs. Tile interact unchanged.
+
+## [2.4.0]
+- Kanto birds: Mew-style onInteract + facing-tile battle. Moltres on Cinnabar grass 8,2. No Tentacruel fallback sprite.
+
+## [2.3.0]
+- Kanto birds use bird sprites, Gen2 startBattle, Moltres on Cinnabar grass (9,2).
+
+## [2.2.0]
+- Fly map: Select swaps Johto/Kanto after Kanto unlocks. Unvisited towns stay locked.
+
+## [2.1.0]
+- Kanto birds on marked tiles: Moltres Cinnabar 11,2; Zapdos Route 10 North 2,11; Articuno Ice Path B3F 9,5. Approach starts battle.
+
+## [2.0.0]
+- Link C. refuses item-evo species unless that mon is holding the required item.
+
+## [1.99.0]
+- Link C. item trades require the hold item in the bag or on the mon.
+
+## [1.98.0]
+- Link C. turns to face the player when spoken to.
+
+## [1.97.0]
+- Link C. evolves the selected party slot only; trade-back is Alakazam/Alakazam copies. Does not overwrite slot 1.
+
+## [1.96.0]
+- Link C. trade evo uses Gen2 EvolutionAnim (not Gen1 Stats.calc).
+
+## [1.95.0]
+- Link C. no longer writes a string onto objDef.palette (Palettes.lua crash).
+
+## [1.94.0]
+- Link C. GameBoy Kid on enter with PAL_OW_RED; official Gen2TradeAnim + music.
+
+## [1.93.0]
+- Link C. in Ecruteak Center uses SPRITE_GAMEBOY_KID on the bench NPC.
+
+## [1.92.0]
+- Kim extras: wrap Chansey trade lines to 18 columns.
+
+## [1.91.0]
+- Kim extras: TradeMenu pages are line tables (fixes ipairs crash).
+
+## [1.90.0]
+- Kim extras: custom Chansey lines; pop TradeMenu on close so the blank box cannot freeze.
+
+## [1.89.0]
+- Kim extras open Gen2TradeMenu after patching NpcTrade row.get (Omanyte/Kabuto).
+
+## [1.88.0]
+- Kim extras: patch her NPC trade + clear tradeFlags, then let vanilla script run.
+
+## [1.87.0]
+- Kim extra fossils use engine NPC trade / party picker (Aerodactyl flow).
+
+## [1.86.0]
+- Kim Route 14 extra Chansey trades fire from Gen2 World.interactBody.
+
+## [1.85.0]
+- Elm 3rd starter: Lugia + Ho-Oh anywhere in the party; looser champion detect.
+
+## [1.84.0]
+- Stop writing string keys into Gold event flags every frame (that was washing out Party GBC palettes).
+
+## [1.83.0]
+- Elm ball: Get_Item1 fanfare only; hide via object eventFlag so it stays gone.
+
+## [1.82.0]
+- Elm leftover ball: Caught_Mon fanfare, nickname prompt, hide ball for good after pickup.
+
+## [1.81.0]
+- Fix crash: isElmLab was used before its local definition.
+
+## [1.80.0]
+- Elm leftover: hook Gen2 World.interactBody / World.showText (script VM path), not the Gen1 facade.
+- Fanfare tries World:playSfxNamed Get Item as well as Sound.play.
+
+## [1.79.0]
+- Elm leftover: swallow Gen2 script VM 'I'll call you' line; play Get_Item fanfare on the table ball.
+
+## [1.78.0]
+- Elm leftover starter matches Gen1 Oak: speech only, then take the table Pokeball.
+- Restored the original 'on my table over there / happy to be with you' line.
+
+## [1.77.0]
+- Gen2 gifts use src.battle.gen2.Mon.new (fixes Stats.lua nil base crash when Elm gives a starter).
+- Elm stock lab line is swallowed; leftover starter is handed once, sent to the PC if the party is full.
+
+## [1.76.0]
+- Gen2 All PKMN: Oak no longer steals the Pokedex speech (only fires with a beast in slot 1).
+- Elm gifts the leftover Johto starter in his own dialogue after 8 badges (no PROF. OAK collision).
+- Kim fossil trades identify the Route 14 teacher after the vanilla Aerodactyl trade.
+- Link C. replaces the Ecruteak Center bench Pokefan at 7,6.
+- Articuno spawns on Ice Path B3F between the two ladders (9,7) after Kanto is open.
+
+## [1.75.0]
+- Gen2 All PKMN reads player.badges / hallOfFame.count / kantoBadges.
+
+## [1.74.0]
+- Gen2 Get All PKMN submenu (exclusives, Elm starters, Kim fossils, Celebi GS Ball, Link C., Oak beasts, birds, Mew/Mewtwo). First pass.
+
+## [1.73.0]
+- Gen1 exclusives: load-time content.encounters:patch of 10-slot mixed tables (151 API) plus encounter.roll 50% counterpart swap.
+
+## [1.72.0]
+- Gen1 exclusives: patch mod.content.encounters 10-slot grass tables (counterpart replaces last pair slot). Appended 11th slots never rolled.
+
+## [1.71.0]
+- Steel/Fairy: OTHER GEN1 MOVE CHANGES (Gust Flying, Karate Chop Fighting, Sand-Attack Ground, Struggle typeless).
+
+## [1.70.0]
+- Gen1 exclusives now patch encounter grass/water .slots and encounter.roll (Route 4 Ekans on Blue).
+
+## [1.69.0]
+- Gen2 dex: menu SFX on scroll/select; Info type chips use type colors.
+- Bag OPEN ON always picks the chosen tab (no last-tab memory).
+- Gen1 exclusives: Blue Route 4 (and related routes) explicitly add Ekans.
+
+## [1.68.0]
+- Gen1 All the Pokémon: NPC lines updated to the revised ODT (Oak, Miguel, Fuji, Link C.).
+
+## [1.67.0]
+- Removed battle catch-rate overlay and the QoL toggle. Dex CatchRate line stays.
+- Restored Info-tab Notes / height position under the original black rule.
+
+## [1.66.0]
+- Dex Info: CatchRate on its own line under the category; type chip sits on the panel edge.
+- Battle CR only with the enemy HUD (no send-out flash). Gen 1 drawn with the HP bar. Gen 2 lowered under the bar.
+
+## [1.65.0]
+- Dex Info tab: CatchRate:N on the same row as the species category (Gen 1 and Gen 2).
+- QoL "Show Catch Rate in Battle" (off by default): CR:N under the Gen 1 enemy HP bar, on the Gen 2 enemy HP bar.
+
+## [1.64.0]
+- QoL "Gen3 Catch Rate" (off by default): Gen 3 catch formula in Gen 1 and Gen 2.
+- Removes Gen 1 "You missed the POKéMON!" (failed throws still shake).
+- Ultra Ball is always better than Great Ball. Apricorn balls use HGSS modifiers. Friend Ball unchanged.
+
+## [1.63.0]
+- ID card Red/Green pic another 2px higher.
+
+## [1.62.0]
+- ID card Red/Green pic: +10px right, +2px up from 1.61 placement.
+
+## [1.61.0]
+- Crystal Player Sprite: drop Jessie, James, Silver, Blue.
+- Leaf player art remapped to Green (overworld, back, front, Force Crystal, Town Map).
+- Replace Crystal overworld/ and trainers/ asset trees with uploaded packs.
+
+## [1.60.0]\n- Gen1 Pokédex main preview: restore 1.3.0 type-coloured card face behind Crystal portraits (no new hues).\n\n## [1.59.0] — milestone
+- GitHub-ready release (manifest github + semver 1.59.0).
+- Includes Gen2 Modern EXP Sharing, OG battle letterbox, Start Menu icon sheet, Gen2 move-name scroll, EXP text fixes.
+
+## [1.58.0]\n- Gen2 Modern EXP Sharing: one summary line with the half-EXP amount.\n\n## [1.57.0]\n- Gen2 Modern EXP Sharing: skip Gen1 award hook; class-level giveExperiencePass bench pass (Sweet Share method).\n\n## [1.56.0]\n- Gen2 Modern EXP Sharing: vanilla fighter award + giveExperiencePass bench half (Sweet Share 1.2 path).\n\n## [1.55.0]\n- Gen1 share summary fits the text box (The others got / N boosted EXP).\n- Gen2 Always Boosted EXP announces "gained a boosted N EXP".\n\n## [1.54.0]\n- Reverted Gen1 move-card experiment to 1.51.0.\n- Gen2 Typed Move Colors: long move names scroll in the card instead of ending with a dot.\n\n## [1.51.0]\n- Gen1 OG command menu is vanilla Fight/PKMN/ITEM/RUN; Typed Move Colors only on move select.\n\n## [1.50.0]\n- Gen2 OG battle layout: do not replace native drawWidescreen; restore 160x144 + letterbox.\n\n## [1.49.0]\n- Start Menu icon sheet: user Pokebox tile (frame 32).\n\n## [1.48.0]\n- Gen1 bag pocket L/R plays Crystal Sfx_SwitchPockets wav (not Tink/Swap).\n\n## [1.47.0]\n- Gen1 bag L/R sfx: do not treat a missing SwitchPockets play() as success; fall back to Tink/Swap.\n\n## [1.46.0]\n- Gen2 wild caught marker: red/white ball over native black ball.\n- Gen1 bag tab/pocket switch plays SwitchPockets (or Gen1 cursor fallback).\n\n## [1.45.0]\n- TM/HM bag text uses item.teaches -> move.description (PackMenu:moveOf). 255 cap unchanged.\n\n## [1.44.0]\n- LOCK Gen2 bag 255. TM/HM text uses native PackMenu description like Ish, then move data.\n\n## [1.43.0]\n- Gen2 now loads inventory.lua (Bag.capacity/add 255). TM text ignores native ?.\n\n## [1.42.0]\n- Gen2 bag: wrap Bag.capacity/add so ITEM pocket is 255 (engine Bag.lua, not Pack).\n- Patch TM/HM item descriptions on content so the pane is not ?.\n\n## [1.41.0]\n- Gen2 bag: wrap Pack total/isCancel (drop extra slot), wrap description for TMs, raise pack 20-caps.\n\n## [1.40.0]\n- Revert PC pane colors to 1.37.0.\n- Gen2 bag: 255 slot cap, no Cancel rows, TM/HM descriptions.\n\n## [1.37.0]\n- Fix modern_pc_ui screen.lua syntax (early return left dead locals).\n\n## [1.36.0]\n- Crystal portraits load raw PNGs (no Assets palette bake) and claim true-color regions.\n\n## [1.35.0]\n- Reverted Rock Smash skip to 1.33 behavior.\n- PC / Dex portraits and Party stats use Crystal animated front sprites.\n\n## [1.33.0]\n- core.update hook uses (game, dt) like the rest of Highlander.\n\n## [1.32.0]\n- Remove Game2.step wrap that crashed on nil dt. Rock Smash skip stays on core.update.\n\n## [1.31.0]\n- Rock Smash silent path: pop the real textbox and run onDone/choice (jj_auto_field_moves pattern).\n\n## [1.30.0]\n- Do not intercept Rock Smash dialogue; skipping it freezes the player.\n\n## [1.29.0]\n- Rock Smash keeps native box close (hidden auto-A) so the player does not freeze.\n\n## [1.28.0]\n- Select list is Flash/Fly/Dig/Teleport/Sweet Scent only. Headbutt and Rock Smash prompts skipped via Game2.say.\n\n## [1.27.0]\n- Gen2 Select field list sizes to its rows, adds Sweet Scent, silences Headbutt/Rock Smash prompts.\n\n## [1.26.0]\n- Instant HMs skip flavor + Yes/No. Dummy box pops before Yes so the player is not left frozen.\n\n## [1.25.0]\n- Instant HM text hidden via auto-A on real boxes so the player is not frozen.\n\n## [1.24.0]\n- Instant field HMs skip all Cut/Surf flavor text, not just Yes/No.\n\n## [1.23.0]\n- Instant TMs/HMs skips Cut/Surf/etc Yes/No prompts.\n\n## [1.22.1]\n- Guard Gen2 data.items numeric entries in hmForMove.\n\n## [1.22.0]\n- Fork Ish 0.1.33 Gen2 PokeMoves (forgettable HMs, TMs forever, instant TM/HM, no-learn HMs). Relearn kept.\n\n## [1.21.0]\n- Battle EXP bar arms on the second A of the EXP message.\n\n## [1.20.0]\n- EXP bar uses on-screen message only; arms on A, ▼, or EXP sound.\n\n## [1.19.0]\n- Battle EXP bar waits for A on the EXP message or the EXP fill sound.\n\n## [1.18.0]\n- Battle EXP bar only moves while the gained-EXP message is on screen.\n\n## [1.17.0]\n- Battle EXP hold until enemy HP is 0, then lerp.\n\n## [1.16.0]\n- Battle EXP bar lerps during award using battle.exp_gained.\n\n## [1.15.0]\n- Battle EXP uses party mon + HpBar.expFraction (same as party menu). No lerp/shownExp.\n\n## [1.14.0]\n- Restore battle XP well RTL 64px. Share uses fighter EXP delta on exp.gain.\n\n## [1.13.0]\n- Battle XP well 100%=track width, LTR fill. Share wraps giveExperiencePass. PC uses Wilds followers.\n\n## [1.12.0]\n- Battle XP handles into-level after level-up. Modern share also on exp.gain. Party EXP / enemy HP / sparkles / area / stores untouched.\n\n## [1.11.0]\n- 2-line area names. Party EXP numbers follow bar. Battle XP lerps. Share without applyShare. Enemy HP locked.\n\n## [1.10.0]\n- Gen2: Ish 0.1.32 hooks (hudHp, map.entered, World.drawWorldBody, Hidden.unfound, battle.exp_award, Gen2MartMenu).\n\n## [1.9.0]\n- Party LV two digits, clamp EXP text, battle HP lerp, freeze XP until faint, stop raw exp writes.\n\n## [1.8.0]\n- RTL black XP well, shown-only enemy HP, Game.draw toast/sparkles, Route30 hidden coords, Font.draw mart counts, battle-end EXP share.\n\n## [1.7.0] - 2026-09-17
+
+- Gen2 HUD: hide native HP duplicate, EXP numbers on the native well. Overworld draw wrap for area names/sparkles. Mart string lists. EXP share from fighter delta. Battle update rumble.
+
+# Changelog
+
+## [1.5.0] - 2026-09-16
+
+- Gen2 battle HUD numbers only (no black trough). Area names/sparkles on render.hud. Stores no longer paint the suite menu. Boosted EXP via OT mismatch. Rumble ticks on core.update.
+
+## [1.4.0] - 2026-09-16
+
+- Gen2 QoL: battle HUD meters + enemy HP, toggle-B run, rumble, area names, sparkles, mart counts, boosted/share EXP bridges.
+
+## [1.3.0] - 2026-09-16
+
+- Party HP/EXP bars start under Lv; Stats tab keeps those bars inside the Lv color box.
+
+## [1.2.0] - 2026-09-16
+
+- Gen2 party: EXP label no longer clips to E.; OT tab removed; Stats tab has HP+EXP bars with values.
+
+## [1.1.0] - 2026-09-16
+
+- Gen2 party roster: thicker HP/EXP bars, raised so both show, Values/Percent overlays.
+
+## [1.0.0] - 2026-09-16
+
+- Gen2 Modern Party roster uses the Gen1 2x3 card layout and follower icons.
+
+## [0.99] - 2026-09-16
+
+- Gen2 Modern Party summary header: Stats / Moves (plural).
+
+## [0.98] - 2026-09-16
+
+- Pokédex follower icons animate at half speed.
+
+## [0.97] - 2026-09-16
+
+- Gen2 dex list/info icons use overworld_wild_spawns follower sheets.
+- Family cards fill the grid and portraits can upscale to the card.
+
+## [0.96] - 2026-09-16
+
+- Fix screen.lua height string compile error.
+
+## [0.95] - 2026-09-16
+
+- Gen2 dex: list/info icons, ASCII height, Sp.Atk/Sp.Def + total, larger family cards.
+- Gen2 moves use native learnsets and type-coloured rows.
+
+## [0.94] - 2026-09-16
+
+- Gen2 Pokédex paints bright RGB chrome itself; GBC shader no longer flattens it.
+- Gen1 still uses grayscale + sgbPalettes. Start Map stays on top.
+
+## [0.93] - 2026-09-16
+
+- Start Map draws on top again in Gen1.
+- Gen2 dex palette zones use the canvas width like Suite 0.1.32.
+
+## [0.92] - 2026-09-16
+
+- Gen2 Pokédex chrome/portraits match Modern UI Suite 0.1.32.
+- Start Map and Gen1 dex presentation unchanged.
+
+## [0.91] - 2026-09-16
+
+- Fix screen.lua missing end after Start Map extract.
+
+## [0.90] - 2026-09-16
+
+- Gen2 dex uses bright Gen1-style header/footer ramps and true-color map overlay.
+- Gen2 dex portraits use mon palettes instead of uncoloured silhouettes.
+
+## [0.89] - 2026-09-16
+
+- Gen2 Pokédex uses Gen1 SGB UI colours; Start Map works on the entry tabs.
+
+## [0.88] - 2026-09-16
+
+- Gen2 Pokédex A-select no longer crashes on numeric item entries.
+
+## [0.87] - 2026-09-16
+
+- Start Map hides down-arrow on last row; Sea Routes split into Route 19/20.
+
+## [0.86] - 2026-09-16
+
+- Start Map adds fishing, Headbutt, Bug Contest, and Prize Corner Pokémon.
+
+## [0.85] - 2026-09-16
+
+- Color legend footer is only B BACK; leftover COLORS label removed.
+
+## [0.84] - 2026-09-16
+
+- Start Map legend Caves/Indoors; Power Plant and other non-field spots use that color.
+
+## [0.83] - 2026-09-16
+
+- Start Map colors use true-color text; footer Select matches other hints.
+- Sort menu uses a visible arrow and applies the chosen order.
+
+## [0.82] - 2026-09-16
+
+- Start Map color-coded places, Select legend, A sort, natural route order.
+- Exclusive locations now read the QoL Gen1 exclusive toggle.
+
+## [0.81] - 2026-09-16
+
+- Start Map filled from official RBY/GSC wild tables (pret), including exclusives.
+
+## [0.80] - 2026-09-16
+
+- Start Map location names marquee when they do not fit.
+
+## [0.79] - 2026-09-16
+
+- Start Map hides one-time/trade/evolve rows; compact levels; drawn % mark.
+
+## [0.78] - 2026-09-16
+
+- Start Map drops Terrain; wider Location/Level; Rate always shows %.
+
+## [0.77] - 2026-09-16
+
+- Fix locations.lua parse error after Oddish table insert.
+
+## [0.76] - 2026-09-16
+
+- Start Map table: Locations / Terrain / Level / Rate, slot-split rows, scroll arrow.
+
+## [0.75] - 2026-09-16
+
+- Start Map: one location per row; up/down arrows when the list scrolls.
+
+## [0.74] - 2026-09-16
+
+- Pokédex Start Map: per-game locations, unseen hides data, exclusives follow Gen1 toggle.
+
+## [0.73] - 2026-09-15
+
+- Pokédex Info footer uses the same L/R U/D spacing as Family/Moves.
+
+## [0.72] - 2026-09-15
+
+- Pokédex Info footer: drop NOTES. Stats footer: L/R instead of LEFT/RIGHT TAB.
+
+## [0.71] - 2026-09-15
+
+- Highlander hub: GEN1/GEN2 GET ALL THE POKEMON labels scroll.
+
+## [0.70] - 2026-09-15
+
+- Highlander hub: GEN1 GET ALL PKMN and GEN2 GET ALL PKMN sub-menus.
+- Gen 1 split into exclusive / starters / fossil / fighting / Eevees / Link C. / Get ???.
+
+## [0.69] - 2026-09-15
+
+- Gen 2 PC: hide release-cancelled, multi-select hint, multi-moved, and multi-cancelled boxes.
+
+## [0.68] - 2026-09-15
+
+- Gen 2 PC: no "Moved X" or "Move cancelled" boxes.
+
+## [0.67] - 2026-09-15
+
+- Gen 2 PC long names scroll by clipping glyphs (no window scissor).
+- Gen 2 no longer shows "Where should X go?" when picking a mon to move.
+
+## [0.66] - 2026-09-15
+
+- Gen 2 PC pane: Crystal portrait plus Chrome text (name/Lv/types visible again), type-colored stats.
+
+## [0.65] - 2026-09-15
+
+- Type labels drop the word Type (Psychic, not Psychic Type).
+- Gen 2 PC names use species name when nickname is blank; level/types use type color.
+
+## [0.64] - 2026-09-15
+
+- Gen 2 PC left pane uses the Gen 1 detail drawer (Crystal portrait, scrolling name).
+- Second type line omitted when it matches the first.
+
+## [0.63] - 2026-09-15
+
+- Fix Modern PC crash: drawMarquee now runs after drawText is defined.
+
+## [0.62] - 2026-09-15
+
+- Modern PC left pane: portrait, scrolling name, LV + gender, two type lines. No HP / party-or-box status.
+
+## [0.61] - 2026-09-15
+
+- Gen 2 Start Menu PokéBox opens Modern PC (Gen2BoxMenu), not OG Bill PC. Gen 1 still uses BoxMenu.
+
+## [0.60] - 2026-09-15
+
+- Start Icon Order: show Pokégear instead of <PO><KE>GEAR question marks. Gen 1 labels unchanged.
+
+## [0.59] - 2026-09-15
+
+- Restore ¥ on bag money in all games.
+- Gen 2 OG Pack money bar is only as wide as the amount.
+
+## [0.58] - 2026-09-15
+
+- Gen 2 POCKET skin is the OG Pack again.
+- Money bar widened so it covers the native POCKET label. Gen 1 bag unchanged.
+
+## [0.57] - 2026-09-15
+
+- Gen 2 POCKET skin: white item sheet (no blue wash), $ money, shorter footer.
+
+## [0.56] - 2026-09-15
+
+- Gen 2 bag: brighter pocket ramps (match Gen 1 SGB look).
+- Gen 2 POCKET skin uses the Suite classic-pocket presenter, not the OG Pack.
+
+## [0.55] - 2026-09-15
+
+- Gen 2 Modern Bag tabs use Gen 1 color ramps instead of grayscale.
+- SORT BY box no longer keeps empty shortcut rows.
+
+## [0.54] - 2026-09-15
+
+- Gen 2 Modern Bag tabs: blit the canvas when SGB zones are missing (white screen). Pocket skin unchanged.
+
+## [0.53] - 2026-09-15
+
+- Oak third-starter (rival baby after Mewtwo) plays Get_Key_Item fanfare.
+
+## [0.52] - 2026-09-15
+
+- Dojo second Hitmon ball: hide every Poké Ball on the Fighting Dojo after it is taken, every visit.
+
+## [0.51] - 2026-09-15
+
+- Oak leftover starter ball and Dojo second Hitmon ball stay hidden after you take them.
+
+## [0.50] - 2026-09-15
+
+- Restored PC / PokéBox detail portraits (battle front sprite, icon fallback).
+
+## [0.49] - 2026-09-15
+
+- Pokédex L/R pages through the list again (one screen at a time). Shiny-only list stays removed.
+
+## [0.48] - 2026-09-13
+
+- Removed the L/R shiny-dex second list (Gen 1 and Gen 2). Select search is unchanged.
+
+## [0.46] - 2026-09-12
+
+- 2X COINS FOR MONEY also replaces the GSC 50/500 coin list with 100/1000.
+
+## [0.45] - 2026-09-12
+
+- Revert prize-corner work to the 0.35 coin clerk.
+- QoL "2X COINS FOR MONEY": 100 coins / 1000P and 1000 coins / 10000P. Off keeps 50 / 500.
+
+## [0.35] - 2026-09-12
+
+- Coin shop is no longer treated as a prize list (1000P stays 1000P).
+- Prize patch only lists that contain "No Thanks".
+- Skip-YesNo flag clears after the clerk box so prize confirm cannot freeze.
+
+## [0.34] - 2026-09-12
+
+- Prize Corner Discount is 75% off (pay 25% of the coin cost, ceil).
+
+## [0.33] - 2026-09-12
+
+- Coin box: label left, price right (50 / 1000P). Prize lists patched on draw (right-column prices like 180/2800/3300).
+
+## [0.32] - 2026-09-12
+
+- Coin clerk: engine ListMenu itemBox (cursor + 3 lines). After buy, pop to overworld so the game cannot freeze.
+- Prize discount: rewrite known prize prices on any list/text; refund those exact coin spends.
+
+## [0.31] - 2026-09-12
+
+- Coin clerk: small 3-line box (50 = 1000P / 500 = 10 000P / Cancel). One buy then close. Stock Yes/No dummy pops itself (no freeze).
+
+## [0.30] - 2026-09-12
+
+- Coin clerk: replace "50 for 1000 / Yes No" with "Would you like to purchase some coins?" plus 50 / 500 / Cancel.
+- Prize discount: rewrite numbers in Game Corner text; refund 25% of coin spends >= 100.
+
+## [0.29] - 2026-09-12
+
+- Coin clerk uses ListMenu (50 / 500 / Cancel). Prize discount rewrites list numbers and refunds 25% of coins spent.
+
+## [0.28] - 2026-09-12
+
+- Elm mom-called line after "You got Elm's phone number".
+- RBY Game Corner: 500 coins for 10000. QoL Prize Corner Discount (75% ceil).
+
+## [0.27] - 2026-09-12
+
+- Elm auto line: also Overworld.update + map_scripts onStep. Ignore stuck frozen flags.
+
+## [0.26] - 2026-09-12
+
+- Elm/Oak mom-called line waits until scripted lab dialogue and movement are finished (~40 idle frames).
+
+## [0.25] - 2026-09-12
+
+- GSC sneakers: Elm says the mom-called line after you pick a starter. New Bark Mom uses the same sneakers quote as RBY.
+- Milestone: 0.24 is the working RBY/Yellow sneakers build (Oak after rival leaves; Yellow Pikachu scene then Oak).
+
+## [0.24] - 2026-09-12
+
+- Oak sneakers line after the rival leaves the lab. Mom uses the same talkTo + REDS_HOUSE_1F hook as Mew.
+
+## [0.23] - 2026-09-12
+
+- Oak sneakers line on battle.ended / afterBattle. Mom line is any 1F house talk that is not furniture.
+
+## [0.22] - 2026-09-12
+
+- RBY sneakers: Oak sends you home after the lab rival fight. Talk to Mom in your house.
+
+## [0.21] - 2026-09-12
+
+- RBY sneakers: Mom waits outside Oak's Lab after the first rival fight, talks, walks home.
+
+## [0.20] - 2026-09-12
+
+- Town Map marker uses Green/Kris when Girl.
+- Running: no Oak nag. Mom gives sneakers the first time you leave Pallet / New Bark after a starter.
+
+## [0.19] - 2026-09-12
+
+- Gold/Silver: Boy/Girl before the clock. Clock push waits until gender is chosen.
+
+## [0.18] - 2026-09-12
+
+- Gold/Silver boot: Pokédex screen.lua exports .presentation (same nil api crash as the bag).
+
+## [0.16] - 2026-09-12
+
+- Gold/Silver Boy/Girl: Screens.push of Gen2 clock/Oak then overlay on top. Watchdog keys off clock mode, not screenId.
+
+## [0.15] - 2026-09-12
+
+- Gold/Silver uses the same Boy/Girl overlay as RBY (the official Crystal gender screen needs Crystal overworld sprites). Watchdog shows it on top of the clock.
+
+## [0.14] - 2026-09-12
+
+- Gold/Silver: FieldMoves.hasGenderChoice is true so the official Gen2 Boy/Girl screen runs. Clock wrap is a fallback overlay.
+
+## [0.13] - 2026-09-12
+
+- Gold/Silver Boy/Girl is the official Gen2 gender step (same screen as Crystal), inserted before the clock.
+
+## [0.12] - 2026-09-12
+
+- Boy/Girl on Gold/Silver New Game (Gen2 intro screens + startNewGame), still one confirm.
+
+## [0.11] - 2026-09-12
+
+- Locked Crystal rows show ALL and RED / GREEN / GOLD / KRIS from game + gender.
+
+## [0.10] - 2026-09-12
+
+- Boy/Girl confirm once: removed the extra screen.pushed copy under the same window.
+
+## [0.09] - 2026-09-12
+
+- Boy/Girl only once (Oak overlay). Crystal PLAYER SPRITE and REPLACE SPRITES are locked while Force Crystal is On.
+
+## [0.08] - 2026-09-12
+
+- Boy/Girl is injected on intro.oak_speech.started (ungated) and is not tied to the Force Crystal toggle.
+- force_crystal.lua is a required component file (boot fails if it does not load).
+
+## [0.07] - 2026-09-12
+
+- Boy/Girl is an Oak-speech choice step (engine hook). Force Crystal writes save.options even if find() misses the bundle.
+
+## [0.06] - 2026-09-12
+
+- Boy/Girl also hooks Game.startNewGame and screen.pushed so New Game cannot skip it.
+
+## [0.05] - 2026-09-12
+
+- FORCE CRYSTAL SETTINGS and Boy/Girl see the bundled Crystal component (no standalone zip).
+
+## [0.04] - 2026-09-12
+
+- Crystal vendor loads species_map / animation_data / options_screen via mod:read (Recomp has no package.preload).
+
+## [0.03] - 2026-09-12
+
+- Bundle Crystal Animated Sprites with Shiny Visuals 2.0.3 (TRW). CRYSTAL submenu on the Highlander hub. Conflicts with the standalone zip.
+
+## [0.02] - 2026-09-12
+
+- ASPECT RATIO on the main Highlander list (Fill / 16:9 / 4:3) and on Battle HUD, for Gen 1 as well as Gen 2.
+
+## [0.01] - 2026-09-12
+
+- Rebrand as Project Highlander - A Modern UI Suite Fork. New mod id `project_highlander`.
+- Keep Highlander 0.2.32 QoL as-is.
+- Import from Modern UI Suite 0.1.31: expanded Gen 2 boxes, shiny dex, Gen 2 bag presentation, Fill/16:9/4:3 frames.
+
+## [0.2.32] - 2026-09-12
+
+- STEEL/FAIRY submenu: zyrancz typing charts v2.0.1, A-Z options, copyright last.
+
+## [0.2.31] - 2026-09-12
+
+- Running Shoes: use live game for starter check; restore walk frames when idle or scripted (Oak lab).
+
+## [0.2.30] - 2026-09-12
+
+- Running Shoes: RBY cannot run until a starter is in the party; Oak nag box.
+
+## [0.2.29] - 2026-09-12
+
+- Link C. plays engine Evolution.evolve (What? X is evolving!) between the two trades.
+
+## [0.2.28] - 2026-09-12
+
+- Only the stairside Mart 3F Game Boy Kid is Link C. Yes opens PartyMenu (ChoiceBox is yes/no only).
+
+## [0.2.27] - 2026-09-12
+
+- Link C. is the Celadon Mart 3F Game Boy Kid(s). Hotel spawn removed.
+
+## [0.2.26] - 2026-09-12
+
+- Link C. also spawns from core.update when map name contains HOTEL; stands at 3,1 not on the leftover PC.
+
+## [0.2.25] - 2026-09-12
+
+- Syntax: closed the hotel map_scripts pcall so the suite loads.
+
+## [0.2.24] - 2026-09-12
+
+- Link C. spawns on hotel onEnter like Dontae, sprite SPRITE_GAMEBOY_KID (Mart 3F).
+
+## [0.2.23] - 2026-09-12
+
+- Link C. spawn: YOUNGSTER only, one-shot, never touch gameboy_kid or entities.
+
+## [0.2.22] - 2026-09-12
+
+- Link C. no longer registers over the hotel script; spawn is pcall + youngster fallback.
+
+## [0.2.21] - 2026-09-12
+
+- Link C. in Celadon Hotel: Kadabra/Haunter/Graveler/Machoke trade-evolve-trade-back.
+
+## [0.2.20] - 2026-09-12
+
+- Dontae: cable text before TradeAnim, Thanks after, no early traded jingle. Sprite GAMBLER.
+
+## [0.2.19] - 2026-09-12
+
+- Dontae text uses the same \f / \n escapes as the other quest boxes.
+
+## [0.2.18] - 2026-09-12
+
+- Dontae pushes engine TradeAnim (cable-club trade movie) after the swap.
+
+## [0.2.17] - 2026-09-12
+
+- Dontae uses stock RB TRADE_DIALOGSET_EVOLUTION lines (Wanna/No/Wrong/Cable/Traded/Thanks).
+
+## [0.2.16] - 2026-09-12
+
+- Wild: append counterpart slots (no 50/50 overwrite). Yellow extras on RB maps. Dontae Jynx trade in Cerulean Center.
+
+## [0.2.15] - 2026-09-11
+
+- Fuji only if you face his tile; table tiles (book) never use his script.
+
+## [0.2.14] - 2026-09-11
+
+- Fuji quest no longer intercepts showMapText (book/sign keeps its own script).
+
+## [0.2.13] - 2026-09-11
+
+- Fuji house book/sign no longer uses Fuji dialogue (must be a person sprite).
+
+## [0.2.12] - 2026-09-11
+
+- Miguel is the Mt Moon B2F Super Nerd (trainer class allowed). Fuji is the remaining human in his house (not girl/nerd/mon/book).
+
+## [0.2.11] - 2026-09-11
+
+- Fuji house: only gentleman/Fuji sprite; Miguel only on Mt. Moon. Quest NPCs face the player.
+
+## [0.2.10] - 2026-09-11
+
+- Oak/Fuji/Dojo only match the named NPC. Fuji balls shifted up-left. Hide Hitmon ball. Wilds ADD counterpart 50% instead of replacing natives.
+
+## [0.2.09] - 2026-09-11
+
+- preSound is a function (Get_Key_Item no longer crashes TextBox).
+
+## [0.2.08] - 2026-09-11
+
+- One get-item jingle. Full ODT dialogue with page breaks. Dojo win via onFinish. Fuji balls on table stars, hide after take. Wild counterpart swap on newWild.
+
+## [0.2.07] - 2026-09-11
+
+- Dojo uses engageTrainer (no fake BLACKBELT class). Get-item jingle. Hide Oak ball. Fuji table balls. Inject version-exclusive wilds.
+
+## [0.2.06] - 2026-09-11
+
+- Fix all_pkmn_gen1.lua syntax (pcall after module end).
+
+## [0.2.05] - 2026-09-11
+
+- Gen1 Get-all: resolve Game global and wrap showMapText so ported Oak scripts cannot skip the hook.
+
+## [0.2.04] - 2026-09-11
+
+- Gen1 Get-all: badge check uses any *BADGE item / bitfield / gym flags. Oak, Dojo rematch, Miguel fossil, Fuji birds.
+
+## [0.2.03] - 2026-09-11
+
+- Pallet Mew quest now requires GEN1 GET ALL THE POKEMON (already-started hunts still run if the option is turned Off).
+
+## [0.2.02] - 2026-09-11
+
+- QoL: GEN1/GEN2 GET ALL THE POKEMON toggles. Gen1 Oak leftover starter + Mewtwo baby starter (Red/Blue).
+
+## [0.2.01] - 2026-09-11
+
+- Party summary Moves page: SELECT picks/drops a move to reorder. B cancels a pick.
+
+## [0.2.00] - 2026-09-11
+
+- Version scheme reset: Highlander QoL line is now 0.2.xx (then 0.3.00 after 0.2.99). Same features as 0.1.23.101.
+
+## [0.1.23.101] - 2026-09-10
+
+- Hide official CONTROLS by wrapping OptionsMenu.new (component row hooks never reach it).
+
+## [0.1.23.100] - 2026-09-10
+
+- Remove item shortcut binds. Hide official CONTROLS while Full Control is on.
+
+## [0.1.23.99] - 2026-09-10
+
+- Shortcut assign confirms in a text box and stores a flag. Fire from Game.keypressed. Empty slot says so.
+
+## [0.1.23.98] - 2026-09-10
+
+- Item shortcuts use BagMenu.onChoose + USE like jj_quick_select / item_shortcut.
+
+## [0.1.23.97] - 2026-09-10
+
+- Item shortcuts handle bicycle/town map/itemfinder/escape rope and poll keys/pads every frame.
+
+## [0.1.23.96] - 2026-09-10
+
+- Drop A/B N2 and Disable Select+ combos. ADD pops sort then pick item. Slightly narrower ADD/CLEAR box.
+
+## [0.1.23.95] - 2026-09-10
+
+- Shortcuts store bag item.value. ADD/CLEAR box wider. input.gamepad hook skips raw-Back Select chords.
+
+## [0.1.23.94] - 2026-09-10
+
+- Fix Full Control load error: '...' outside vararg function.
+
+## [0.1.23.93] - 2026-09-10
+
+- Full Control: right stick as D-pad when On; exclusive pad press (real Select remappable); Select+A/B swallowed; item use via ItemEffects; bag ADD/CLEAR labels.
+
+## [0.1.23.92] - 2026-09-10
+
+- Full Control replaces stock pad Start/Select/LB/RB. Right stick axes bindable when analog movement is off.
+
+## [0.1.23.91] - 2026-09-10
+
+- Full Control keeps listed order. Pad captures via Input.armCapture. Delete clears a bind.
+
+## [0.1.23.90] - 2026-09-10
+
+- Full Control menu: remap keys/pads (A/B N1+N2, triggers), analog D-pad toggles, disable Select+ combos, bag item shortcuts 1-4.
+
+## [0.1.23.89] - 2026-09-10
+
+- GS Girl: engine gender stays male; Oak speech.gender override for Kris pic; Crystal All+kris_flip skins SPRITE_CHRIS.
+
+## [0.1.23.88] - 2026-09-10
+
+- GS stores Girl in a flag only; engine gender stays male so the walker is not a red square. Oak portrait uses FLAG + Kris intro pic.
+
+## [0.1.23.87] - 2026-09-10
+
+- Split carts: Crystal official gender + Kris names/pic. GS prompt without Crystal overworld skin. RBY Force All unchanged.
+
+## [0.1.23.86] - 2026-09-10
+
+- Gold/Silver Boy-Girl prompt uses our flag only (engine default male no longer skips it).
+
+## [0.1.23.85] - 2026-09-10
+
+- Restored 0.1.23.79 gender flow. No Boy/Girl prompt on Crystal. Crystal Girl uses Kris Oak pic and female names. GS Oak Kris uses intro/kris.png colors.
+
+## [0.1.23.79] - 2026-09-10
+
+- Reverted shrink-frame override. ID portrait shifted left 16px.
+
+## [0.1.23.78] - 2026-09-10
+
+- Intro shrink update keeps the chosen player pic; baked Red/Gold stills cleared each frame.
+
+## [0.1.23.77] - 2026-09-10
+
+- Gender cursor. Skip baked shrink stills. House name uses player. Intro name presets by gender/version.
+
+## [0.1.23.76] - 2026-09-10
+
+- Gender asked on New Game before Oak. Larger RBY box. Leaf/Kris intro pic and shrink walk.
+
+## [0.1.23.75] - 2026-09-10
+
+- Boy/Girl Oak-speech step inserts before ask_player_name on RBY and Gold.
+
+## [0.1.23.74] - 2026-09-10
+
+- QoL Force Crystal Settings (needs crystal_animated_sprites_with_shiny_visuals): Boy/Girl before name, lock REPLACE ALL + player sprite.
+
+## [0.1.23.73] - 2026-09-10
+
+- QoL Pikachu Sound: Yellow (voiced PCM) or Original (chip cry).
+
+## [0.1.23.72] - 2026-09-10
+
+- Save-scoped Start colour lives only on that playthrough; no longer copies the global option.
+
+## [0.1.23.71] - 2026-09-10
+
+- Start Menu colour writes are readable again (in-memory + save/live buckets).
+
+## [0.1.23.70] - 2026-09-10
+
+- Removed Start Menu AUTO colour. Fixed palettes only, scoped Game or Save.
+
+## [0.1.23.69] - 2026-09-10
+
+- Start Menu colour choice kept in a live cache so it no longer sticks on AUTO.
+
+## [0.1.23.68] - 2026-09-10
+
+- AUTO Start colour follows the cart. Colour scope Game vs Save actually stores separately.
+
+## [0.1.23.67] - 2026-09-10
+
+- Start Menu colours: Green, Yellow, Gold, Silver, Crystal, DMG. Colour scope Game or Save.
+
+## [0.1.23.66] - 2026-09-10
+
+- Start Menu ID row uses stable builtin:trainer so swapping saves/names keeps icon order.
+
+## [0.1.23.65] - 2026-09-09
+
+- Mom: "All children leave home some day." Saffron guard: "Whoa, kid!" (Red/Blue/Yellow).
+
+## [0.1.23.64] - 2026-09-09
+
+- Catch path ensures 12 PC boxes before deposit.
+
+## [0.1.23.63] - 2026-09-09
+
+- Secret outdoor Mew tile moved to 6,11.
+
+## [0.1.23.62] - 2026-09-09
+
+- Indoor Mew despawns from entities immediately; outdoor tile 8,10.
+
+## [0.1.23.61] - 2026-09-09
+
+- Secret Mew spawn uses NPC.new and a real overworld sprite (no upstairs crash).
+
+## [0.1.23.60] - 2026-09-09
+
+- Secret Pallet Mew after 150 owned, no Mew dex, champion beaten.
+
+## [0.1.23.59] - 2026-09-09
+
+- Instant field-move option labeled INSTANT TMS AND HMS (no ampersand).
+
+## [0.1.23.58] - 2026-09-09
+
+- PokeMoves Instant row label restored to INSTANT TMS & HMS.
+
+## [0.1.23.57] - 2026-09-09
+
+- Hub rows all OPEN; SPRITE moved to Battle HUD; submenu A-Z; Instant TM label TMS & HMS.
+
+## [0.1.23.56] - 2026-09-09
+
+- Hub no longer duplicates Party ICON SOURCE as ICONS.
+
+## [0.1.23.55] - 2026-09-09
+
+- Rematch teams evolve along the level/stone/trade chain and use that learnset.
+
+## [0.1.23.54] - 2026-09-09
+
+- QOL REMATCH ANYONE: defeated trainers offer rematch; teams scale to weakest party level.
+
+## [0.1.23.53] - 2026-09-09
+
+- Start Menu MODS and POKEBOX keepOpen so B returns to START.
+
+## [0.1.23.52] - 2026-09-09
+
+- EXP.ALL marked keyItem so PC deposit/withdraw skips quantity.
+
+## [0.1.23.51] - 2026-09-09
+
+- Modern EXP Sharing: one bench summary line instead of per-mon messages.
+
+## [0.1.23.50] - 2026-09-09
+
+- Modern Bag: EXP.ALL (and other key items) in KEY ITEMS; no x1 on that pocket.
+
+## [0.1.23.49] - 2026-09-09
+
+- QOL MODERN EXP SHARING: Switch-style full fighter / half bench; Off keeps EXP.ALL item.
+
+## [0.1.23.48] - 2026-09-09
+
+- Relearn cursor inset. Running Shoes fixed at 2X; RUN SPEED option removed.
+
+## [0.1.23.47] - 2026-09-09
+
+- Relearn list uses Font.drawCode 0xED cursor.
+
+## [0.1.23.46] - 2026-09-09
+
+- MOVE RELEARNING injects RELEARN into PartyMenu.subItems (no action id).
+
+## [0.1.23.45] - 2026-09-09
+
+- POKEMOVES MOVE RELEARNING: party RELEARN, prevo learnsets, vanilla HM forget gate.
+
+## [0.1.23.44] - 2026-09-09
+
+- NO LEARN HMS also wraps OverworldState.partyKnows; looser HM/badge keys.
+
+## [0.1.23.43] - 2026-09-09
+
+- POKEMOVES NO LEARN HMS: badge + HM owned + species TMHM list unlocks field use.
+
+## [0.1.23.42] - 2026-09-09
+
+- Instant HM Select uses party-menu Fly/Dig/Teleport location gates.
+
+## [0.1.23.41] - 2026-09-09
+
+- Instant HM Select menu requires src.ui.Screens (no crash).
+
+## [0.1.23.40] - 2026-09-09
+
+- POKEMOVES INSTANT TMS & HMS: A for Cut/Surf/Strength; Select menu for Flash/Fly/Dig/Teleport.
+
+## [0.1.23.39] - 2026-09-09
+
+- POKEMOVES TMS FOREVER: TM use returns learnkept so the disc stays.
+
+## [0.1.23.38] - 2026-09-09
+
+- POKEMOVES hub row is OPEN.
+- FORGETTABLE HMS off blocks HM overwrite; on allows it.
+
+## [0.1.23.37] - 2026-09-09
+
+- Removed NPC POKÉMON.
+- New POKEMOVES submenu: FORGETTABLE HMS (MoveLearnMenu + isHM bypass).
+
+## [0.1.23.36] - 2026-09-09
+
+- NPC POKÉMON maps Fuchsia zoo objects by name/index (SPRITE_MONSTER etc.).
+
+## [0.1.23.35] - 2026-09-09
+
+- NPC POKÉMON rebuilds SpriteRenderer from Wilds sheets; label no trailing S.
+
+## [0.1.23.34] - 2026-09-09
+
+- QoL NPC POKEMONS: AUTO / ORIGINAL / MENU PACK / FOLLOWER PACK for OW mon NPCs.
+
+## [0.1.23.33] - 2026-09-09
+
+- Area-name box grows up to 18 tiles and wraps long names onto a second line.
+
+## [0.1.23.32] - 2026-09-09
+
+- QoL SPARKLING HIDDEN ITEMS: twinkle on unfound hidden items/coins.
+
+## [0.1.23.31] - 2026-09-09
+
+- QoL INFINITE SAFARI: steps stay at 999 until you leave or run out of balls.
+
+## [0.1.23.30] - 2026-09-09
+
+- QoL MODERN STORES: owned count under each BUY row in every mart.
+
+## [0.1.23.29] - 2026-09-09
+
+- Area names split camelCase and underscores: Pallet Town, Vermilion City.
+
+## [0.1.23.28] - 2026-09-09
+
+- Area name uses a large Font.drawBox so Pokeball corners return.
+
+## [0.1.23.27] - 2026-09-09
+
+- Larger rounded white area-name plate; title-case labels (Route 23).
+
+## [0.1.23.26] - 2026-09-09
+
+- Area name is a white text box; timer ticks on drawUI so it fades after 2s.
+
+## [0.1.23.25] - 2026-09-09
+
+- Area names draw on the overworld UI canvas after setMap (2s / 120 frames).
+
+## [0.1.23.24] - 2026-09-09
+
+- Suite hub rumble row label is CONT.RUMBLE.
+- QoL DISPLAY AREA NAMES (default OFF): map name at bottom-center for 2s.
+
+## [0.1.23.23] - 2026-09-08
+
+- Controller Rumble submenu (masterwebx, MIT 2026). Same options as
+  CONTROLLER_RUMBLE 1.0.3. Disable the standalone rumble mod.
+
+## [0.1.23.22] - 2026-09-08
+
+- QoL DECAPITALIZE WORDS (default OFF). Same smart-casing as the
+  Decapitalization reference mod. Disable that standalone mod if imported.
+
+## [0.1.23.21] - 2026-09-08
+
+- Split Unlimited PP onto qol.unlimited_pp so it is not the QoL master
+  switch. Running Shoes works with PP off.
+
+## [0.1.23.20] - 2026-09-08
+
+- QoL hooks no longer sit behind the old Unlimited-PP master switch, so
+  Running Shoes / Boosted EXP apply when those rows are set.
+
+## [0.1.23.19] - 2026-09-08
+
+- QoL RUNNING SHOES: OFF / HOLD B / TOGGLE B, plus RUN SPEED 1.5X or 2X.
+  Uses movement.speed; disable standalone jj_running_shoes.
+
+## [0.1.23.18] - 2026-09-08
+
+- Boosted EXP award wrapper uses pcall; engine has no debug library.
+
+## [0.1.23.17] - 2026-09-08
+
+- Fix Suite load crash: awardExp wrapper no longer uses '...' inside xpcall.
+
+## [0.1.23.16] - 2026-09-08
+
+- QOL OPEN row: only A opens the submenu. Left/right no longer does.
+
+## [0.1.23.15] - 2026-09-08
+
+- Always Boosted EXP also uses the traded "gained a boosted EXP" line.
+- Suite hub lists QOL as OPEN (submenu) instead of ON/OFF.
+
+## [0.1.23.14] - 2026-09-08
+
+- Start menu icon sheet replaced with the user's LibreSprite atlas.
+- QoL option ALWAYS BOOSTED EXP (default OFF): every participant gets the
+  traded 1.5× EXP multiplier.
+
+## [0.1.23.13] - 2026-09-08
+
+- PokeBox icon redrawn from user sketch: V-open lid flaps, square box,
+  outlined ball with equator and center button.
+
+## [0.1.23.12] - 2026-09-08
+
+- PokeBox icon: left/right lid flaps open on the diagonal, larger ball
+  with equator line and center button (both halves white).
+
+## [0.1.23.11] - 2026-09-08
+
+- Restore start-menu icon transparency (0.1.23.10 baked index 0 opaque).
+- POKEBOX opens BoxMenu (Bill's / Someone's storage) directly, not the
+  PC picker.
+
+## [0.1.23.10] - 2026-09-08
+
+- Start Menu option POKEBOX (default ON). Adds a START item that calls
+  overworld:openPC() so Modern PC UI opens. Icon is a 16x16 box with a
+  Poké Ball in front (atlas frame 32).
+
+## [0.1.23.9] - 2026-09-08
+
+- Move Colors option COLORS TO POKEMOVES (default ON). Move animations use
+  a three-stop ramp from Bulbapedia type colors. Explosion/Selfdestruct
+  use Fire; Hyper Beam keeps a violet beam. Conflicts with pokemove-colorfix.
+
+## [0.1.23.8] - 2026-09-08
+
+- Put COLORED POKEBALLS first on the Move Colors page so it is not buried
+  under the older tint rows.
+
+## [0.1.23.7] - 2026-09-08
+
+- Move Colors option COLORED POKEBALLS (default ON). Thrown balls, wide
+  party rows and the Pokémon Center machine use per-ball accents matched
+  to official art: Poké orange-red, Great blue, Ultra gold, Master purple,
+  Safari olive. Disable standalone pokeball-colorfix.
+
+## [0.1.23.6] - 2026-09-08
+
+- Battle HUD option LOW HP BEEPING: ON (stock loop), OFF (silent),
+  REDUCE (two tones when the bar first turns red, then quiet until HP
+  leaves the red). Default ON. Conflicts with mute_low_hp_alarm.
+
+## [0.1.23.5] - 2026-09-08
+
+- Revert wide-HUD position experiments from 0.1.23.2–0.1.23.4. Layout is
+  stock 0.1.23 again. Enemy HP Counter from 0.1.23.1 is kept.
+
+## [0.1.23.1] - 2026-09-08
+
+- Battle HUD option ENEMY HP COUNTER (default off). When on, the enemy HP
+  bar uses the same in-bar 5-pixel digits as the player HP bar (classic 48px
+  and wide 104px). Numbers sit on the fill, right-aligned, white on a
+  1-pixel dark edge.
+
+## [0.1.23] - 2026-09-07
+
+- Add independent Fill, 16:9 and 4:3 aspect-ratio controls to Party, Bag,
+  PC and Pokédex, including their related full-page views. Preserve native
+  Widescreen Off and Faithful Ratio preferences.
+- Prevent Gen 2's native overlay pass from drawing a second compact copy of
+  a modern menu underneath messages such as Wilds of Kanto's Follow action.
+  Native messages inherit the menu's scale on narrow displays.
+- Give Gen 1 native child scenes a complete backing at their parent's size.
+  The newer transparent evolution controller retains its actual intro
+  TextBox over opaque paper, including evolution entered through the Bag.
+  Keep centered artwork and palette/true-colour regions aligned.
+- Clip Gen 2 menu decoration to the selected aspect ratio so backdrop lines
+  cannot spill into the surrounding margins.
+
+## [0.1.22] - 2026-09-06
+
+- Fix Category Asc/Desc sorting within individual Bag pockets in Gen 1 and
+  Gen 2. Use consistent item-family priorities and numeric TM/HM order,
+  preserve the selected pocket/item and quantities, and retain sorting after
+  Gen 2 rebuilds its machine list.
+- Add independent SPRITE and ICONS controls to the suite hub. Large summary,
+  Pokédex and PC portraits can follow Battle Art or Crystal Animated Sprites,
+  or retain the existing Default handling. Preserve front-generation choices,
+  animation, shiny variants and source colours in both generations.
+- Keep small Party/PC icons separate from battle portraits. Auto, Original,
+  Menu Pack and Followers share Party's existing Icon Source preference;
+  unavailable providers fall back to the existing renderer.
+- Fix grey battle-HUD patches appearing over the Gen 1 Bag. Remember the
+  current pocket, item and scroll position across Bag visits during play,
+  including after using an item in battle.
+- Fix Gen 2 Text Only moves: retain the native list, cursor, TYPE/PP box and
+  move-reordering controls while applying legible type colours.
+- Align Gen 1 move-learning colours with the engine's actual native rows;
+  preserve native text when the layout is unknown.
+- Make the Gen 2 party selection visible on pale cards and recognize
+  translated built-in START actions when selecting their icons.
+- Draw one caught-species marker instead of a deferred six-slot party row
+  in Gen 1 battles with sprite companions. Preserve its red/white colours,
+  monochrome modes, Battle Art capture and native trainer rows.
+- Retain the Crystal sprite fixes from 0.1.21. Gen 4 source-frame padding is
+  unchanged; some animations still appear smaller in fitted menu portraits.
+
+## [0.1.21] - 2026-09-05
+
+- Fix Crystal Animated Sprites with Shiny Visuals compatibility in the Gen 2
+  Pokédex, party summary and PC previews. Preserve static and animated source
+  colours, shiny variants and companion animations; keep cartridge palettes
+  for native artwork.
+
+## 0.1.20 - 2026-09-05
+
+- Gen 2 Party: show native refusal and item-result messages with an A/B
+  acknowledgement hint. Selecting a fainted Pokémon previously left an
+  invisible message consuming input until A or B dismissed it.
+
+- Gen 2: when the party and current box are full, ordinary wild-ball attempts
+  automatically select the next box with space, wrapping from Box 14 to Box 1.
+  The selected box remains active for subsequent catches and PC visits.
+- Keep native capture data, held items, nickname prompts, Pokédex updates,
+  storage healing and specialty-ball effects. Full storage still refuses
+  without using a ball or a turn; trainer/contest/tutorial flows stay native.
+
+## 0.1.19 - 2026-09-05
+
+- Party: Select picks up a slot, Select drops/swaps, and B cancels the hold.
+  Add footer hints and preserve Gen 2 Mail ownership during swaps.
+- Fix vertical navigation getting stuck in a single-slot column, including
+  fainted-Pokémon replacement menus. Forced Gen 2 choices skip Cancel.
+- Start: add START ICON ORDER for every live native/mod action, with Left/Right
+  reordering and persistent preferences. Open Start once to discover the list.
+- Bag: add Hide All Items, Open On and a Select-based Bag Pocket Order editor.
+  Category sorting reveals its result in All Items when enabled; the selected
+  All Items backpack symbol now contrasts with its active tab.
+
+## 0.1.18 - 2026-09-05
+
+- Suppress the original Gen 1 HP bar tiles while drawing the enhanced HUD,
+  including their separate end caps. This removes the old cap protruding
+  beyond the new meter and prevents Battle Art from adding a shadow to it.
+- Apply the fix to classic battles and Battle Art's captured and fallback
+  HUDs. The lower HUD bracket remains, and HUD OFF restores the original bars.
+- Update the embedded Battle Info HUD to 0.10.1.
+
+## 0.1.17 - 2026-09-05
+
+- Replace Gen 1's separate large HP/EXP number rows with compact white
+  readouts inside coloured bars, matching the party menu arrangement.
+- Leave padding between the widescreen EXP bar and the panel's bottom border.
+- Add these meters to Battle Art's captured 3D HUD and native fallback while
+  preserving its HUD positions, scale, text contrast and scene composition.
+- Align Gender Mod's ink, captured artwork and coloured overlay to the same
+  cell, removing the offset edge beside the level. Reserve its cell when a
+  status label is visible in the widescreen panel.
+- Preserve the caught indicator and live HUD toggle; hide additions during
+  catch/nickname screens and avoid duplicate meters after HUD snapping.
+- Update the embedded Battle Info HUD to 0.10.0. Other components are unchanged.
+
+## 0.1.16 - 2026-09-05
+
+- Fix Battle Art 2.1.0's Gen 2 3D battles being covered by the suite's flat
+  battle presentation. Recognize `BATTLE_ART_VOXEL_GEN2` and query its public
+  scene contract with the live battle screen, retaining support for older
+  providers that identify scenes with the battle model.
+- Declare the new Battle Art ID as an optional dependency so it installs its
+  renderer before the suite captures that renderer.
+- Keep Battle Art's arena, sprites, camera and animation composition while
+  the suite's move cards remain available. Restore normal suite presentation
+  when no active 3D scene owns this battle.
+- Honor Battle HUD OFF immediately on an already-open Gen 2 battle.
+- Add actual-release native coverage for 3D scenes, component toggles, aspect
+  ratios, move navigation/reordering, animation and 3D OFF/ON transitions.
+- Update the embedded Battle Info HUD ledger to 0.9.4.
+
+## 0.1.15 - 2026-09-05
+
+- Corrected Gen 2 caught/nickname dialogue: native page wrapping and glyph-safe
+  long-word breaks remain visible, including the native Yes/No menu, focus,
+  timing, B cancellation and callbacks. Move/command state remains native.
+- Corrected Red's GAME move-row phase guard so FIGHT/PKMN labels are not
+  overwritten; restore row RGB after the native palette pass. Keep the player
+  HUD below the opponent picture and give the engine-wide EXP footer its own
+  border row. Existing GAME layout and third-party ownership remain intact.
+- Re-audited all 831 Gen 2 pictures and restored questionable white cutouts.
+  Silver/Crystal Goldeen now restores its complete verified native white fin,
+  including transparency already missing in the runtime's source image.
+  Exact-source guards preserve replacement sprites and original RGB/outline;
+  Gold Goldeen is unchanged. Earlier mask agreement did not prove that every
+  removed white region was background; independent preservation checks now
+  protect genuine white details and retain uncertain regions.
+- Added independent QOL → UNLIMITED PP, a single player-only On/Off control,
+  OFF by default. It works with every interface disabled, does not rewrite
+  stored PP, and keeps native Disable/opponent/link-battle rules. Bulk UI
+  switches never change it. Active battle PP uses a hand-pixelled ∞ symbol;
+  no unsupported font glyph or global text/HP substitution is used.
+- Gen 2 retains its native move menu when Move Colors is Off, including when
+  Battle HUD stays On; no empty replacement controls are left behind.
+- Retained all 0.1.14 PC group/box controls, Bag money/sorting/scrolling,
+  Pokédex actions, full-width Gen 2 2×2 moves and amber held-source indicator.
+- Published release; see RELEASE_NOTES.md for the complete changes since 0.1.12.
+- Release packaging excludes QA files and publishes detailed versioned notes.
+
+## 0.1.14 QoL test - 2026-09-05
+
+- PC: party end wrapping; optional Box Exclusive local navigation, Off by
+  default; START Multiple Selections across boxes, ordered group placement,
+  cross-party swaps and Swap Whole Party for six selected boxed Pokémon.
+  Complete-result checks and rollback preserve capacity, the usable party,
+  Eggs, Pokémon identities, move data, held items and native Mail ownership.
+- Battle: stable Left/Center/Right dialogue alignment, full-opacity-only
+  Default/Gray/White/Black neutral panels, and responsive Original/Left/Right
+  information placement in supported native/Wide presentations.
+- Normal 16:9 Gen 2 battles use a full-width 2×2 move grid with a slim Power/PP
+  strip below. Very narrow intermediate canvases retain the readable list;
+  explicit side details require sufficient width. The amber reorder border
+  now belongs to the held source move, not Power/PP; destination focus and
+  native reorder/PP/Disable/Transform behavior are preserved.
+- Bag: exact money replaces the Modern/Pocket header title in Gen 1 and Gen 2.
+  Descriptions remain still when they fit; only overflow scrolls horizontally,
+  retaining all final words and resetting on selection/content/layout changes.
+  Native prompts/actions stay static, and Gen 2 Pocket clipping respects its
+  cartridge panel. Six virtual views, sorting and full-width Modern details
+  remain intact.
+- PC/Pokédex portraits: reviewed background cutouts cover 153 species and 387
+  game/form variants across the complete 831-picture Gen 2 audit. Exact full-
+  image signatures preserve white artwork and skip unknown/modified sprites;
+  no source assets or global native picture methods are changed.
+- Preserved the existing Pokédex EVO/MOVE coexistence, Gen 2 native PC entry,
+  Mail actions, Start color labels, renderer ownership and suite OFF/ON gates.
+- Packaged QA drivers and fixtures are now explicitly excluded. This is a
+  distinct local test build; the delivered 0.1.13 archive remains unchanged.
+
+## 0.1.13 - 2026-09-05
+
+- Gen 2's Modern Bag now matches Gen 1's six views: All, Items, Medicine,
+  Balls, TMs/HMs and Key. These are filters over the four native stores,
+  retaining their capacities and each item's native actions.
+- START offers category ascending/descending and names A-Z/Z-A, preserving
+  item quantities and selection. Name-sorted TMs/HMs stay visibly sorted;
+  manual reorder and per-view cursor memory are retained. The Pocket skin
+  keeps its four-pocket presentation and also gains START sorting.
+- Kept compact Bag description and confirmation lines inside their footer,
+  including while the sort menu is open.
+- Moved Modern Bag details into a full-width bottom panel, giving all six
+  tabs and the item list the full available width. Labels step down to
+  shorter forms only when the actual tab width requires it.
+- Renamed Start menu colour choices MAP to AUTO (area-palette inheritance)
+  and DMG to GREEN (fixed classic Game Boy green). Theme labels now say
+  Colour; RED/BLUE, saved values, defaults and actual palettes are unchanged.
+- Picking up a Gen 2 battle move with Select now shows a persistent hollow
+  arrow at its source and turns the existing Power/PP panel border amber.
+  Normal move details remain visible, without added labels or instructions.
+  The focus frame still follows the destination; native input, PP and move
+  data stay authoritative, and compact move-name space is preserved.
+- Gen 2 Bill's/Someone's PC now opens the combined party-and-box grid
+  directly, with Gen 1's pickup, drop, swap, reorder and cross-box controls.
+- Native Gen 2 Item, Mail and Mailbox actions are available from START.
+  Letters follow party reordering; transfers protect Mail carriers, Eggs and
+  the last usable party member. Closing saves safely with failure retry.
+- PC integration passed 109 native checks per game on Gold, Silver and
+  Crystal using isolated imports and fixture saves.
+- Gen 2 Pokédex entries now expose MOVE: level-up moves, precisely numbered
+  compatible TMs/HMs, and Crystal tutors. Select a move for its source, type,
+  power, accuracy, PP, Gen 2 damage class and ROM/mod description. Compact
+  and wide layouts share A/B navigation.
+
+## 0.1.12 - 2026-09-04
+
+- Modern PC now themes the Gold, Silver, and Crystal storage mode chooser, so
+  the component is visible immediately instead of only after an operation is
+  selected. Native mail, box-selection, and save-confirmation states remain
+  intact.
+- Fixed Gen 2 move names collapsing to two-letter abbreviations on compact
+  widescreen layouts. Common 200px and 256px battle canvases now use four
+  readable move rows beside the Power/PP card; genuinely wide canvases retain
+  the 2x2 grid.
+- Matched Gen 2 move navigation to the visible responsive layout and reclaimed
+  excess spacing before effectiveness markers so ten-character stock names
+  remain intact when they fit.
+
+## 0.1.11 - 2026-09-04
+
+- Fixed literal `(PROMPT)` control markers appearing in Gen 3 Inspired UI
+  battle dialogue. The compatibility adapter now supplies a display-only
+  clean message while leaving the engine's queue and prompt timing unchanged.
+- Fixed overlapping move names and cursors on Gen 3 UI's in-battle move-
+  replacement screen. Typed Move Colors now yields Summary and move-learning
+  surfaces when Gen 3's Pokemon presentation owns them.
+
+## 0.1.9 - 2026-09-04
+
+- Restored visibly distinct Start Menu placement choices. **LEFT** and
+  **RIGHT** now dock to the true logical screen edges while **MID-L**,
+  **CENTER**, and **MID-R** retain their inset positions.
+- Fixed the one-frame white flash when returning from a Pokemon's Party stats
+  on portrait phones. Summary now preserves and fills the Party screen's
+  active render surface instead of reallocating a 160x144 canvas.
+
+## 0.1.8 - 2026-09-04
+
+- Fixed suite menu cursors inheriting a fast **Overworld Speed** setting.
+  Start, Party, Summary, Bag, item and Pokemon PC, Pokedex, and their child
+  prompts now consistently follow **Menu Speed** without changing battles or
+  ordinary overworld play.
+
+## 0.1.7 - 2026-09-04
+
+- Fixed the Start Menu crash in Phosphor on iPhone when Phosphor's controller
+  overlay is enabled. The overlay fallback now uses sandbox-safe device and
+  display signals instead of the blocked `love.system` module.
+
+## 0.1.6 - 2026-09-04
+
+- Fixed doubled move names and cursors in the Gen 1 GAME battle layout when a
+  localization moves the native move-list columns left for longer strings.
+- Colours are now applied while the native row is drawn, so translated names
+  retain the localization's coordinates and the stock layout stays unchanged.
+
+## 0.1.5 - 2026-09-04
+
+- Preserved active Stadium 2 battle scenes in Gold, Silver, and Crystal. The
+  Battle Info HUD now yields its stock widescreen compositor to the captured
+  3D presenter instead of replacing the arena with a centred 2D capture.
+
+## 0.1.4 - 2026-09-04
+
+- Added a Start-button Bag sorting menu with ascending and descending category
+  and item-name orders. Category sorting keeps each pocket's internal order.
+- Fixed Voxel battle gender rendering when Gender Mod and Crystal 251 are both
+  enabled: one coloured marker now owns each level instead of overlapping a
+  second black symbol.
+- Kept that provider arbitration active under **Disable All UI**, without
+  enabling any Modern UI presentation, and removed the isolated gender glyphs
+  from caught-mon nickname and PC-transfer frames.
+
+## 0.1.3 - 2026-09-03
+
+- Shortened flat-manager and component-page labels so every setting fits the
+  original 160x144 options layout on Gen 1 and Gen 2.
+- Removed unsupported percent glyphs from battle-opacity value labels.
+- Added a live options sweep that reaches all 31 persisted settings, the Start
+  icon action, and all 77 advertised values through the real menu controller.
+- Added reusable suite adapters and focused Party fixtures for complete visual
+  regression coverage of all seven embedded components.
+- Fixed the native Gen 2 proof so its settings smoke restores the Start Menu
+  master toggle before the screen matrix runs.
+
+## 0.1.0 - 2026-09-03
+
+- Combined seven current Modern UI components into one package.
+- Added live component switches and one unified settings hub.
+- Added native/downstream screen fallback and hook/event gating.
+- Added idempotent migration from standalone option buckets.
+- Kept expanded Bag storage active as a save-safety layer when its UI is off.

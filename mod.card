@@ -1,0 +1,40 @@
+return {
+  summary = "Modern screens and quality-of-life for Red/Blue/Yellow and Gold/Silver/Crystal, all in one mod.",
+  author = "Waifu4Life",
+  tags = { "ui", "quality-of-life", "cosmetic", "battle", "inventory" },
+  differences = {
+    changed = {
+      "START menu, party, summary, Bag, Pokemon storage, Pokedex and Gen 1 Trainer ID screens",
+      "Battle screen: enemy HP numbers, caught-ball marker, Gen 2 style EXP bar, coloured move animations and Poke Balls",
+      "Bag item limits (255 items)",
+    },
+    added = {
+      "One PROJECTHIGHLANDER settings menu in Options (Mechanics, System, Cosmetics)",
+      "Highlander Start Menu: full-screen, sortable, custom icons and names, clock",
+      "Highlander Party: Gen 1 style list in both generations, Gold-style summary, move descriptions",
+      "Highlander Bag: Gold/Silver/Crystal PACK in both generations, Start-button sorting per pocket",
+      "Highlander PC: one big box (240 in Gen 1, 280 in Gen 2) beside the party, grab/swap and Multiple Selections",
+      "Highlander Dex: Gold-based Pokedex with families, locations and colour codes",
+      "Battle Screen: Highlander HUD move grid, Enemy HP Counter, Low HP Beeping, Gen3 Catch Rate, Boosted EXP and Modern EXP Share",
+      "PokeMoves: Forgettable HMs, TMs Forever, Instant TMs/HMs, No Learn HMs, Move Relearning",
+      "Other Settings: Get All Pokemon, Gender Mod, running shoes, area names, modern stores, hidden-item sparkles, Repel again, rematches",
+      "Full Control, Shortcuts, Controller Rumble, Jukebox, Custom Borders and Screen Ratio",
+    },
+    known = {
+      "Turning a screen off takes effect the next time that screen opens",
+      "The bigger Bag stays active when HIGHLANDER BAG is off, to protect saves",
+      "Original cartridge save export is limited to cartridge-era item counts",
+      "Uses engine_internals to decorate the game's own screens",
+    },
+  },
+  credits = {
+    { who = "Waifu4Life", for_ = "Project Highlander" },
+    { who = "Gen1Recomp", for_ = "native mod platform, controllers, data and renderer" },
+    { who = "NikoIchu", for_ = "CC0 1-bit Pixel Icons used by the Start Menu" },
+    { who = "YoDrehDenSwagAuf", for_ = "poke_followers GSC icons (MIT, from Wilds of Kanto 2.1.9)" },
+    { who = "zyrancz", for_ = "Steel/Fairy and Typing Charts (with permission)" },
+    { who = "TRW", for_ = "Crystal Animated Sprites with Shiny Visuals (with permission)" },
+    { who = "Game Freak", for_ = "interface and storage interaction inspiration" },
+  },
+  compat = { engine = ">=0.0.0-dev <1.0.0", modApi = 2 },
+}

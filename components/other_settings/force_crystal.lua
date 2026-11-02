@@ -1,0 +1,815 @@
+-- OTHER SETTINGS > GENDER MOD (the key is still force_crystal_settings so
+-- saved choices carry over).  It picks the player's own pictures only:
+-- which trainers and overworld NPCs change is CRYSTAL > FRONT NPCS /
+-- OVERWORLD NPCS (3.70.0).
+-- Gender + Crystal art.
+-- Crystal: do not touch portraits or PLAYER SPRITE (native Boy/Girl + colors).
+-- Gold/Silver: Boy/Girl prompt; lock chosen hero; Kris Oak pic = Crystal
+--   true-color art (blue hair, not pink G/S palette).
+-- RBY: prompt + Force Crystal portraits/overworld as before.
+return function(mod)
+  local CRYSTAL_ID = "crystal_animated_sprites_with_shiny_visuals"
+  local FLAG = "HIGHLANDER_PLAYER_GENDER"
+
+  local function crystalMod()
+    if type(mod.find) == "function" then
+      local ok, found = pcall(mod.find, CRYSTAL_ID)
+      if ok and found then return found end
+      ok, found = pcall(mod.find, mod, CRYSTAL_ID)
+      if ok and found then return found end
+    end
+    local exports = package.loaded and package.loaded.__highlander_crystal_exports
+    if type(exports) == "table" then
+      return { id = CRYSTAL_ID, exports = exports }
+    end
+    return nil
+  end
+
+  local function versionId()
+    local ok, GV = pcall(require, "src.core.GameVersion")
+    if ok and type(GV) == "table" and type(GV.get) == "function" then
+      return tostring(GV.get() or "")
+    end
+    return ""
+  end
+
+  local function isCrystalCart()
+    return versionId():lower() == "crystal"
+  end
+
+  local function isGen2()
+    local ok, GV = pcall(require, "src.core.GameVersion")
+    return ok and type(GV) == "table" and type(GV.generation) == "function"
+      and GV.generation() == 2
+  end
+
+  -- Raw option (no cart gate). false only when explicitly turned off.
+  local function optionOn()
+    local ok, value = pcall(mod.options.get, mod.options, "force_crystal_settings")
+    if ok and value == false then return false end
+    return true
+  end
+
+  -- Non-Crystal carts: Force Crystal Settings drives locks.
+  -- Crystal cart: never use this for Gold/Kris file locks (see forceApply).
+  local function forceOn()
+    if isCrystalCart() then return false end
+    return optionOn()
+  end
+
+  local function crystalReady()
+    -- Bundled inside Highlander; do not require a standalone zip.
+    return true
+  end
+
+  local function liveGame(game)
+    if game and game.save then return game end
+    local ok, Game = pcall(require, "src.core.Game")
+    return ok and Game or game
+  end
+
+  -- Only our prompt writes this flag. Engine default "male" does not count.
+  local function genderChosen(game)
+    game = liveGame(game)
+    local flags = game and game.save and game.save.flags
+    local g = flags and flags[FLAG]
+    return g == "girl" or g == "boy"
+  end
+
+  local function genderOf(game)
+    game = liveGame(game)
+    local flags = game and game.save and game.save.flags
+    local g = flags and flags[FLAG]
+    if g == "girl" or g == "boy" then return g end
+    local pg = game and game.save and game.save.player and game.save.player.gender
+    if pg == "girl" or pg == "female" or pg == 2 or pg == "2" then return "girl" end
+    if pg == "boy" or pg == "male" or pg == 1 or pg == "1" then return "boy" end
+    return nil
+  end
+
+  local function setGender(game, gender)
+    game = liveGame(game)
+    if not (game and game.save) then return end
+    game.save.flags = game.save.flags or {}
+    game.save.flags[FLAG] = gender
+    game.save.player = game.save.player or {}
+    -- Gold/Silver have no female walker. Writing "female" here is the red square.
+    if not isGen2() then
+      game.save.player.gender = gender
+    end
+  end
+
+  local function wantedFiles(game)
+    local girl = genderOf(game) == "girl"
+    if isGen2() then
+      return {
+        option = girl and "kris_flip.png" or "gold_flip.png",
+        front = girl and "assets/trainers/player/kris_flip.png"
+          or "assets/trainers/player/gold_flip.png",
+      }
+    end
+    return {
+      option = girl and "green_flip.png" or "red.png",
+      front = girl and "assets/trainers/player/green_flip.png"
+        or "assets/trainers/player/red.png",
+      walk = girl and "assets/overworld/player/green.png"
+        or "assets/overworld/player/red.png",
+    }
+  end
+
+  local function crystalImage(rel)
+    local crystal = crystalMod()
+    if not (crystal and crystal.assets and type(crystal.assets.image) == "function") then
+      return nil
+    end
+    local ok, img = pcall(crystal.assets.image, crystal.assets, rel)
+    if ok and img then return img end
+    return nil
+  end
+
+  local function engineImage(path)
+    if type(path) ~= "string" then return nil end
+    local ok, img = pcall(love.graphics.newImage, path)
+    return ok and img or nil
+  end
+
+  -- RBY: Force All + hero sheet.
+  -- Gold/Silver Girl: Crystal All + kris_flip so SPRITE_CHRIS is Kris.
+  -- Engine gender stays male (a real "female" walker is the red square).
+  local function forceApply(game)
+    if not crystalReady() then return end
+    -- Crystal: never override native Boy/Girl portraits or sprite options.
+    if isCrystalCart() then return end
+    if isGen2() then
+      if not forceOn() then return end
+      game = liveGame(game)
+      local crystal = crystalMod()
+      if not (crystal and game and game.save) then return end
+      if not genderChosen(game) then return end
+      game.save.options = game.save.options or {}
+      local girl = genderOf(game) == "girl"
+      local sprite = girl and "kris_flip.png" or "gold_flip.png"
+      game.save.options.crystalPlayerSprite = sprite
+      local apply = crystal.exports and crystal.exports.applyOption
+      if type(apply) == "function" then
+        pcall(apply, "crystalPlayerSprite", sprite)
+      end
+      return
+    end
+    if not forceOn() then return end
+    game = liveGame(game)
+    if not (game and game.save) then return end
+    game.save.options = game.save.options or {}
+    local files = wantedFiles(game)
+    if game.save.options.crystalPlayerSprite == files.option then return end
+    game.save.options.crystalPlayerSprite = files.option
+    local crystal = crystalMod()
+    local apply = crystal and crystal.exports and crystal.exports.applyOption
+    if type(apply) == "function" then
+      pcall(apply, "crystalPlayerSprite", files.option)
+    end
+  end
+
+  local function dressSpeech(speech, game)
+    if not speech then return end
+    game = game or speech.game
+    -- Crystal owns its intro art and colors — do not substitute.
+    if isCrystalCart() then return end
+    if not genderOf(game) then return end
+    local files = wantedFiles(game)
+    local girl = genderOf(game) == "girl"
+    local front = crystalImage(files.front)
+    if not front and isGen2() then
+      -- Direct load from crystal component assets (fallback if assets.image fails).
+      local stem = girl and "kris_flip.png" or "gold_flip.png"
+      local crystal = crystalMod()
+      if crystal and crystal.dir then
+        front = engineImage(crystal.dir .. "/assets/trainers/player/" .. stem)
+      end
+      if not front then
+        front = engineImage("assets/trainers/player/" .. stem)
+          or engineImage("assets/generated/intro/" .. (girl and "kris.png" or "gold.png"))
+      end
+    end
+    if not front then return end
+    -- Gold/Silver: Crystal hero art (Gold jacket / Kris blue) for both genders.
+    speech.playerPic = front
+    speech.playerTrueColor = true
+    speech.playerColors = nil
+    speech.playerColorsFemale = nil
+    speech.picColors = nil
+    if girl then
+      speech.playerPicFemale = front
+    else
+      speech.playerPicMale = front
+    end
+    if isGen2() then
+      function speech:gender()
+        if genderChosen(self.game) and genderOf(self.game) == "girl" then
+          return "female"
+        end
+        return "male"
+      end
+    end
+  end
+
+  local function applyNamePresets(steps, game)
+    if type(steps) ~= "table" then return end
+    local girl = genderOf(game) == "girl"
+    local ver = versionId()
+    if ver == "" then ver = "red" end
+    local player
+    if isGen2() then
+      player = girl and { "KRIS", "CHIE", "MIKU", "MARY" }
+        or { "GOLD", "HIRO", "TAYLOR", "KARL" }
+    elseif ver == "yellow" then
+      player = girl and { "GREEN", "LEAF", "YELLOW" }
+        or { "RED", "ASH", "YELLOW" }
+    else
+      player = girl and { "GREEN", "LEAF", "SUZA" }
+        or { "RED", "ASH", "JOHN" }
+    end
+    local rival = { "BLUE", "GARY", "ASSHOLE" }
+    for _, step in ipairs(steps) do
+      if type(step) == "table" then
+        if step.id == "name_player" or (step.who == "player" and step.kind == "name") then
+          step.presets = player
+        elseif step.id == "name_rival" or (step.who == "rival" and step.kind == "name") then
+          step.presets = rival
+        end
+      end
+    end
+  end
+
+  local function wrapCrystalLock()
+    local crystal = crystalMod()
+    if not (crystal and crystal.exports and type(crystal.exports.applyOption) == "function") then
+      return
+    end
+    if crystal.exports._phForceWrapped then return end
+    crystal.exports._phForceWrapped = true
+    local orig = crystal.exports.applyOption
+    crystal.exports.applyOption = function(key, val)
+      -- Crystal: never lock sprite options from Force Crystal.
+      if isCrystalCart() then
+        return orig(key, val)
+      end
+      if forceOn() and key == "crystalPlayerSprite" then
+        local game = liveGame(nil)
+        val = wantedFiles(game).option
+        if game and game.save and game.save.options then
+          game.save.options.crystalPlayerSprite = val
+        end
+      end
+      return orig(key, val)
+    end
+  end
+
+  local function newGenderScreen(game, onPicked)
+    local Font = require("src.render.Font")
+    local Sound = require("src.core.Sound")
+    local screen = {
+      game = game,
+      index = 1,
+      isOpaque = true,
+      screenId = "ph_gender_select",
+    }
+
+    local function beep()
+      pcall(Sound.play, game and game.data, "Press_AB")
+    end
+
+    function screen:uiSize() return 160, 144 end
+
+    function screen:update()
+      local input = self.game and self.game.input
+      if not input then return end
+      if input:wasPressed("up") or input:wasPressed("down") then
+        self.index = 3 - self.index
+        beep()
+      elseif input:wasPressed("a") or input:wasPressed("start") then
+        beep()
+        local gender = self.index == 2 and "girl" or "boy"
+        setGender(self.game, gender)
+        forceApply(self.game)
+        if self.game.stack and type(self.game.stack.pop) == "function" then
+          local top = type(self.game.stack.top) == "function" and self.game.stack:top()
+          if top == self then self.game.stack:pop() end
+        end
+        if onPicked then onPicked(gender) end
+      end
+    end
+
+    function screen:draw()
+      love.graphics.push("all")
+      love.graphics.setColor(1, 1, 1, 1)
+      love.graphics.rectangle("fill", 0, 0, 160, 144)
+
+      local bx, by, bw, bh = 48, 24, 64, 56
+      love.graphics.setColor(0, 0, 0, 1)
+      love.graphics.rectangle("fill", bx, by, bw, bh)
+      love.graphics.setColor(1, 1, 1, 1)
+      love.graphics.rectangle("fill", bx + 2, by + 2, bw - 4, bh - 4)
+      love.graphics.setColor(0, 0, 0, 1)
+      local function arrow(x, y)
+        for row = 0, 6 do
+          local w = row <= 3 and (row + 1) or (7 - row)
+          love.graphics.rectangle("fill", x, y + row, w, 1)
+        end
+      end
+      if self.index == 1 then arrow(bx + 8, by + 14) end
+      Font.draw("BOY", bx + 20, by + 12)
+      if self.index == 2 then arrow(bx + 8, by + 34) end
+      Font.draw("GIRL", bx + 20, by + 32)
+
+      local tx, ty, tw, th = 8, 96, 144, 40
+      love.graphics.setColor(0, 0, 0, 1)
+      love.graphics.rectangle("fill", tx, ty, tw, th)
+      love.graphics.setColor(1, 1, 1, 1)
+      love.graphics.rectangle("fill", tx + 2, ty + 2, tw - 4, th - 4)
+      love.graphics.setColor(0, 0, 0, 1)
+      Font.draw("Are you a boy?", tx + 8, ty + 8)
+      Font.draw("Or a girl?", tx + 8, ty + 22)
+      love.graphics.pop()
+    end
+
+    return screen
+  end
+
+  local genderPromptOpen = false
+  local function askGender(game, speech)
+    if isCrystalCart() or genderChosen(game) or genderPromptOpen then return end
+    if not (game and game.stack and type(game.stack.push) == "function") then return end
+    genderPromptOpen = true
+    game.stack:push(newGenderScreen(game, function()
+      genderPromptOpen = false
+      forceApply(game)
+      dressSpeech(speech, game)
+      if speech then applyNamePresets(speech.steps, game) end
+    end))
+  end
+
+  local pushingOak
+  pcall(function()
+    local Screens = require("src.ui.Screens")
+    if type(Screens) ~= "table" or type(Screens.push) ~= "function" then return end
+    if Screens._phGenderWrap then return end
+    Screens._phGenderWrap = true
+    local origPush = Screens.push
+    function Screens.push(game, name, ...)
+      local clock = type(name) == "string"
+        and (name == "Gen2InitClock" or name == "InitClock")
+      if clock and not isCrystalCart() and not genderChosen(game) then
+        if genderPromptOpen then return true end
+        genderPromptOpen = true
+        local args = { n = select("#", ...), ... }
+        game.stack:push(newGenderScreen(game, function()
+          genderPromptOpen = false
+          forceApply(game)
+          origPush(game, name, (table.unpack or unpack)(args, 1, args.n))
+        end))
+        return true
+      end
+      return origPush(game, name, ...)
+    end
+  end)
+
+  pcall(function()
+    local GS = require("src.ui.gen2.GenderSelect")
+    if type(GS) ~= "table" or type(GS.choose) ~= "function" then return end
+    if GS._phGenderHook then return end
+    GS._phGenderHook = true
+    local orig = GS.choose
+    function GS.choose(self, index)
+      local result = orig(self, index)
+      if not isCrystalCart() then return result end
+      local picked = self and self.chosen
+      local girl = picked == "female" or picked == "girl" or picked == 2
+      setGender(self and self.game, girl and "girl" or "boy")
+      return result
+    end
+  end)
+
+  pcall(function()
+    if not (mod.hooks and type(mod.hooks.wrap) == "function") then return end
+    mod.hooks:wrap("intro.oak_speech.build", function(next, steps, speech)
+      steps = next(steps, speech) or steps
+      if not isCrystalCart() then
+        applyNamePresets(steps, speech and speech.game)
+      end
+      return steps
+    end, 1000)
+  end)
+
+  local function wrapOakNew(path)
+    local ok, Oak = pcall(require, path)
+    if not ok or type(Oak) ~= "table" then return end
+    if type(Oak.new) == "function" and not Oak._phGenderArt then
+      Oak._phGenderArt = true
+      local origNew = Oak.new
+      function Oak.new(game, onDone, extra)
+        local speech = origNew(game, onDone, extra)
+        -- Crystal: never dress or force — native intro only.
+        if isCrystalCart() then return speech end
+        if type(speech) == "table" then
+          forceApply(game)
+          dressSpeech(speech, game)
+        end
+        return speech
+      end
+    end
+    if type(Oak.playerPicNow) == "function" and not Oak._phPicNow then
+      Oak._phPicNow = true
+      local origNow = Oak.playerPicNow
+      function Oak.playerPicNow(self)
+        -- Crystal: always native path.
+        if isCrystalCart() then return origNow(self) end
+        if self and self.playerPic and self.playerTrueColor then
+          return self.playerPic, nil
+        end
+        if self and self.playerPicFemale and genderOf(self.game) == "girl" then
+          return self.playerPicFemale, nil
+        end
+        if self and self.playerPicMale and genderOf(self.game) == "boy" then
+          return self.playerPicMale, nil
+        end
+        return origNow(self)
+      end
+    end
+  end
+  wrapOakNew("src.ui.OakSpeech")
+  wrapOakNew("src.ui.gen2.OakSpeech")
+
+  -- Gen2 Oak intro: force Crystal hero art when the speech is showing the player.
+  -- drawPic is the path that actually blits the portrait (marill/oak/player).
+  pcall(function()
+    local Oak = require("src.ui.gen2.OakSpeech")
+    if type(Oak) ~= "table" or Oak._phTrueColorDraw then return end
+    Oak._phTrueColorDraw = true
+    if type(Oak.drawPic) == "function" then
+      local origDrawPic = Oak.drawPic
+      function Oak:drawPic(...)
+        if not isCrystalCart() and self and self.playerTrueColor and self.playerPic then
+          local want = self.playerPic
+          local pic = self.pic
+          local isDemo = self.__crystalDemoAnim and pic
+            and self.__crystalDemoAnim.byImage
+            and self.__crystalDemoAnim.byImage[pic]
+          local isOak = self.oakPic and pic == self.oakPic
+          local isRival = self.rivalPic and pic == self.rivalPic
+          -- The engine's own Marill demo pic (the vendor's animated frames
+          -- are caught by isDemo above, but when that animation isn't active
+          -- the native marillPic is what's on screen -- it must never be
+          -- swapped for the player's portrait).
+          local isMarill = self.marillPic and pic == self.marillPic
+          if want and pic and not isDemo and not isOak and not isRival
+              and not isMarill then
+            -- Player portrait slot (not Oak, rival, or Marill demo).
+            self.pic = want
+            self.picColors = nil
+          elseif want and pic == want then
+            self.picColors = nil
+          end
+        end
+        return origDrawPic(self, ...)
+      end
+    end
+    if type(Oak.draw) == "function" then
+      local origDraw = Oak.draw
+      function Oak:draw(...)
+        if not isCrystalCart() and self and self.playerTrueColor and self.playerPic then
+          local lgSetColor = love.graphics.setColor
+          love.graphics.setColor(1, 1, 1, 1)
+          local ok, err = pcall(origDraw, self, ...)
+          love.graphics.setColor = lgSetColor
+          if not ok then error(err) end
+          return
+        end
+        return origDraw(self, ...)
+      end
+    end
+  end)
+
+
+  local function injectGenderStep(steps)
+    if isCrystalCart() then return steps end
+    if type(steps) ~= "table" then return steps end
+    if steps[1] and steps[1].id == "ph_gender" then return steps end
+    table.insert(steps, 1, {
+      id = "ph_gender",
+      kind = "choice",
+      saveKey = "ph_gender",
+      text = "Are you a boy?\nOr a girl?",
+      choices = { "BOY", "GIRL" },
+      values = { "boy", "girl" },
+    })
+    return steps
+  end
+
+  if mod.events and type(mod.events.always) == "function" then
+    mod.events:always("intro.oak_speech.started", function(ev)
+      if not ev or isCrystalCart() or isGen2() then return end
+      local speech = ev.speech
+      askGender((speech and speech.game) or liveGame(nil), speech)
+    end, 10000)
+  end
+
+  if mod.events and type(mod.events.on) == "function" then
+    mod.events:on("intro.oak_speech.answered", function(ev)
+      if not ev then return end
+      local game = ev.speech and ev.speech.game
+      if ev.saveKey == "gender" or ev.saveKey == "ph_gender" then
+        local v = ev.value
+        local girl = v == "girl" or v == "female" or v == 2 or v == "2" or v == "GIRL"
+        setGender(game, girl and "girl" or "boy")
+        forceApply(game)
+        dressSpeech(ev.speech, game)
+      end
+    end)
+    mod.events:on("intro.oak_speech.step", function(ev)
+      if ev and ev.speech then
+        dressSpeech(ev.speech, ev.speech.game)
+        applyNamePresets(ev.speech.steps, ev.speech.game)
+        if ev.step and ev.step.kind == "name" then
+          applyNamePresets({ ev.step }, ev.speech.game)
+        end
+      end
+    end)
+    mod.events:on("game.ready", function(ev)
+      wrapCrystalLock()
+      forceApply(ev and ev.game)
+      if isGen2() and not isCrystalCart() then
+        local game = ev and ev.game or liveGame(nil)
+        local save = game and game.save
+        if save and save.player then
+          local g = save.player.gender
+          if g == "female" or g == "girl" then
+            save.flags = save.flags or {}
+            if save.flags[FLAG] ~= "boy" then save.flags[FLAG] = "girl" end
+            save.player.gender = "male"
+          end
+        end
+      end
+    end)
+    mod.events:on("save.created", function()
+      wrapCrystalLock()
+    end)
+    mod.events:on("save.loaded", function()
+      wrapCrystalLock()
+      forceApply(liveGame(nil))
+    end)
+  end
+
+  local function wrapTrainerCard(path)
+    local ok, Card = pcall(require, path)
+    if not ok or type(Card) ~= "table" then return end
+    -- Re-wrapped on every load from the engine's original draw, so a game
+    -- switch or mod update never leaves an old copy in charge.
+    Card.__phGenderOrig = Card.__phGenderOrig or {}
+    -- The stock card draws the portrait at (120, 8) through a quad sized by
+    -- self.picW / self.picH. Newer Recomp builds made that window smaller
+    -- than our Green/Red art, so the hand, hair and feet were cut off.
+    -- Instead of the engine's window we now draw the whole picture: the
+    -- transparent margins are trimmed once per image, and what is left is
+    -- set against the right edge of the card's top frame and centred
+    -- vertically inside it. Art taller or wider than the frame is clipped
+    -- to it rather than drawn over the border.
+    local STOCK_X, STOCK_Y = 120, 8
+    local BOX_RIGHT, BOX_TOP, BOX_BOTTOM, BOX_LEFT = 155, 5, 59, 96
+    local bounds = setmetatable({}, { __mode = "k" })
+
+    local function contentBounds(img, rawDraw)
+      local hit = bounds[img]
+      if hit ~= nil then return hit or nil end
+      local result = false
+      pcall(function()
+        local w, h = img:getDimensions()
+        local canvas = love.graphics.newCanvas(w, h)
+        love.graphics.push("all")
+        love.graphics.setCanvas(canvas)
+        love.graphics.setScissor()
+        love.graphics.clear(0, 0, 0, 0)
+        love.graphics.setShader()
+        love.graphics.setBlendMode("alpha")
+        love.graphics.setColor(1, 1, 1, 1)
+        love.graphics.origin()
+        rawDraw(img, 0, 0)
+        love.graphics.pop()
+        local data = canvas:newImageData()
+        local x1, y1, x2, y2 = w, h, -1, -1
+        local colored = false
+        for y = 0, h - 1 do
+          for x = 0, w - 1 do
+            local r, g2, b2, a = data:getPixel(x, y)
+            if a > 0.05 and not colored
+                and math.max(r, g2, b2) - math.min(r, g2, b2) > 0.08 then
+              colored = true
+            end
+            if a > 0.05 then
+              if x < x1 then x1 = x end
+              if x > x2 then x2 = x end
+              if y < y1 then y1 = y end
+              if y > y2 then y2 = y end
+            end
+          end
+        end
+        canvas:release()
+        if x2 >= x1 and y2 >= y1 then
+          result = { x = x1, y = y1, w = x2 - x1 + 1, h = y2 - y1 + 1,
+            iw = w, ih = h, colored = colored }
+        end
+      end)
+      bounds[img] = result
+      return result or nil
+    end
+
+    local function placement(self, rawDraw)
+      local img = self and self.pic
+      if not img then return nil end
+      local cached = self._phPicPlace
+      if cached and cached.img == img then return cached end
+      local b = contentBounds(img, rawDraw)
+      if not b then
+        local iw, ih = img:getDimensions()
+        b = { x = 0, y = 0, w = iw, h = ih, iw = iw, ih = ih }
+      end
+      local maxW, maxH = BOX_RIGHT - BOX_LEFT, BOX_BOTTOM - BOX_TOP
+      local w, h = math.min(b.w, maxW), math.min(b.h, maxH)
+      -- Clip evenly from both sides if the art is wider than the frame,
+      -- and from the bottom if it is taller.
+      local sx = b.x + math.floor((b.w - w) / 2)
+      local place = {
+        img = img,
+        quad = love.graphics.newQuad(sx, b.y, w, h, b.iw, b.ih),
+        x = BOX_RIGHT - w,
+        y = BOX_TOP + math.floor((maxH - h) / 2),
+        w = w, h = h,
+      }
+      self._phPicPlace = place
+      return place
+    end
+
+    if type(Card.draw) == "function" then
+      Card.__phGenderOrig.draw = Card.__phGenderOrig.draw or Card.draw
+      local origDraw = Card.__phGenderOrig.draw
+      function Card.draw(self, ...)
+        local lg = love.graphics.draw
+        -- A Gender Mod / Crystal portrait is full-colour art. The engine only
+        -- learns that through a flag that doesn't always come back from the
+        -- picture hook, so ask the Crystal component directly, then check
+        -- the picture itself.
+        if self and self.pic and not self.picTrueColor then
+          local why
+          pcall(function()
+            local h = mod.find and mod.find("crystal_animated_sprites_with_shiny_visuals")
+            local ex = h and h.exports
+            if ex and type(ex.isCrystalImage) == "function" and ex.isCrystalImage(self.pic) then
+              why = "crystal image"
+            elseif ex and type(ex.playerArtPath) == "function"
+                and ex.playerArtPath("front", "trainer_card") then
+              why = "gender mod art"
+            end
+          end)
+          if not why then
+            local b = contentBounds(self.pic, lg)
+            if b and b.colored then why = "coloured pixels" end
+          end
+          if why then
+            self.picTrueColor = true
+            self.__phTrueColorWhy = why
+          end
+        end
+        love.graphics.draw = function(img, quad, x, y, ...)
+          if self and img == self.pic and not self.__phLogged then
+            self.__phLogged = true
+            pcall(function()
+              local iw, ih = img:getDimensions()
+              local line = ("trainer card: portrait drawn at %s,%s, picture %dx%d, engine window %sx%s, our draw=%s, trueColor=%s"):format(
+                tostring(x), tostring(y), iw, ih, tostring(self.picW), tostring(self.picH),
+                tostring(Card.draw == Card.__phOurDraw), tostring(self.picTrueColor) .. " (" .. tostring(self.__phTrueColorWhy or "engine flag") .. ")")
+              mod.log:info("%s", line)
+              local fs = love and love.filesystem
+              if fs and fs.append then
+                fs.append("highlander_gen1_diag.txt", os.date("%H:%M:%S ") .. line .. "\n")
+              end
+            end)
+          end
+          if self and img == self.pic and type(x) == "number" and type(y) == "number"
+              and math.abs(x - STOCK_X) <= 16 and math.abs(y - STOCK_Y) <= 16 then
+            local place = placement(self, lg)
+            if place then
+              return lg(img, place.quad, place.x, place.y)
+            end
+          end
+          return lg(img, quad, x, y, ...)
+        end
+        local okMark, PaletteFX = pcall(require, "src.render.PaletteFX")
+        local mark = okMark and PaletteFX and PaletteFX.markTrueColor
+        if mark then
+          PaletteFX.markTrueColor = function(x, y, w, h)
+            if type(x) == "number" and type(y) == "number"
+                and math.abs(x - STOCK_X) <= 16 and math.abs(y - STOCK_Y) <= 16 then
+              local place = placement(self, lg)
+              if place then
+                return mark(place.x, place.y, place.w, place.h)
+              end
+            end
+            return mark(x, y, w, h)
+          end
+        end
+        local okCall, err = pcall(origDraw, self, ...)
+        love.graphics.draw = lg
+        if mark then PaletteFX.markTrueColor = mark end
+        if not okCall then error(err, 0) end
+      end
+      Card.__phOurDraw = Card.draw
+    end
+  end
+  wrapTrainerCard("src.ui.TrainerCard")
+  wrapTrainerCard("src.ui.gen2.TrainerCard")
+
+  -- Gen2 Trainer ID: force Crystal gold_flip / kris_flip portrait when Force
+  -- Crystal (or our gender lock) is active. Backup if crystal customPlayer path misses.
+  pcall(function()
+    local Card = require("src.ui.gen2.TrainerCard")
+    if type(Card) ~= "table" or type(Card.drawPortrait) ~= "function" then return end
+    if Card._phCrystalPortrait then return end
+    Card._phCrystalPortrait = true
+    local orig = Card.drawPortrait
+    function Card:drawPortrait(...)
+      if isCrystalCart() then
+        return orig(self, ...)
+      end
+      local game = self and self.game or liveGame(nil)
+      if not genderChosen(game) and not forceOn() then
+        return orig(self, ...)
+      end
+      local girl = genderOf(game) == "girl"
+      local stem = girl and "kris_flip.png" or "gold_flip.png"
+      local img = crystalImage("assets/trainers/player/" .. stem)
+      if not img then
+        local crystal = crystalMod()
+        if crystal and crystal.dir then
+          img = engineImage(crystal.dir .. "/assets/trainers/player/" .. stem)
+        end
+      end
+      if not img then
+        return orig(self, ...)
+      end
+      local w, h = img:getDimensions()
+      local scale = math.min((6 * 8) / w, (7 * 8) / h)
+      local G = love.graphics
+      G.setColor(1, 1, 1, 1)
+      G.draw(img, 14 * 8, 1 * 8 + ((7 * 8) - h * scale) - 4, 0, scale, scale)
+    end
+  end)
+
+  local ticks = 0
+  -- New Game always goes through Game.startNewGame; Screens.push can miss
+  -- YellowIntro / a cached Screens table. Ask on top of the intro.
+  pcall(function()
+    local Game = require("src.core.Game")
+    if type(Game) ~= "table" or type(Game.startNewGame) ~= "function" then return end
+    if Game._phGenderNewGame then return end
+    Game._phGenderNewGame = true
+    local orig = Game.startNewGame
+    function Game.startNewGame(self, opts)
+      orig(self, opts)
+    end
+  end)
+
+
+  pcall(function()
+    if not (mod.hooks and type(mod.hooks.wrap) == "function") then return end
+    mod.hooks:wrap("ui.title_menu.items", function(next, game, items)
+      items = next(game, items) or items
+      if type(items) ~= "table" then return items end
+      for _, row in ipairs(items) do
+        if type(row) == "table" and type(row.onSelect) == "function"
+            and tostring(row.label or ""):upper():find("NEW GAME", 1, true) then
+          local inner = row.onSelect
+          row.onSelect = function(...)
+            return inner(...)
+          end
+        end
+      end
+      return items
+    end)
+  end)
+
+  pcall(function()
+    mod.hooks:wrap("core.update", function(nextFn, game, dt)
+      local result = nextFn(game, dt)
+      -- RBY only re-assert. Crystal untouched. Gold/Silver apply at gender pick.
+      if forceOn() and crystalReady() and not isGen2() then
+        ticks = ticks + 1
+        if ticks >= 20 then
+          ticks = 0
+          wrapCrystalLock()
+          forceApply(game)
+        end
+      end
+      return result
+    end)
+  end)
+end
