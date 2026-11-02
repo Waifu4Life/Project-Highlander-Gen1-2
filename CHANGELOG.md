@@ -1,3 +1,6 @@
+## [1.59.0] — Unlimited PP is back
+- BATTLE SCREEN: new UNLIMITED PP (Off by default). Rewritten from scratch for Red/Blue/Yellow/Green and Gold/Silver/Crystal: your active Pokémon's moves never lose PP (Gen 2's Spite on you included); PP that goes up, like a Berry's, is kept. Link battles keep the normal rules.
+
 ## [1.58.0] — Jukebox preview, Green Start Menu, Pokédex Pictures OG/CRYSTAL
 - JUKEBOX: SELECT on a song plays it right away, looping (its row shows PLAY), until SELECT is pressed on it again or you leave the JUKEBOX sub-menu; SELECT on another song switches to it. The music from before (or the playing Jukebox song) comes back afterwards.
 - START MENU > COLOUR: AUTOMATIC now uses the Green colour when OTHER SETTINGS > BLUE INTO GREEN is On, like Custom Borders. A colour chosen per Game for Blue is kept. Highlander PC follows it too.

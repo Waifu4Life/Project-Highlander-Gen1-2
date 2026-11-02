@@ -34,6 +34,10 @@ See the [README](https://github.com/Waifu4Life/Project-Highlander-Gen1-2#readme)
 - **Disable or remove** the old *Project Highlander (Modern UI Suite Fork)* and *Modern UI Suite* — they conflict with this mod.
 - Settings were renamed in 1.51.0, so options start from their defaults. Saves and the data stored in them (Item Shortcuts, Start Menu layout) keep working.
 
+## Changes in 1.59.0
+
+- **Battle Screen**: Unlimited PP is back, rewritten from scratch (Off by default).
+
 ## Changes in 1.58.0
 
 - **Jukebox**: SELECT on a song plays it, looping, until you press SELECT on it again or leave the Jukebox page. SELECT on another song switches to it.

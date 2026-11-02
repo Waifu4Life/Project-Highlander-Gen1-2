@@ -1,6 +1,6 @@
 -- Battle Screen. Its page shows rows from three components:
 --   this one        ENEMY HP COUNTER, HIGHLANDER HUD, LOCK OG LAYOUT,
---                   LOW HP BEEPING
+--                   LOW HP BEEPING, UNLIMITED PP (unlimited_pp.lua)
 --   Move Colours    COLORED MOVES, COLORED POKEBALLS
 --   Other Settings  GEN3 CATCH RATE, GET BOOSTED EXP, MODERN EXP SHARE
 -- Always on (no row): the Gen 1 EXP bar and the caught-ball marker.
@@ -19,6 +19,9 @@ return function(mod)
         { "OFF", "off" },
         { "REDUCE", "reduce" },
       } },
+    -- Off by default: borderline cheating
+    { key = "unlimited_pp", label = "UNLIMITED PP", type = "toggle",
+      default = false },
   })
 
   -- ON = stock looping siren. OFF = silent. REDUCE = two tones when the
@@ -108,6 +111,9 @@ return function(mod)
   local GameVersion = require("src.core.GameVersion")
   local generation = type(GameVersion.generation) == "function"
     and GameVersion.generation() or 1
+  local okPp, errPp = pcall(function() return mod:load("unlimited_pp.lua")(mod) end)
+  if not okPp then mod.log:error("unlimited PP failed: %s", tostring(errPp)) end
+
   local file = generation == 2 and "gen2.lua" or "gen1.lua"
   local ok, err = pcall(function() return mod:load(file)(mod) end)
   if not ok then
