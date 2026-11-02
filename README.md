@@ -33,7 +33,7 @@ Project Highlander Gen1+2 replaces the Start Menu, Party, Bag, PC, Pokédex and 
 | Host game | **Gen1 Recomp (G1R / G1R Deluxe)** with Mod API 2 (engine `>=0.0.0-dev <1.0.0`) |
 | Supported games | Pokémon **Red, Blue, Yellow** (Gen 1) and **Gold, Silver, Crystal** (Gen 2). Blue can also be played as **Green** (see *Blue Into Green*). |
 | Permission | `engine_internals` — needed to redraw the game's own screens |
-| Optional | **Pokémon Crystal installed in G1R** — unlocks Crystal's animated Pokémon sprites, animations and shiny colours in the other five games (see *Crystal*) |
+| Optional | **Pokémon Crystal installed in G1R** — unlocks Crystal's animated Pokémon sprites, animations in the other five games (see *Crystal*) |
 | Optional | A controller with rumble support for *Cont. Rumble* |
 
 Tested on Windows PC, Steam Deck and Android (Galaxy S24).
@@ -76,7 +76,7 @@ A full-screen Start Menu (160×144, the cart's own font) with 2 columns × 5 row
 - **COLOUR**: Automatic (follows the cart, Green for Blue-as-Green), Red, Blue, Green, Yellow, Gold, Silver, Crystal.
 - **COLOUR SCOPE**: per Game or per Save.
 - **CLOCK**: Off, Device (`Sun 2026-10-18 23:50`), Play time, In-Game (Gold/Silver/Crystal) or **Rotation** (default, cycles every 3 s).
-- **CUSTOM ICONS**: pick a 16×16 icon for any tile.
+- **CUSTOM ICONS**: pick a 16×16 icon for non-system tiles.
 - **CUSTOM RENAME**: rename any tile, up to 6 characters, with the game's keyboard (empty name = default).
 - **HIDE ITEMS**: show/hide POKEBOX, MODS and other mods' tiles; put any mod's Options page (ProjectHighlander included) on the Start Menu as a shortcut.
 - **SORT MENU** (also SELECT on the Start Menu): move tiles around, including QUIT, and leave empty gaps.
@@ -88,15 +88,14 @@ A full-screen Start Menu (160×144, the cart's own font) with 2 columns × 5 row
 - **SELECT** picks up a Pokémon to swap it with another.
 - The A menu is a centred box in a fixed order: Stats, (Gen 2: Move, Item), Switch, Relearn, Rename, Dismiss/Follow, TM field moves, HM field moves, Cancel.
 - **RENAME** any Pokémon, traded ones included.
-- Gold-style 3-page summary (Pink: HP/status/types/EXP · Green: item and coloured moves table · Blue: ID, OT, stats).
-- Gen 1 gets Gold's move screen: type, power and Crystal's move descriptions, and reorder moves with A.
+- Gen2-style 3-page summary (Pink: HP/status/types/EXP · Green: item and coloured moves table · Blue: ID, OT, stats).
+- Gen 1 gets Gen2's move screen: type, power and Crystal's move descriptions, and reorder moves with A.
 
 ### Highlander Bag
-- Gold/Silver/Crystal's **PACK** in both generations (rebuilt from scratch for Gen 1 with four pockets: Items, Balls, Key Items, TM/HM).
+- Gen2's **PACK** in both generations (rebuilt from scratch for Gen 1 with four pockets: Items, Balls, Key Items, TM/HM).
 - Money in the header and a used/255 counter.
 - **START: SORT** per pocket: Category Asc/Desc, Names A-Z/Z-A. TM/HM pocket in number order unless name-sorted (kept in the save).
 - **SELECT** moves an item inside its pocket.
-- Opening pocket choice: Off, Default Items, Default TMs/HMs, Default Balls, Default KeyItems or **Last Opened** (default), in and out of battle.
 - A description for every Gen 1 item; TMs/HMs show their move's.
 
 ### Highlander PC
@@ -110,13 +109,13 @@ A full-screen Start Menu (160×144, the cart's own font) with 2 columns × 5 row
 - Colours follow the Start Menu colour; icons follow *PokéIcons*.
 
 ### Highlander Dex
-A Gold-based Pokédex for all six games, drawn at Game Boy size and framed in each game's colour.
+A Gen2-based Pokédex for all six games, drawn at Game Boy size and framed in each game's colour.
 
 - Main list with full-colour pictures, page jumps, OPTION (Gen 1: Pokédex/A-Z mode; Gen 2: New/Old/A-Z/Unown) and SEARCH by type in both gens.
 - Entry page: number, catch rate, both types in colour, and **INFO, AREA, CRY, PRNT, STATS, FAMILY, MOVES**.
-- **AREA**: nest map plus a Locations chart (sort by location, level or rate; SELECT for colour codes).
+- **AREA**: nest map plus a Locations chart by hittin Select (sort by location, level or rate; SELECT for colour codes).
 - **STATS**: base stats and total. **FAMILY**: one page per evolution line with methods. **MOVES**: level-up, TM/HM, egg and Crystal tutor moves, each with power/accuracy/PP/description.
-- **PRNT** works in Red and Blue too.
+- **PRNT** works in Gen1 too.
 - Seen-only Pokémon grey out INFO and MOVES, like the originals.
 
 ---
@@ -127,14 +126,14 @@ A Gold-based Pokédex for all six games, drawn at Game Boy size and framed in ea
 | Option | Default | What it does |
 | --- | --- | --- |
 | **Highlander HUD** | On | FIGHT opens a 3-column grid: type-coloured move names, PP lined up on "/", and 0x / ½x / 1x / 2x effectiveness icons against the current foe (Steel/Dark/Fairy aware). START shows a type-colour and effectiveness help screen. |
-| Colored Moves | On | Move animations take their type's colour. |
-| Colored Pokeballs | On | Poké Balls are drawn in their own colours. |
+| Colored Moves | On | Move animations take their type's colour. (Gen1 only) |
+| Colored Pokeballs | On | Poké Balls are drawn in their own colours. (Gen1 only) |
 | Enemy HP Counter | On | Shows the foe's HP as numbers under its bar. |
 | Gen3 Catch Rate | On | Gen 3 catch formula (Apricorn balls use HGSS modifiers). |
 | Get Boosted EXP | On | Every Pokémon earns traded-Pokémon EXP. |
 | Lock OG Layout | On | Keeps the battle on the cartridge's 160×144 layout. Off allows WIDE again. |
 | Low HP Beeping | Reduce | On / Off / Reduce. |
-| Modern EXP Share | On | Pokémon that didn't fight share half EXP, announced in one line. Off = use the Gen 1 Exp. All item. |
+| Modern EXP Share | On | Pokémon that didn't fight share half EXP, announced in one line. Off = Whatever EXP share the games used before. |
 
 ### Overworld Screen
 | Option | Default | What it does |
@@ -142,7 +141,7 @@ A Gold-based Pokédex for all six games, drawn at Game Boy size and framed in ea
 | Modern Stores | On | Shows how many of the highlighted item you own in Poké Mart lists. |
 | Rematch Anyone | On | Battle trainers again. |
 | Running Shoes | Hold B | Off / Hold B / Toggle B. Gen 1 keeps a short sneakers story from Mom; Gen 2 can run from the start. |
-| Show Area Names | On | The area's name pops up when you enter it. |
+| Show Area Names | On | The area's name pops up when you enter it. In Crystal, this adds to it's own function by showing the name of inside houses and buildings.|
 | Sparkling Hidden Items | On | Unfound hidden items twinkle on the map. |
 | Use Repel Again? | On | Offers another Repel of the same kind when one wears off. |
 
@@ -150,7 +149,7 @@ A Gold-based Pokédex for all six games, drawn at Game Boy size and framed in ea
 | Option | Default | What it does |
 | --- | --- | --- |
 | Forgettable HMs | On | HMs can be deleted like any move. |
-| Instant TMs/HMs | On | Use field moves straight away; field moves also appear in the SELECT menu. |
+| Instant TMs/HMs | On | Use field moves like Cut and Surf straight away by pressing the A button; passive field moves like Fly and Flash appear in the SELECT menu. |
 | Move Relearning | On | **Relearn** in the Party menu. |
 | No Learn HMs | On | Use an HM field move without teaching it, if the Pokémon could learn it and you have the badge and the HM. |
 | TMs Forever | On | TMs are not used up. |
@@ -169,7 +168,7 @@ A Gold-based Pokédex for all six games, drawn at Game Boy size and framed in ea
 
 Works in Gen 1 and Gen 2.
 
-### Safari Zone *(Red/Blue/Yellow/Green)*
+### Safari Zone *(Gen1)*
 | Option | Default | What it does |
 | --- | --- | --- |
 | Infinite Safari | On | No step limit. |
@@ -186,7 +185,7 @@ Type-chart presets: **Vanilla**, **Gen II (Steel + Dark)**, **Gen VI (Steel + Da
 ### Other Settings
 | Option | Default | What it does |
 | --- | --- | --- |
-| **Highlander Bag** | Last Opened | Highlander Bag on/off and its opening pocket. |
+| **Highlander Bag** | Last Opened | Opening pocket choice: Off, Default Items, Default TMs/HMs, Default Balls, Default KeyItems or **Last Opened** (default), in and out of battle. |
 | **Highlander Dex** | On | Highlander Dex on/off. |
 | **Highlander Party** | On | Highlander Party on/off. |
 | **Highlander PC** | On | Highlander PC on/off. |
@@ -219,7 +218,7 @@ Only the page for the running generation is shown. Every option is On by default
 - Get All Starters — Prof. Elm gives the leftover Johto starters.
 - Get OG Starters — the Kanto starters.
 - Kim Fossil Trades — fossil Pokémon via trades.
-- GS Ball / Celebi — the GS Ball event with Kurt and the Ilex Forest shrine.
+- GS Ball — the GS Ball event with Kurt and the Ilex Forest shrine.
 - Get Legend. Birds — Articuno, Zapdos and Moltres in Kanto.
 - Get Mew/Mewtwo.
 - Roaming Hunter — 100% encounter with a roaming beast on its current route, no fleeing, no Roar.
@@ -242,7 +241,7 @@ Super Game Boy-style borders around the 4:3 screen (title, Options, Trainer ID, 
 ### Crystal *(by TRW)*
 Crystal's animated Pokémon sprites and shiny visuals, read from **your own Pokémon Crystal install** in G1R (no Pokémon sprites are bundled).
 - **Front NPCs** / **Overworld NPCs** *(Gen 1)*: OG or GEN2 trainers.
-- **Pokédex Pictures** (Off): Crystal's pictures in the Highlander Dex.
+- **Pokédex Pictures** (Off): Crystal's pictures in the Highlander Dex *(not in Crystal)*.
 - **Battle Sprites**: OG or Crystal *(not in Crystal)*.
 - **Animations**: Loop or Play Once.
 - An INSTALLED / NOT INSTALLED line tells you if Crystal was found.
@@ -254,7 +253,7 @@ Crystal's animated Pokémon sprites and shiny visuals, read from **your own Pok�
 
 ## Always-on features
 
-- **Highlander Trainer ID (Gen 1)**: Gold's trainer card for Red/Blue/Yellow with STATUS and BADGES pages and spinning earned badges. Fixes the cut-off portrait some PCs had.
+- **Highlander Trainer ID (Gen 1)**: Gen2's trainer card for Red/Blue/Yellow with STATUS and BADGES pages and spinning earned badges.
 - **Gen 2 Trainer Card**: coloured Johto badges and a Kanto leaders page.
 - **Gen 1 EXP bar**: Gen 2's blue EXP bar in Gen 1 battles, filling right to left with the rising tick and level-up music.
 - **Caught-ball marker** beside wild Pokémon you already own.
