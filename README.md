@@ -77,11 +77,12 @@ A full-screen Start Menu (160×144, the cart's own font) with 2 columns × 5 row
 - **COLOUR SCOPE**: per Game or per Save.
 - **CLOCK**: Off, Device (`Sun 2026-10-18 23:50`), Play time, In-Game (Gold/Silver/Crystal) or **Rotation** (default, cycles every 3 s).
 - **CUSTOM ICONS**: pick a 16×16 icon for non-system tiles.
-- **CUSTOM RENAME**: rename any tile, up to 6 characters, with the game's keyboard (empty name = default).
+- **CUSTOM RENAME**: rename any tile, up to 6 characters, with the game's keyboard (a blank name puts the default back).
 - **HIDE ITEMS**: show/hide POKEBOX, MODS and other mods' tiles; put any mod's Options page (ProjectHighlander included) on the Start Menu as a shortcut.
 - **SORT MENU** (also SELECT on the Start Menu): move tiles around, including QUIT, and leave empty gaps.
 - Icons, names, hidden tiles and order are kept per save file.
 - QUIT and Gen 2's "end the Contest?" ask on the page itself.
+- **SAVE** keeps you in the Start Menu (like the Gen 3 games), whether you saved or answered NO.
 
 ### Highlander Party
 - Gen 1-style party list in both generations: icon, name, level, status, HP bar with numbers and a blue XP bar.
@@ -100,11 +101,12 @@ A full-screen Start Menu (160×144, the cart's own font) with 2 columns × 5 row
 
 ### Highlander PC
 - All boxes shown as **one big box**, 5 wide: 240 Pokémon in Gen 1, 280 in Gen 2, always packed with no gaps. The game's own boxes stay underneath, so turning it off or exporting a cartridge save works as normal.
-- Party is a fixed first column with a PARTY badge; the header shows the nickname of the Pokémon under the cursor.
+- Party is a fixed first column with a PARTY badge; the button help is shown at the top.
+- Above the box, the Pokémon under the cursor: its nickname, **LvXX** on the line below, and its type(s) as small coloured tags (two types stacked).
 - **A** opens the Pokémon's menu: Summary, (Gen 2: Item — Give/Take), Send to Box / Send to Party, Release (with confirmation), Multiple Selections, Cancel.
 - **SELECT** toggles **Auto-Grab** (A grabs and drops directly; a GRAB badge shows while it's on).
 - **Multiple Selections**: A marks, SELECT drops/swaps (same side or across), B ends.
-- **START + Left/Right** jumps 6 rows.
+- **START + Left/Right** jumps 5 rows (one screen).
 - The game's rules are kept: no empty healthy party, Gen 2 Mail, eggs can't be released, Yellow's Pikachu stays.
 - Colours follow the Start Menu colour; icons follow *PokéIcons*.
 
@@ -134,7 +136,8 @@ A Gen2-based Pokédex for all six games, drawn at Game Boy size and framed in ea
 | Lock OG Layout | On | Keeps the battle on the cartridge's 160×144 layout. Off allows WIDE again. |
 | Low HP Beeping | Reduce | On / Off / Reduce. |
 | Modern EXP Share | On | Pokémon that didn't fight share half EXP, announced in one line. Off = Whatever EXP share the games used before. |
-| Unlimited PP | Off | Your Pokémon's moves never lose PP (Gen 2's Spite on you included); PP that goes up, like a Berry's, is kept. Not in link battles. |
+| Status C. Reset | Off | Like Legends: Arceus, your party's status conditions (PSN, BRN, PAR, SLP, FRZ) go away after every battle. HP and fainted Pokémon are untouched. Not in link battles. |
+| Unlimited PP | Off | Your active Pokémon's moves never lose PP (Gen 2's Spite included); PP that goes up, like a Berry's, is kept. Not in link battles. |
 
 ### Overworld Screen
 | Option | Default | What it does |

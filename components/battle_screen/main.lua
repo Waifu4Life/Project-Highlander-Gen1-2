@@ -1,6 +1,7 @@
 -- Battle Screen. Its page shows rows from three components:
 --   this one        ENEMY HP COUNTER, HIGHLANDER HUD, LOCK OG LAYOUT,
---                   LOW HP BEEPING, UNLIMITED PP (unlimited_pp.lua)
+--                   LOW HP BEEPING, STATUS C. RESET (status_reset.lua),
+--                   UNLIMITED PP (unlimited_pp.lua)
 --   Move Colours    COLORED MOVES, COLORED POKEBALLS
 --   Other Settings  GEN3 CATCH RATE, GET BOOSTED EXP, MODERN EXP SHARE
 -- Always on (no row): the Gen 1 EXP bar and the caught-ball marker.
@@ -19,6 +20,9 @@ return function(mod)
         { "OFF", "off" },
         { "REDUCE", "reduce" },
       } },
+    -- Off by default: status conditions go away after every battle
+    { key = "status_reset", label = "STATUS C. RESET", type = "toggle",
+      default = false },
     -- Off by default: borderline cheating
     { key = "unlimited_pp", label = "UNLIMITED PP", type = "toggle",
       default = false },
@@ -113,6 +117,8 @@ return function(mod)
     and GameVersion.generation() or 1
   local okPp, errPp = pcall(function() return mod:load("unlimited_pp.lua")(mod) end)
   if not okPp then mod.log:error("unlimited PP failed: %s", tostring(errPp)) end
+  local okSr, errSr = pcall(function() return mod:load("status_reset.lua")(mod) end)
+  if not okSr then mod.log:error("status reset failed: %s", tostring(errSr)) end
 
   local file = generation == 2 and "gen2.lua" or "gen1.lua"
   local ok, err = pcall(function() return mod:load(file)(mod) end)

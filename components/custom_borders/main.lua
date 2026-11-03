@@ -348,21 +348,25 @@ return function(mod)
     return "screen"
   end
 
-  -- The 160x144 game rectangle in window pixels.
+  -- The 160x144 game rectangle in window units, taken from the game's own
+  -- layout (Renderer.frameRects, as the Gen3 borders do). That covers
+  -- Android's pixel-based scaling, Screen Position, the notch / safe area and
+  -- Battle Size "fill". Falls back to the old integer-scale math if needed.
   local function standardRect(winW, winH)
-    local GV
-    pcall(function() GV = require("src.render.GameViewport") end)
-    local rect = GV and GV.rect
-    if type(rect) ~= "table" or not rect.w then
-      local scale = math.max(1, math.min(math.floor(winW / 160),
-        math.floor(winH / 144)))
-      rect = {
-        x = math.floor((winW - 160 * scale) / 2),
-        y = math.floor((winH - 144 * scale) / 2),
-        w = 160 * scale, h = 144 * scale,
-      }
+    local okR, Renderer = pcall(require, "src.render.Renderer")
+    if okR and type(Renderer) == "table" and Renderer.frameRects then
+      local ok, r = pcall(Renderer.frameRects, Renderer)
+      if ok and type(r) == "table" and r.uvpw and r.uox then
+        return { x = r.uox, y = r.uoy, w = r.uvpw, h = r.uvph }
+      end
     end
-    return rect
+    local scale = math.max(1, math.min(math.floor(winW / 160),
+      math.floor(winH / 144)))
+    return {
+      x = math.floor((winW - 160 * scale) / 2),
+      y = math.floor((winH - 144 * scale) / 2),
+      w = 160 * scale, h = 144 * scale,
+    }
   end
 
   local function targetRect(game, winW, winH)

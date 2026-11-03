@@ -560,6 +560,63 @@ return function(mod)
     game.stack:push(TextBox.new(game, Strings("PC is not\navailable now.")))
   end
 
+  ---------------------------------------------------------------------------
+  -- SAVE keeps you in the Start Menu (like the Gen 3 games), saved or not.
+  -- Gen 1: the SAVE panel closes itself and then the Start Menu under it,
+  -- back to back (StartMenu.lua closePanel). For that one save, the game's
+  -- stack skips the second close. Gen 2: the save screen's onDone closes
+  -- itself and the Start Menu; it now only closes itself.
+  ---------------------------------------------------------------------------
+  local function stayAfterSave(item, game)
+    if item.highlanderStay or type(item.onSelect) ~= "function" then return end
+    item.highlanderStay = true
+    local select = item.onSelect
+    item.onSelect = function(...)
+      local stack = game and game.stack
+      local menu = stack and stack.top and stack:top()
+      local result = select(...)
+      local panel = stack and stack:top()
+      if not panel or panel == menu or type(stack.pop) ~= "function" then return result end
+      local own = rawget(stack, "pop") -- nil unless something else patched it
+      local pop = stack.pop
+      local panelGone = false
+      local guard
+      local function restore()
+        if rawget(stack, "pop") == guard then stack.pop = own end
+      end
+      guard = function(self, ...)
+        local top = self.states and self.states[#self.states]
+        if top == panel then
+          panelGone = true
+          return pop(self, ...)
+        end
+        if panelGone then
+          restore()
+          if top == menu then
+            menu.hollowIndex = nil -- the save cursor mark goes too
+            return nil
+          end
+        end
+        return pop(self, ...)
+      end
+      stack.pop = guard
+      return result
+    end
+  end
+
+  mod.events:on("screen.pushed", function(event)
+    local s = type(event) == "table" and event.state or nil
+    if type(s) ~= "table" or s.screenId ~= "Gen2SaveMenu" or s.highlanderStay then return end
+    local game = s.game
+    local states = game and game.stack and game.stack.states or {}
+    local under = states[#states - 1]
+    if not (type(under) == "table" and under.highlanderStartMenu) then return end
+    s.highlanderStay = true
+    s.onDone = function()
+      if game.stack:top() == s then game.stack:pop() end
+    end
+  end)
+
   mod.hooks:wrap("ui.start_menu.items", function(next, game, items)
     items = next(game, items) or items or {}
     local party = game and game.save and game.save.party
@@ -570,6 +627,8 @@ return function(mod)
         if key == "pokebox" then hasBox = true end
         -- MODS opens over the Start Menu, which waits underneath.
         if key == "mods" then item.keepOpen = true end
+        -- SAVE: back to the Start Menu afterwards (see stayAfterSave)
+        if key == "save" then stayAfterSave(item, game) end
       end
     end
     if pokeboxShown(game) and type(party) == "table" and #party > 0
@@ -757,6 +816,10 @@ return function(mod)
           activate = function(g)
             g = g or game
             openKeyboard(g, nameFor(key, g), function(name)
+              -- blank (nothing typed, or only spaces) puts the usual name back
+              if name == nil or (type(name) == "string" and name:match("^%s*$")) then
+                name = ""
+              end
               if type(name) == "string" then
                 setName(g, key, name)
               end

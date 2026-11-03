@@ -214,7 +214,8 @@ return function(mainMod, parts)
       unlimited_safari_balls = "SAFARI BALLS", safari_no_run = "SAFARI NO RUN",
       sparkling_hidden = "SPARKLES", rematch_anyone = "REMATCH", pikachu_sound = "PIKACHU",
       force_crystal_settings = "GENDER" },
-    battle_screen = { enemy_hp_counter = "ENEMY HP", low_hp_beep = "LOW HP BEEP" },
+    battle_screen = { enemy_hp_counter = "ENEMY HP", low_hp_beep = "LOW HP BEEP",
+      status_reset = "STATUS RESET" },
     move_colors = { colored_pokeballs = "POKEBALLS", colored_pokemoves = "MOVES" },
   }
 

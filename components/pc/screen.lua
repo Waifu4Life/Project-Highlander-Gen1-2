@@ -2,10 +2,12 @@
 -- Gold/Silver/Crystal, drawn at the Game Boy's own 160x144 (Custom Borders
 -- frames it like any other full screen).
 --
---   rows 0-16     header: PARTY (and GRAB) badge | nickname | button help
+--   rows 0-16     header: PARTY (and GRAB) badge | button help
 --   rows 17-143   the party column (6 cells, never scrolls), a 4 px gap for
---                 the flashing up/down arrows, then the big box: 5 across,
---                 6 rows on screen, scrolling (48 rows in Gen 1, 56 in Gen 2)
+--                 the flashing up/down arrows, then on the right:
+--     rows 17-37    the Pokemon under the cursor: name, LvXX, type tag(s)
+--     rows 38-143   the big box: 5 across, 5 rows on screen, scrolling
+--                   (48 rows in Gen 1, 56 in Gen 2)
 --
 -- A opens the Pokémon's menu. SELECT turns AUTO-GRAB on/off (off every
 -- time the PC opens): with it on, A grabs a Pokémon and drops it (swap, or
@@ -25,11 +27,14 @@ return function(mod, S, gen2)
   local ROW_Y = 17        -- top line of the first row
   local PITCH = 21        -- row height, line included (20 px inside)
   local CELL = 25         -- cell width, line included (24 px inside)
-  local ROWS, COLS = 6, 5
+  local ROWS, COLS = 6, 5   -- party column: 6 rows
+  local BOX_Y = 38          -- top line of the big box's first row
+  local BOX_ROWS = 5        -- big box rows on screen
   local PARTY_X = 2       -- party column: lines at x 2 and 27
   local GAP_X = 28        -- arrows: x 28-31
   local GRID_X = 32       -- big box: lines at x 32, 57 ... 157
-  local NAME_X, NAME_W = 32, 80
+  local NAME_X = 33        -- info band: name + level from here ...
+  local TAGS_X = 126       -- ... type tags on the right (x 126-157)
 
   ---------------------------------------------------------------- colours
   local FALLBACK = { { 232, 255, 232 }, { 96, 212, 112 }, { 32, 132, 56 }, { 16, 36, 16 } }
@@ -164,6 +169,11 @@ return function(mod, S, gen2)
     T = { "111", "010", "010", "010", "010" },
     U = { "101", "101", "101", "101", "111" },
     Y = { "101", "101", "010", "010", "010" },
+    F = { "111", "100", "110", "100", "100" },
+    H = { "101", "101", "111", "101", "101" },
+    I = { "1", "1", "1", "1", "1" },
+    W = { "10001", "10001", "10101", "11011", "10001" },
+    ["?"] = { "110", "001", "010", "000", "010" },
     [":"] = { "0", "1", "0", "1", "0" },
     ["+"] = { "000", "010", "111", "010", "000" },
     ["/"] = { "001", "001", "010", "100", "100" },
@@ -196,6 +206,105 @@ return function(mod, S, gen2)
       end
     end
   end
+
+  ---------------------------------------------------------------- type tags
+  -- The header takes turns: the Pokemon's name, then "LvXX" and its type(s)
+  -- as small drawn tags (two types: stacked). Tags are 32x8: a light top
+  -- edge, the type's colour, a dark bottom edge, white tiny letters with a
+  -- grey shadow (right and below).
+  local TAG_W, TAG_H = 32, 8
+  local TAG_TEXT = { 248, 248, 248 }
+  local TAG_SHADOW = { 128, 120, 112 }
+  local TAG_EDGE = { 72, 64, 56 }
+  local TYPE_TAGS = {
+    NORMAL = { "NORMAL", { 168, 168, 120 } },
+    FIRE = { "FIRE", { 240, 128, 48 } },
+    WATER = { "WATER", { 104, 144, 240 } },
+    ELECTRIC = { "ELECTR", { 232, 184, 32 } },
+    GRASS = { "GRASS", { 120, 200, 80 } },
+    ICE = { "ICE", { 112, 192, 200 } },
+    FIGHTING = { "FIGHT", { 192, 48, 40 } },
+    POISON = { "POISON", { 160, 64, 160 } },
+    GROUND = { "GROUND", { 208, 168, 80 } },
+    FLYING = { "FLYING", { 168, 144, 240 } },
+    PSYCHIC = { "PSYCHC", { 248, 88, 136 } },
+    PSYCHIC_TYPE = { "PSYCHC", { 248, 88, 136 } },
+    BUG = { "BUG", { 168, 184, 32 } },
+    ROCK = { "ROCK", { 184, 160, 56 } },
+    GHOST = { "GHOST", { 112, 88, 152 } },
+    DRAGON = { "DRAGON", { 112, 56, 248 } },
+    DARK = { "DARK", { 112, 88, 72 } },
+    STEEL = { "STEEL", { 152, 152, 176 } },
+    FAIRY = { "FAIRY", { 232, 128, 168 } },
+    CURSE_TYPE = { "???", { 104, 160, 144 } },
+    CURSE = { "???", { 104, 160, 144 } },
+  }
+  local UNKNOWN_TAG = { 104, 160, 144 }
+
+  local function lighter(c)
+    return { math.floor(c[1] + (255 - c[1]) * 0.45), math.floor(c[2] + (255 - c[2]) * 0.45),
+      math.floor(c[3] + (255 - c[3]) * 0.45) }
+  end
+
+  local function tagFor(game, t)
+    local known = TYPE_TAGS[tostring(t or ""):upper()]
+    if known then return known[1], known[2] end
+    -- a type another mod added: its display name, cut to fit
+    local name = tostring(t or "???")
+    pcall(function()
+      local TypeChart = require("src.battle.TypeChart")
+      if type(TypeChart.displayName) == "function" then
+        local v = TypeChart.displayName(t, game and game.data)
+        if v then name = tostring(v) end
+      end
+    end)
+    name = name:gsub("_TYPE$", ""):gsub("[^%w%?]", ""):upper()
+    while #name > 1 and pixWidth(TINY, name) > TAG_W - 5 do name = name:sub(1, -2) end
+    return name, UNKNOWN_TAG
+  end
+
+  local function drawTag(game, t, x, y)
+    local label, fill = tagFor(game, t)
+    local top = lighter(fill)
+    pcall(function()
+      local PaletteFX = require("src.render.PaletteFX")
+      if type(PaletteFX.markTrueColor) == "function" then
+        PaletteFX.markTrueColor(x, y, TAG_W, TAG_H)
+      end
+    end)
+    rect(top, x + 1, y, TAG_W - 2, 1)
+    rect(top, x, y + 1, TAG_W, 1)
+    rect(fill, x + 1, y + 1, TAG_W - 2, TAG_H - 2)
+    rect(fill, x, y + 2, TAG_W, TAG_H - 4)
+    rect(TAG_EDGE, x, y + TAG_H - 2, 1, 1)
+    rect(TAG_EDGE, x + TAG_W - 1, y + TAG_H - 2, 1, 1)
+    rect(TAG_EDGE, x + 1, y + TAG_H - 1, TAG_W - 2, 1)
+    local tx = x + math.floor((TAG_W - pixWidth(TINY, label) - 1) / 2)
+    pixText(TINY, label, tx + 1, y + 1, TAG_SHADOW)
+    pixText(TINY, label, tx, y + 2, TAG_SHADOW)
+    pixText(TINY, label, tx + 1, y + 2, TAG_SHADOW)
+    pixText(TINY, label, tx, y + 1, TAG_TEXT)
+  end
+
+  local function typesOf(game, mon)
+    local def = game and game.data and game.data.pokemon and game.data.pokemon[mon.species]
+    local list = (type(mon.types) == "table" and mon.types) or (def and def.types) or {}
+    local out = {}
+    for _, t in ipairs(list) do
+      if t ~= nil and t ~= out[1] then out[#out + 1] = t end
+    end
+    return out
+  end
+
+  local function levelShown(game, mon)
+    local ok, LevelDisplay = pcall(require, "src.ui.LevelDisplay")
+    if not ok or type(LevelDisplay) ~= "table" or type(LevelDisplay.visible) ~= "function" then
+      return true
+    end
+    local okV, v = pcall(LevelDisplay.visible, mon, "party", game)
+    return not okV or v ~= false
+  end
+
 
   ---------------------------------------------------------------- sound
   local GEN2_SFX = {
@@ -318,9 +427,9 @@ return function(mod, S, gen2)
     local row = math.floor((self.boxIndex - 1) / COLS)
     if self.region == "box" then
       if row < self.scroll then self.scroll = row end
-      if row >= self.scroll + ROWS then self.scroll = row - ROWS + 1 end
+      if row >= self.scroll + BOX_ROWS then self.scroll = row - BOX_ROWS + 1 end
     end
-    self.scroll = math.max(0, math.min(self.scroll, self:totalRows() - ROWS))
+    self.scroll = math.max(0, math.min(self.scroll, self:totalRows() - BOX_ROWS))
   end
 
   function PC:say(msg)
@@ -398,13 +507,13 @@ return function(mod, S, gen2)
     play(self.game, "Press_AB")
   end
 
-  -- SELECT w/ Left/Right: a page (6 rows) up or down. In the big box the
-  -- cursor goes 6 rows up/down in its column (stopping at the first row or
+  -- START w/ Left/Right: a page (5 rows) up or down. In the big box the
+  -- cursor goes 5 rows up/down in its column (stopping at the first row or
   -- the last slot); on the party column the big box beside it scrolls.
   function PC:jump(step)
-    local pageSlots = ROWS * COLS
+    local pageSlots = BOX_ROWS * COLS
     local lastRow = math.floor((self:boxLimit() - 1) / COLS)
-    local maxScroll = math.max(0, lastRow - ROWS + 1)
+    local maxScroll = math.max(0, lastRow - BOX_ROWS + 1)
     local before = { self.boxIndex, self.scroll }
     if self.region == "box" then
       local idx = self.boxIndex
@@ -415,9 +524,9 @@ return function(mod, S, gen2)
         target = (idx - 1) % COLS + 1
       end
       self.boxIndex = target
-      self.scroll = math.max(0, math.min(self.scroll + step * ROWS, maxScroll))
+      self.scroll = math.max(0, math.min(self.scroll + step * BOX_ROWS, maxScroll))
     else
-      self.scroll = math.max(0, math.min(self.scroll + step * ROWS, maxScroll))
+      self.scroll = math.max(0, math.min(self.scroll + step * BOX_ROWS, maxScroll))
     end
     self:clamp()
     if self.boxIndex == before[1] and self.scroll == before[2] then return end
@@ -705,21 +814,41 @@ return function(mod, S, gen2)
     end
   end
 
+  -- Button help, all at once: what A / SELECT / B do on the left, the page
+  -- jump on the right. Returns two lists of lines (left, right).
+  local function pair(a, b) return a .. "  " .. b end
   function PC:helpLines()
-    if self.menu or self.confirm then return "A:OK", "B:BACK" end
-    if self.held then return "A:DROP", "B:CANCEL" end
-    -- three buttons, two lines: the second line takes turns
-    if self.multi then
-      if math.floor(now() / 1.5) % 2 == 0 then return "A:MARK", "SELECT:DROP" end
-      return "A:MARK", "B:END"
+    if self.menu or self.confirm then return { pair("A:OK", "B:BACK") }, {} end
+    local jump = { "START+L/R", "JUMP SCROLL" }
+    if self.held then return { pair("A:DROP", "B:CANCEL") }, jump end
+    if self.multi then return { "A:MARK", pair("SELECT:DROP", "B:END") }, jump end
+    if self.autoGrab then return { pair("A:GRAB", "SELECT:MENU") }, jump end
+    return { pair("A:MENU", "SELECT:GRAB") }, jump
+  end
+
+  -- The band above the big box: the Pokemon under the cursor, its name with
+  -- "LvXX" always on the line under it, and its type(s) as tags on the
+  -- right, two types stacked. No level shown (an egg): the name is centred.
+  function PC:drawMonInfo(mon, ink)
+    local name = S.name(self.game, mon)
+    local room = TAGS_X - 2 - NAME_X
+    local level = tonumber(mon.level)
+    local lv = (not mon.isEgg and level and levelShown(self.game, mon))
+      and ("Lv" .. tostring(math.floor(level))) or nil
+    if lv then
+      text(name, NAME_X, 19, ink, room)
+      text(lv, NAME_X, 29, ink, room)
+    else
+      text(name, NAME_X, 24, ink, room)
     end
-    -- idle: the buttons and the page jump take turns (too wide for one line).
-    -- SELECT shows what A turns into.
-    if math.floor(now() / 2) % 2 == 0 then
-      if self.autoGrab then return "A:GRAB", "SELECT:MENU" end
-      return "A:MENU", "SELECT:GRAB"
+    if mon.isEgg then return end
+    local types = typesOf(self.game, mon)
+    if #types >= 2 then
+      drawTag(self.game, types[1], TAGS_X, 20)
+      drawTag(self.game, types[2], TAGS_X, 29)
+    elseif types[1] ~= nil then
+      drawTag(self.game, types[1], TAGS_X, 24)
     end
-    return "START+L/R", "JUMP SCROLL"
   end
 
   function PC:drawCell(pal, mon, x, y, chosen, list, index, side)
@@ -758,11 +887,15 @@ return function(mod, S, gen2)
     else
       badge("PARTY", 4, 9, dark, paper)
     end
+    local left, right = self:helpLines()
+    local ly = #left >= 2 and 3 or 6
+    for i, line in ipairs(left) do pixText(TINY, line, NAME_X, ly + (i - 1) * 7, ink) end
+    local ry = #right >= 2 and 3 or 6
+    for i, line in ipairs(right) do
+      pixText(TINY, line, 158 - pixWidth(TINY, line), ry + (i - 1) * 7, ink)
+    end
     local mon = self:selected()
-    if mon then text(S.name(self.game, mon), NAME_X, 5, ink, NAME_W) end
-    local line1, line2 = self:helpLines()
-    pixText(TINY, line1, 158 - pixWidth(TINY, line1), 3, ink)
-    pixText(TINY, line2, 158 - pixWidth(TINY, line2), 10, ink)
+    if mon then self:drawMonInfo(mon, ink) end
 
     -- party column
     local party = self:party()
@@ -776,11 +909,11 @@ return function(mod, S, gen2)
 
     -- big box
     local flat = self:flat()
-    rect(ink, GRID_X, ROW_Y, COLS * CELL + 1, ROWS * PITCH + 1)
-    for r = 0, ROWS - 1 do
+    rect(ink, GRID_X, BOX_Y, COLS * CELL + 1, BOX_ROWS * PITCH + 1)
+    for r = 0, BOX_ROWS - 1 do
       for c = 0, COLS - 1 do
         local index = (self.scroll + r) * COLS + c + 1
-        local x, y = GRID_X + c * CELL, ROW_Y + r * PITCH
+        local x, y = GRID_X + c * CELL, BOX_Y + r * PITCH
         if index <= S.capacity() then
           local chosen = self.region == "box" and self.boxIndex == index
             and not self.menu and not self.confirm
@@ -793,9 +926,9 @@ return function(mod, S, gen2)
 
     -- arrows (flashing) when Pokémon are above / below the rows on screen
     if math.floor(now() * 3) % 2 == 0 then
-      if self.scroll > 0 and #flat > 0 then arrow(GAP_X, ROW_Y + 2, true, ink) end
-      if #flat > (self.scroll + ROWS) * COLS then
-        arrow(GAP_X, ROW_Y + ROWS * PITCH - 7, false, ink)
+      if self.scroll > 0 and #flat > 0 then arrow(GAP_X, BOX_Y + 2, true, ink) end
+      if #flat > (self.scroll + BOX_ROWS) * COLS then
+        arrow(GAP_X, BOX_Y + BOX_ROWS * PITCH - 7, false, ink)
       end
     end
 
@@ -807,7 +940,7 @@ return function(mod, S, gen2)
       else
         local idx = self.boxIndex - 1
         x = GRID_X + (idx % COLS) * CELL
-        y = ROW_Y + (math.floor(idx / COLS) - self.scroll) * PITCH
+        y = BOX_Y + (math.floor(idx / COLS) - self.scroll) * PITCH
       end
       drawIcon(self, self.held.mon, x + 9, y - 3, true)
     end
@@ -830,7 +963,7 @@ return function(mod, S, gen2)
 
   function PC:cursorY()
     if self.region == "party" then return ROW_Y + (self.partyIndex - 1) * PITCH end
-    return ROW_Y + (math.floor((self.boxIndex - 1) / COLS) - self.scroll) * PITCH
+    return BOX_Y + (math.floor((self.boxIndex - 1) / COLS) - self.scroll) * PITCH
   end
 
   function PC:drawMenu(pal)

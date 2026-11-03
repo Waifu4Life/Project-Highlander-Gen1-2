@@ -111,7 +111,8 @@ return {
     short = "BATTLE SCREEN",
     version = "1.0.0",
     installOrder = 2,
-    files = { "main.lua", "gen1.lua", "gen2.lua", "highlander_hud.lua", "unlimited_pp.lua" },
+    files = { "main.lua", "gen1.lua", "gen2.lua", "highlander_hud.lua", "unlimited_pp.lua",
+      "status_reset.lua" },
     assets = { "assets/exp_bar_tick.wav" },
   },
   {

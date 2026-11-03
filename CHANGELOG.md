@@ -1,3 +1,23 @@
+## [1.65.0] — Stay in the Start Menu after saving
+- START MENU: after SAVE you're back in the Start Menu (like the Gen 3 games) instead of the overworld, in Red/Blue/Yellow/Green and Gold/Silver/Crystal, whether you saved or answered NO.
+
+## [1.64.0] — PokéBox level line
+- HIGHLANDER PC (PokéBox): "LvXX" is now always on the line under the Pokémon's name, so every Pokémon looks the same whatever its name's length.
+
+## [1.63.0] — PokéBox info band
+- HIGHLANDER PC (PokéBox): no more taking turns. The big box shows 5 rows instead of 6, and the space above it now always shows the Pokémon under the cursor: its name, "LvXX" and its type tag(s) on the right (two types stacked). A long nickname puts the level on a second line.
+- The button help is all shown at once at the very top: what A and SELECT do next to the PARTY badge, START+L/R JUMP SCROLL on the right. The page jump now moves 5 rows.
+
+## [1.62.0] — PokéBox level and type tags
+- HIGHLANDER PC (PokéBox): the header now takes turns between the Pokémon's name and its level ("LvXX") with its type(s) as small coloured tags; two types are stacked. Each shows 2.5 seconds, and moving the cursor to another Pokémon starts on its name. Eggs only show their name.
+
+## [1.61.0] — Status Condition Reset
+- BATTLE SCREEN: new STATUS C. RESET (Off by default). Like Pokémon Legends: Arceus, every Pokémon in your party loses its status condition (PSN, BRN, PAR, SLP, FRZ) when a battle ends, in Red/Blue/Yellow/Green and Gold/Silver/Crystal. HP and fainted Pokémon are left as they are. Link battles keep the normal rules.
+- START MENU > CUSTOM RENAME: a name made only of spaces now counts as blank too, so it puts the usual name back (an empty name already did).
+
+## [1.60.0] — Custom Borders fixed on phones
+- CUSTOM BORDERS: the border now sits around the game screen where the game actually draws it, instead of working it out on its own. On Android phones (Galaxy S24 and others) the game sizes its screen in real pixels and can move it for SCREEN POSITION, the notch or BATTLE SIZE "fill", so the border was drawn over the game and hid it everywhere except the overworld. Steam Deck and PC look the same as before.
+
 ## [1.59.0] — Unlimited PP is back
 - BATTLE SCREEN: new UNLIMITED PP (Off by default). Rewritten from scratch for Red/Blue/Yellow/Green and Gold/Silver/Crystal: your active Pokémon's moves never lose PP (Gen 2's Spite on you included); PP that goes up, like a Berry's, is kept. Link battles keep the normal rules.
 
