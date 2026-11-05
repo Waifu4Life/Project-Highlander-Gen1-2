@@ -1,3 +1,6 @@
+## [1.66.0] — Safari Zone encounters restored
+- GET ALL POKéMON (Gen 1): the Safari Zone's EAST and NORTH areas have their original wild Pokémon again. The version-exclusive option was replacing their whole grass lists, so Chansey, Tauros, Venomoth, Nidoran♂, Nidorino and Nidorina were missing from NORTH, and Doduo, Parasect and Kangaskhan from EAST (in Yellow too). Scyther and Pinsir are still both catchable in every version through the 50/50 swap.
+
 ## [1.65.0] — Stay in the Start Menu after saving
 - START MENU: after SAVE you're back in the Start Menu (like the Gen 3 games) instead of the overworld, in Red/Blue/Yellow/Green and Gold/Silver/Crystal, whether you saved or answered NO.
 

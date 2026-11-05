@@ -1180,18 +1180,6 @@ return function(mod)
         slot(32,"ELECTABUZZ"), slot(32,"MAGMAR"), slot(35,"MAGNETON"),
         slot(36,"ELECTABUZZ"),
       },
-      SAFARI_ZONE_EAST = {
-        slot(24,"NIDORAN_M"), slot(24,"NIDORAN_F"), slot(25,"PARAS"),
-        slot(25,"EXEGGCUTE"), slot(23,"SCYTHER"), slot(23,"PINSIR"),
-        slot(28,"NIDORINO"), slot(28,"NIDORINA"), slot(25,"SCYTHER"),
-        slot(25,"PINSIR"),
-      },
-      SAFARI_ZONE_NORTH = {
-        slot(26,"EXEGGCUTE"), slot(26,"RHYHORN"), slot(25,"PARAS"),
-        slot(31,"VENONAT"), slot(26,"SCYTHER"), slot(26,"PINSIR"),
-        slot(28,"EXEGGCUTE"), slot(28,"KANGASKHAN"), slot(30,"SCYTHER"),
-        slot(30,"PINSIR"),
-      },
     }
     local PAIR = {
       EKANS="SANDSHREW", SANDSHREW="EKANS",
