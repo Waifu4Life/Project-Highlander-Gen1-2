@@ -896,8 +896,34 @@ return function(mod)
     end)
   end)
 
+  -- SPEED- at NORMAL goes round to the top speed, as SPEED+ at the top goes
+  -- round to NORMAL. The game's newer GameSpeed.step stops SPEED- at NORMAL
+  -- (older builds used GameSpeed.cycle both ways), so from NORMAL, where most
+  -- play happens, SPEED- did nothing whichever button it was on. Set on the
+  -- live game so every road to it (the bound button, a trigger, the "0" key)
+  -- behaves the same, and a game started without Full Control is untouched.
+  local function wrapSpeedCycle(game)
+    if type(game) ~= "table" or rawget(game, "_phSpeedWrap") then return end
+    local base = game._cycleSpeed
+    if type(base) ~= "function" then return end
+    game._phSpeedWrap = true
+    game._cycleSpeed = function(self, dir, ...)
+      local okGS, GS = pcall(require, "src.core.GameSpeed")
+      if not (tonumber(dir) and dir < 0 and okGS and type(GS) == "table"
+          and type(GS.step) == "function" and type(GS.cycle) == "function") then
+        return base(self, dir, ...)
+      end
+      local step = GS.step
+      GS.step = GS.cycle
+      local ok, err = pcall(base, self, dir, ...)
+      GS.step = step
+      if not ok then error(err, 0) end
+    end
+  end
+
   if mod.events and type(mod.events.on) == "function" then
     mod.events:on("game.ready", function(ev)
+      wrapSpeedCycle(ev and ev.game)
       applyBindings(ev and ev.game)
       local input = ev and ev.game and ev.game.input
       local ok, Input = pcall(require, "src.core.Input")

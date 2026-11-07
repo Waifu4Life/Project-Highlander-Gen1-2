@@ -1,3 +1,6 @@
+## [1.69.0] — SPEED- works again
+- FULL CONTROL: SPEED- works again at NORMAL speed: it goes round to the top speed, like SPEED+ goes round to NORMAL. Since the game's latest update, SPEED- stopped at NORMAL, so it seemed to do nothing whichever button it was on. It also works from a trigger and from the 0 key.
+
 ## [1.68.0] — Sell from the Highlander Bag, PokéBox cursor fixes
 - HIGHLANDER BAG (Gen 1): the Poké Mart's SELL now opens the Highlander Bag instead of the old text list: pockets, descriptions, money, START: SORT and SELECT's move all work in there. The prices, the HOW MANY box and the clerk's lines are still the game's, and the cursor stays on the item after a sale or a NO. Key items and HMs still can't be sold. With HIGHLANDER BAG off you get the game's own list. Gold/Silver/Crystal already sold from the PACK.
 - HIGHLANDER PC (PokéBox): going between the party and the big box now lands on the row beside you. The 1st and 2nd party Pokémon go to the 1st row on screen, the 3rd to the 2nd row, the 4th to the 3rd and so on, and coming back from a row lands on the party Pokémon level with it.
