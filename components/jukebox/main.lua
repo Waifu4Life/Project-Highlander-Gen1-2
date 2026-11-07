@@ -573,11 +573,14 @@ return function(mod)
 
   pcall(function()
     local Input = require("src.core.Input")
-    if type(Input) ~= "table" or Input._phJukebox then return end
-    Input._phJukebox = true
+    if type(Input) ~= "table" then return end
     local unpackFn = table.unpack or unpack
 
-    local origStep = Input.step
+    -- Input outlives a play session (see components/full_control): wrap the
+    -- game's own step each time. Full Control installs first and has just put
+    -- its fresh keypressed back, so that one is wrapped as it stands.
+    local origStep = Input._phJukeboxNativeStep or Input.step
+    Input._phJukeboxNativeStep = origStep
     if type(origStep) == "function" then
       Input.step = function(self, ...)
         local r = { origStep(self, ...) }

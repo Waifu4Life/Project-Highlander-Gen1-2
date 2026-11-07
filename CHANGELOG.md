@@ -1,3 +1,15 @@
+## [1.68.0] — Sell from the Highlander Bag, PokéBox cursor fixes
+- HIGHLANDER BAG (Gen 1): the Poké Mart's SELL now opens the Highlander Bag instead of the old text list: pockets, descriptions, money, START: SORT and SELECT's move all work in there. The prices, the HOW MANY box and the clerk's lines are still the game's, and the cursor stays on the item after a sale or a NO. Key items and HMs still can't be sold. With HIGHLANDER BAG off you get the game's own list. Gold/Silver/Crystal already sold from the PACK.
+- HIGHLANDER PC (PokéBox): going between the party and the big box now lands on the row beside you. The 1st and 2nd party Pokémon go to the 1st row on screen, the 3rd to the 2nd row, the 4th to the 3rd and so on, and coming back from a row lands on the party Pokémon level with it.
+- HIGHLANDER PC (PokéBox): START+L/R always stays in the same column. Near the end of the box it used to jump to the last slot, whatever its column; it now stops on your column's last slot.
+
+## [1.67.0] — Directions no longer get stuck
+- FULL CONTROL: fixed the player, or a menu cursor, carrying on in a direction after you let go until you pressed that direction again. A quick tap whose press and release both arrived before the game's next logic step (a slow frame, a map loading, a stick flick) was switched back on with nothing left to release it, which is why it happened more with other mods installed. Full Control now presses and releases through the game's own tracking of each button, so this can't happen and a quick tap still counts as one press.
+- FULL CONTROL: the safety net that lets go of a stuck direction was lost after EXIT GAME and starting a game again in the same run. It now comes back with every game you start, and the Jukebox button's handling does too.
+- FULL CONTROL: the safety net no longer lets go of real holds after 1/4 second while the last input was a controller: the on-screen D-pad and other mods' scripted input. Letting go of the D-pad also keeps a direction you're still holding on the keyboard.
+- FULL CONTROL: a button bound to a trigger now stays held while the trigger is held, instead of acting as a single tap.
+- ITEM SHORTCUTS: the A press they send goes through the same tracking, so it can't stick on a high-refresh screen.
+
 ## [1.66.0] — Safari Zone encounters restored
 - GET ALL POKéMON (Gen 1): the Safari Zone's EAST and NORTH areas have their original wild Pokémon again. The version-exclusive option was replacing their whole grass lists, so Chansey, Tauros, Venomoth, Nidoran♂, Nidorino and Nidorina were missing from NORTH, and Doduo, Parasect and Kangaskhan from EAST (in Yellow too). Scyther and Pinsir are still both catchable in every version through the 50/50 swap.
 

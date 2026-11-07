@@ -152,12 +152,22 @@ return function(mod, settings)
   end
 
   ---------------------------------------------------------------------------
-  -- Input injection (same mechanism Full Control uses for its extra binds)
+  -- Input injection, a short press under its own source (same mechanism Full
+  -- Control uses): a state released before the next logic step would otherwise
+  -- be switched back on by Input:step and stay held.
   ---------------------------------------------------------------------------
   local releases = {}
+  local injectCount = 0
   local function inject(game, button)
     local input = game and game.input
     if not input then return end
+    if type(input.sourcePress) == "function" then
+      injectCount = injectCount + 1
+      local source = "highlander:inject:" .. injectCount
+      input:sourcePress(button, source)
+      releases[#releases + 1] = { input = input, button = button, frames = 2, source = source }
+      return
+    end
     input.state = input.state or {}
     input.state[button] = true
     input.pressQueue = input.pressQueue or {}
@@ -171,7 +181,11 @@ return function(mod, settings)
       local r = releases[i]
       r.frames = r.frames - 1
       if r.frames <= 0 then
-        if r.input.state then r.input.state[r.button] = nil end
+        if r.source then
+          r.input:sourceRelease(r.button, r.source)
+        elseif r.input.state then
+          r.input.state[r.button] = nil
+        end
         table.remove(releases, i)
       end
     end

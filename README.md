@@ -98,6 +98,7 @@ A full-screen Start Menu (160×144, the cart's own font) with 2 columns × 5 row
 - **START: SORT** per pocket: Category Asc/Desc, Names A-Z/Z-A. TM/HM pocket in number order unless name-sorted (kept in the save).
 - **SELECT** moves an item inside its pocket.
 - A description for every Gen 1 item; TMs/HMs show their move's.
+- Poké Mart **SELL** opens the same Bag, in both generations.
 
 ### Highlander PC
 - All boxes shown as **one big box**, 5 wide: 240 Pokémon in Gen 1, 280 in Gen 2, always packed with no gaps. The game's own boxes stay underneath, so turning it off or exporting a cartridge save works as normal.
@@ -106,7 +107,7 @@ A full-screen Start Menu (160×144, the cart's own font) with 2 columns × 5 row
 - **A** opens the Pokémon's menu: Summary, (Gen 2: Item — Give/Take), Send to Box / Send to Party, Release (with confirmation), Multiple Selections, Cancel.
 - **SELECT** toggles **Auto-Grab** (A grabs and drops directly; a GRAB badge shows while it's on).
 - **Multiple Selections**: A marks, SELECT drops/swaps (same side or across), B ends.
-- **START + Left/Right** jumps 5 rows (one screen).
+- **START + Left/Right** jumps 5 rows (one screen) and stays in the same column.
 - The game's rules are kept: no empty healthy party, Gen 2 Mail, eggs can't be released, Yellow's Pikachu stays.
 - Colours follow the Start Menu colour; icons follow *PokéIcons*.
 

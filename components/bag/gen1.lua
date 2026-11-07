@@ -14,6 +14,10 @@
 --
 -- LEFT/RIGHT change pocket, SELECT moves an item (not in TM/HM), START
 -- opens SORT BY. Graphics: assets/bag_gen1.png (taken from Crystal's PACK).
+--
+-- The mart's SELL list gets this screen too (H.decorateShop): the game's own
+-- list and its onChoose stay underneath, so the prices, the HOW MANY box, the
+-- clerk's lines and what can't be sold are all still the game's.
 return function(mod, C)
   local Bag = require("src.inventory.Bag")
   local Font = require("src.render.Font")
@@ -180,6 +184,19 @@ return function(mod, C)
     ensureVisible(self)
   end
 
+  -- Back on top after an A press. The game may have put its full list back
+  -- (an item was used, tossed or sold), and the mart also moves the cursor to
+  -- the top row on screen: the cursor stays on the item instead.
+  local function resync(self)
+    if self.items ~= self.hbRows then
+      rebuild(self, self.hbLastId, self.hbLastIndex)
+    elseif self.hbSaleReturn then
+      self.index = math.min(self.hbLastIndex or self.index, #self.items)
+      ensureVisible(self)
+    end
+    self.hbSaleReturn = nil
+  end
+
   -- cursor and scroll per pocket, for the session (like Gen 2's PACK)
   local function memory(game)
     game.hbBagCursor = game.hbBagCursor or { pocket = ITEMS, index = {}, scroll = {} }
@@ -268,10 +285,7 @@ return function(mod, C)
   local function update(self)
     self.optionBox = nil
     self.hollowIndex = nil
-    if self.items ~= self.hbRows then
-      -- the game rebuilt its full list after an item was used or tossed
-      rebuild(self, self.hbLastId, self.hbLastIndex)
-    end
+    resync(self)
     local input = self.game.input
     if not input then return end
     if self.hbSort then return updateSort(self, input) end
@@ -313,6 +327,7 @@ return function(mod, C)
       local item = self.items[self.index]
       self.hbLastId = item and item.value
       self.hbLastIndex = self.index
+      self.hbSaleReturn = self.hbSelling
       if self.onChoose then self.onChoose(item, self) end
       return
     end
@@ -366,6 +381,9 @@ return function(mod, C)
     if game.stack:top() == self then
       self.optionBox = nil
       self.hollowIndex = nil
+      -- a sale or a NO can land between this list's updates: never draw the
+      -- game's own full list, or its cursor, for a frame
+      resync(self)
     end
     G.push("all")
     G.setColor(1, 1, 1, 1)
@@ -471,6 +489,32 @@ return function(mod, C)
     list.update = update
     list.draw = draw
     return list
+  end
+
+  -- The mart: its SELL entry builds a ListMenu and pushes it after the clerk's
+  -- line. That one list, built during this one press, gets the Bag screen.
+  function H.decorateShop(menu)
+    if type(menu) ~= "table" or type(menu.items) ~= "table" then return menu end
+    local ListMenu = require("src.ui.ListMenu")
+    local sellLabel = Strings("SELL")
+    for _, entry in ipairs(menu.items) do
+      if entry.label == sellLabel and type(entry.onSelect) == "function" then
+        local openSell = entry.onSelect
+        entry.onSelect = function(...)
+          local make = ListMenu.new
+          ListMenu.new = function(...)
+            ListMenu.new = make
+            local list = H.decorate(make(...))
+            if type(list) == "table" and list.highlanderBag then list.hbSelling = true end
+            return list
+          end
+          local ok, err = pcall(openSell, ...)
+          ListMenu.new = make
+          if not ok then error(err, 0) end
+        end
+      end
+    end
+    return menu
   end
 
   return H

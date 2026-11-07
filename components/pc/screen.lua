@@ -13,7 +13,7 @@
 -- time the PC opens): with it on, A grabs a Pokémon and drops it (swap, or
 -- to the end on an empty slot). In MULTIPLE SELECTIONS, A marks and SELECT
 -- drops the group on the slot under the cursor. Hold START and press
--- Left/Right to jump a page (6 rows) up/down. B cancels / leaves.
+-- Left/Right to jump a page (5 rows) up/down. B cancels / leaves.
 -- Colours come from the Start Menu's COLOUR (paper, light, dark, ink), even
 -- with that menu off.
 return function(mod, S, gen2)
@@ -470,7 +470,11 @@ return function(mod, S, gen2)
       elseif dir == "down" then
         self.partyIndex = self.partyIndex % limit + 1
       else
-        self:toBoxRow(self.scroll + self.partyIndex - 1, dir == "right" and 0 or COLS - 1)
+        -- The big box starts one party cell down (the info band is beside the
+        -- first cell): party 2 lines up with its first row on screen, party 3
+        -- with the second... and party 1 goes to the first row too.
+        local row = math.max(0, self.partyIndex - 2)
+        self:toBoxRow(self.scroll + row, dir == "right" and 0 or COLS - 1)
       end
     else
       local limit = self:boxLimit()
@@ -479,7 +483,7 @@ return function(mod, S, gen2)
       local lastRow = math.floor((limit - 1) / COLS)
       local function toParty()
         self.region = "party"
-        self.partyIndex = math.max(1, math.min(row - self.scroll + 1, self:partyLimit()))
+        self.partyIndex = math.max(1, math.min(row - self.scroll + 2, self:partyLimit()))
       end
       if dir == "left" then
         if col == 0 then toParty() else self.boxIndex = idx - 1 end
@@ -508,18 +512,21 @@ return function(mod, S, gen2)
   end
 
   -- START w/ Left/Right: a page (5 rows) up or down. In the big box the
-  -- cursor goes 5 rows up/down in its column (stopping at the first row or
-  -- the last slot); on the party column the big box beside it scrolls.
+  -- cursor goes 5 rows up/down and always stays in its column (stopping at
+  -- the column's first or last slot); on the party column the big box beside
+  -- it scrolls.
   function PC:jump(step)
     local pageSlots = BOX_ROWS * COLS
-    local lastRow = math.floor((self:boxLimit() - 1) / COLS)
+    local limit = self:boxLimit()
+    local lastRow = math.floor((limit - 1) / COLS)
     local maxScroll = math.max(0, lastRow - BOX_ROWS + 1)
     local before = { self.boxIndex, self.scroll }
     if self.region == "box" then
       local idx = self.boxIndex
       local target = idx + step * pageSlots
-      if target > self:boxLimit() then
-        target = self:boxLimit()
+      if target > limit then
+        target = idx
+        while target + COLS <= limit do target = target + COLS end
       elseif target < 1 then
         target = (idx - 1) % COLS + 1
       end

@@ -38,6 +38,7 @@ return function(mod)
   else
     local G1 = mod:load("gen1.lua")(mod, C)
     decorateScreen("BagMenu", "src.ui.BagMenu", G1.decorate)
+    decorateScreen("ShopMenu", "src.ui.ShopMenu", G1.decorateShop)
   end
   mod.log:info("Highlander Bag ready (Gen %d)", gen2 and 2 or 1)
 end
