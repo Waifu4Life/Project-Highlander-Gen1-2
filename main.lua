@@ -28,12 +28,16 @@ return function(mod)
     screenTouches = {},  -- part id -> how many screens it registered
     bootErrors = {},     -- part id -> error logged while installing
   }
+  shared.heldDirs = runFile("core/held_dirs.lua")()
+  shared.pagedText = runFile("core/paged_text.lua")()
   shared.pokeIcons = runFile("core/poke_icons.lua")(mod, store)
   -- Always on: Key Item shortcuts (Bag SHORT.1-3 rows and the SELECT box).
   shared.itemShortcuts = runFile("core/item_shortcuts.lua")(mod, store)
   -- Always on: take keyboard/gamepad focus when started from outside the
   -- launcher (frontend, Playnite, -red / -blue shortcuts).
   pcall(function() runFile("core/window_focus.lua")(mod) end)
+  -- Always on: the mouse pointer hides after 2 seconds without moving.
+  pcall(function() runFile("core/mouse_hide.lua")(mod) end)
 
   -- Check the whole zip first: a missing or broken file stops the mod here,
   -- before any part has changed anything in the game.

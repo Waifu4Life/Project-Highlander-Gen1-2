@@ -67,7 +67,13 @@ return function(mod)
       end
     end)
   end
+  -- every 2 lines on screen wait for A (core/paged_text.lua)
+  local function paged(game, text)
+    local fn = mod.highlander and mod.highlander.pagedText
+    return fn and fn(game, text) or text
+  end
   local function say(game, text, done, jingle)
+    text = paged(game, text)
     local ok, TextBox = pcall(require, "src.render.TextBox")
     if not ok then ok, TextBox = pcall(require, "src.ui.TextBox") end
     if jingle then playFanfare(game, jingle) end
@@ -86,7 +92,7 @@ return function(mod)
       if onYes then onYes() end
       return
     end
-    game.stack:push(TextBox.new(game, text, nil, {
+    game.stack:push(TextBox.new(game, paged(game, text), nil, {
       choice = function(yes)
         if yes then
           if onYes then onYes() end
@@ -1611,7 +1617,7 @@ return function(mod)
         markBirdCaught(game, species)
         if species == "MEW" then
           say(game,
-            "A telepathic voice...\nPlease help me find\nmy other half.\fI couldn't find my\nother half in these\nancient ruins, so\nperhaps in the\nancient ruins of\nyour region?")
+            "A telepathic voice... Please help me find my other half.\fI couldn't find my other half in these ancient ruins, so perhaps in the ancient ruins of your region?")
         elseif species == "MEWTWO" then
           say(game, "MEW: We are finally\nreunited!\fMEWTWO: Yes!")
         end
@@ -2496,12 +2502,12 @@ return function(mod)
             local f = flags(game)
             if not f.PH_ELM_OFFERED_2 then
               f.PH_ELM_OFFERED_2 = true
-              body = ELM_OFFER_TEXT
+              body = paged(game, ELM_OFFER_TEXT)
             elseif not f.PH_ELM_SAW_NUDGE then
               f.PH_ELM_SAW_NUDGE = true
-              body = ELM_NUDGE_TEXT
+              body = paged(game, ELM_NUDGE_TEXT)
             else
-              body = ELM_NUDGE_TEXT
+              body = paged(game, ELM_NUDGE_TEXT)
             end
           end
         end
@@ -2599,12 +2605,12 @@ return function(mod)
             local f = flags(game)
             if not f.PH_ELM_OFFERED_2 then
               f.PH_ELM_OFFERED_2 = true
-              text = ELM_OFFER_TEXT
+              text = paged(game, ELM_OFFER_TEXT)
             elseif f.PH_ELM_SAW_NUDGE then
               text = " "
             else
               f.PH_ELM_SAW_NUDGE = true
-              text = ELM_NUDGE_TEXT
+              text = paged(game, ELM_NUDGE_TEXT)
             end
           end
         end

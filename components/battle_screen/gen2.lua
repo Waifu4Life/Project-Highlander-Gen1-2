@@ -240,16 +240,29 @@ return function(mod)
     if type(screen.hudCleared) == "function" and screen:hudCleared("enemy") then return end
     local enemy = screen:activeMon("enemy")
     if not enemy then return end
-    local kind = screen.kind or (screen.battle and screen.battle.kind)
-    if kind and kind ~= "wild" then return end
-    local save = screen.game and screen.game.save
-    local owned = save and save.pokedex and save.pokedex.owned
-    local species = enemy.species or (enemy.mon and enemy.mon.species)
-    if not (owned and species and owned[species] == true) then return end
+    -- The game's own test (wild fight + Pokedex CAUGHT flag), so the red ball
+    -- shows exactly when the game would draw its black-and-white one.
+    if type(screen.caughtMarkerVisible) == "function" then
+      local ok, visible = pcall(screen.caughtMarkerVisible, screen)
+      if not (ok and visible) then return end
+    else
+      local battle = screen.battle
+      local kind = screen.kind or (battle and battle.kind)
+      if kind and kind ~= "wild" then return end
+      if battle and battle.wild == false then return end
+      local dex = screen.game and screen.game.save and screen.game.save.pokedex
+      local species = enemy.species or (enemy.mon and enemy.mon.species)
+      local caught = dex and species and ((dex.caught and dex.caught[species])
+        or (dex.owned and dex.owned[species]))
+      if not caught then return end
+    end
     local G = love.graphics
     local RED, WHT, INK = { 0.91, 0.25, 0.25 }, { 1, 1, 1 }, { 0.08, 0.08, 0.10 }
     G.push("all")
     G.setShader()
+    -- Clear the game's own mark (its whole 8x8 tile) before drawing ours.
+    G.setColor(1, 1, 1, 1)
+    G.rectangle("fill", 8, 8, 8, 8)
     for y, row in ipairs(CAUGHT_MAP) do
       for x = 1, #row do
         local c = row:sub(x, x)
@@ -262,7 +275,7 @@ return function(mod)
     end
     pcall(function()
       local PaletteFX = require("src.render.PaletteFX")
-      if PaletteFX.markTrueColor then PaletteFX.markTrueColor(8, 8, 7, 7) end
+      if PaletteFX.markTrueColor then PaletteFX.markTrueColor(8, 8, 8, 8) end
     end)
     G.pop()
   end

@@ -125,7 +125,13 @@ return function(mod)
       end
     end)
   end
+  -- every 2 lines on screen wait for A (core/paged_text.lua)
+  local function paged(game, text)
+    local fn = mod.highlander and mod.highlander.pagedText
+    return fn and fn(game, text) or text
+  end
   local function say(game, text, done, jingle)
+    text = paged(game, text)
     local ok, TextBox = pcall(require, "src.render.TextBox")
     if not ok then ok, TextBox = pcall(require, "src.ui.TextBox") end
     if jingle then playFanfare(game, jingle) end
@@ -320,7 +326,7 @@ return function(mod)
     f.PH_DOJO_ASKED = true
     local ok, TextBox = pcall(require, "src.render.TextBox")
     if not ok then ok, TextBox = pcall(require, "src.ui.TextBox") end
-    game.stack:push(TextBox.new(game, prompt, nil, {
+    game.stack:push(TextBox.new(game, paged(game, prompt), nil, {
       choice = function(yes)
         if not yes then
           say(game, "I thought you were made of sterner stuff.")
@@ -384,7 +390,7 @@ return function(mod)
     f.PH_FOSSIL_ASKED = true
     local ok, TextBox = pcall(require, "src.render.TextBox")
     if not ok then ok, TextBox = pcall(require, "src.ui.TextBox") end
-    game.stack:push(TextBox.new(game, prompt, nil, {
+    game.stack:push(TextBox.new(game, paged(game, prompt), nil, {
       choice = function(yes)
         if not yes then say(game, "Oh com'on, please reconsider.") return end
         takeItem(game.save, "SS_TICKET"); takeItem(game.save, "S_S_TICKET"); takeItem(game.save, "SSTICKET")
@@ -613,7 +619,7 @@ return function(mod)
     local prompt = "Hello there! Do you want to\ntrade your POLIWHIRL for JYNX?"
     local ok, TextBox = pcall(require, "src.render.TextBox")
     if not ok then ok, TextBox = pcall(require, "src.ui.TextBox") end
-    game.stack:push(TextBox.new(game, prompt, nil, {
+    game.stack:push(TextBox.new(game, paged(game, prompt), nil, {
       choice = function(yes)
         if not yes then
           say(game, "Well, if you don't want to...")
@@ -795,7 +801,7 @@ return function(mod)
     local prompt = "My name is Link C. and I have these POKéMON that I really love, but they can only evolve via trading.\fNow I don't want to give them after they evolve, I want them back, hence why I'll only trade for the same kind of POKéMON, that way, I know I'll get them back.\fWhat do you say, want to trade?"
     local ok, TextBox = pcall(require, "src.render.TextBox")
     if not ok then ok, TextBox = pcall(require, "src.ui.TextBox") end
-    game.stack:push(TextBox.new(game, prompt, nil, {
+    game.stack:push(TextBox.new(game, paged(game, prompt), nil, {
       choice = function(yes)
         if not yes then
           say(game, "OK, some other time then.")

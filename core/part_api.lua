@@ -41,6 +41,8 @@ return function(mainMod, store, shared, part)
   local function shortcuts() return shared.itemShortcuts end
   api.highlander = {
     pokeIcons = shared.pokeIcons,
+    heldDirs = shared.heldDirs,
+    pagedText = shared.pagedText,
     itemShortcuts = shared.itemShortcuts,
     openShortcutMenu = function(game, rows)
       return shortcuts() and shortcuts().open(game, rows)

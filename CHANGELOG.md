@@ -1,3 +1,17 @@
+## [1.71.0] — Red caught ball in Gen 2, more speeches wait for A
+- BATTLE SCREEN (Gen 2): the little Poké Ball beside a wild Pokémon you've already caught is now red and white, like in Gen 1. It was meant to be already, but it never showed, so you only saw the game's own black-and-white one.
+- MOM (Gen 1, Secret Mew): her talk about the strange little Pokémon around the house now stops after every 2 lines and waits for A, like the other added speeches.
+- RUNNING SHOES (Gen 1): Mom's sneakers lines, Oak's "your mom just called" and "Calm down, no need to run around..." also stop after every 2 lines.
+- GET ALL THE POKéMON (Gen 2): Mew's telepathic message after you catch it now breaks into even 2-line boxes.
+
+## [1.70.0] — PokéBox count, no more stuck cursor, hidden mouse pointer
+- HIGHLANDER PC (PokéBox): fixed the cursor carrying on in a direction after you let go until you pressed that direction again. A direction the game still holds with no key, button or stick behind it is now let go after 1/4 second, on keyboard and controller alike, with FULL CONTROL on or off.
+- HIGHLANDER PC (PokéBox): how many Pokémon are in the big box is shown at the top right, above the type tags: "74/240" in Red/Blue/Yellow/Green, out of 280 in Gold/Silver/Crystal.
+- HIGHLANDER PC (PokéBox): the button help now sits top left beside the PARTY badge: what A does and START+L/R:JUMP SCROLL on the first line, what SELECT (or B) does on the second, so it no longer crowds the box count.
+- GET ALL THE POKéMON (Gen 1 and Gen 2): the added speeches (Oak, the Karate Master, the Super Nerd, Elm and the others) now stop after every 2 lines and wait for A, like the games' own text, instead of scrolling past before you could read them.
+- FULL CONTROL: the safety net that lets go of a stuck direction now works on the keyboard too (it used to act only after controller input), and checks the exact key or button holding the direction, so keys bound in the game's own CONTROLS still count as held.
+- MOUSE POINTER (always on): the mouse pointer hides over the game window after 2 seconds without moving, and comes back as soon as you move the mouse or click.
+
 ## [1.69.0] — SPEED- works again
 - FULL CONTROL: SPEED- works again at NORMAL speed: it goes round to the top speed, like SPEED+ goes round to NORMAL. Since the game's latest update, SPEED- stopped at NORMAL, so it seemed to do nothing whichever button it was on. It also works from a trigger and from the 0 key.
 

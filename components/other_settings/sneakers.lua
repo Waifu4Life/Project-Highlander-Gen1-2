@@ -126,6 +126,9 @@ return function(mod)
 
   local function say(game, text, done)
     local TextBox = require("src.render.TextBox")
+    -- every 2 lines on screen wait for A (core/paged_text.lua)
+    local paged = mod.highlander and mod.highlander.pagedText
+    if paged then text = paged(game, text) or text end
     game.stack:push(TextBox.new(game, text, done))
   end
 

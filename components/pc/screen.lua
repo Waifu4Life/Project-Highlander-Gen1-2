@@ -766,6 +766,14 @@ return function(mod, S, gen2)
         return
       end
     end
+    -- A direction the game holds with no key, button or stick behind it
+    -- (a lost release) is let go after 1/4 second, so the cursor stops
+    -- instead of running on until that direction is pressed again.
+    local heldDirs = mod.highlander and mod.highlander.heldDirs
+    if heldDirs then
+      self.orphans = self.orphans or {}
+      if heldDirs.guard(input, self.orphans, 12) then MenuRepeat.reset(self.hold) end
+    end
     if self.confirm then return self:updateConfirm(input) end
     if self.menu then return self:updateMenu(input) end
     local dir = MenuRepeat.direction(self.hold, input, { "up", "down", "left", "right" })
@@ -821,22 +829,35 @@ return function(mod, S, gen2)
     end
   end
 
-  -- Button help, all at once: what A / SELECT / B do on the left, the page
-  -- jump on the right. Returns two lists of lines (left, right).
+  -- Button help, top left beside the badges: what A does and the page jump
+  -- on the first line, what SELECT (or B) does on the second, which ends
+  -- well clear of the box count on its right.
+  local HELP_X = 31
   local function pair(a, b) return a .. "  " .. b end
   function PC:helpLines()
-    if self.menu or self.confirm then return { pair("A:OK", "B:BACK") }, {} end
-    local jump = { "START+L/R", "JUMP SCROLL" }
-    if self.held then return { pair("A:DROP", "B:CANCEL") }, jump end
-    if self.multi then return { "A:MARK", pair("SELECT:DROP", "B:END") }, jump end
-    if self.autoGrab then return { pair("A:GRAB", "SELECT:MENU") }, jump end
-    return { pair("A:MENU", "SELECT:GRAB") }, jump
+    if self.menu or self.confirm then return { pair("A:OK", "B:BACK") } end
+    local jump = "START+L/R:JUMP SCROLL"
+    if self.held then return { pair("A:DROP", jump), "B:CANCEL" } end
+    if self.multi then return { pair("A:MARK", jump), pair("SELECT:DROP", "B:END") } end
+    if self.autoGrab then return { pair("A:GRAB", jump), "SELECT:MENU" } end
+    return { pair("A:MENU", jump), "SELECT:GRAB" }
+  end
+
+  -- Top right, above the type tags: how many Pokémon are in the big box,
+  -- out of 240 (Gen 1) / 280 (Gen 2). `after` is where the help line beside
+  -- it ends: a long count is pulled 1 px tighter rather than touch it.
+  function PC:drawCount(ink, after)
+    local count = string.format("%d/%d", #self:flat(), S.capacity())
+    local right = 158
+    local x = math.max(right - textWidth(count), after + 3)
+    if x < right then text(count, x, 9, ink, right - x) end
   end
 
   -- The band above the big box: the Pokemon under the cursor, its name with
   -- "LvXX" always on the line under it, and its type(s) as tags on the
   -- right, two types stacked. No level shown (an egg): the name is centred.
   function PC:drawMonInfo(mon, ink)
+    if not mon then return end
     local name = S.name(self.game, mon)
     local room = TAGS_X - 2 - NAME_X
     local level = tonumber(mon.level)
@@ -894,15 +915,17 @@ return function(mod, S, gen2)
     else
       badge("PARTY", 4, 9, dark, paper)
     end
-    local left, right = self:helpLines()
-    local ly = #left >= 2 and 3 or 6
-    for i, line in ipairs(left) do pixText(TINY, line, NAME_X, ly + (i - 1) * 7, ink) end
-    local ry = #right >= 2 and 3 or 6
-    for i, line in ipairs(right) do
-      pixText(TINY, line, 158 - pixWidth(TINY, line), ry + (i - 1) * 7, ink)
+    local lines = self:helpLines()
+    local helpEnd = HELP_X
+    for i, line in ipairs(lines) do
+      local y = 1 + (i - 1) * 7
+      pixText(TINY, line, HELP_X, y, ink)
+      -- only the last line sits beside the count (y 9-16)
+      if i == #lines then helpEnd = HELP_X + pixWidth(TINY, line) end
     end
-    local mon = self:selected()
-    if mon then self:drawMonInfo(mon, ink) end
+    if #lines < 2 then helpEnd = HELP_X end
+    self:drawCount(ink, helpEnd)
+    self:drawMonInfo(self:selected(), ink)
 
     -- party column
     local party = self:party()

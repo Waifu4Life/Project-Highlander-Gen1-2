@@ -186,12 +186,18 @@ return function(mod)
     if ow.pushBattle then ow:pushBattle(battle) else game.stack:push(battle) end
   end
 
+  -- every 2 lines on screen wait for A (core/paged_text.lua)
+  local function paged(game, text)
+    local fn = mod.highlander and mod.highlander.pagedText
+    return fn and fn(game, text) or text
+  end
+
   local function momTalk(game, ow, npc, done)
     local TextBox = require("src.render.TextBox")
     if npc and npc.facePlayer then pcall(npc.facePlayer, npc, ow.player) end
     flags(game).PH_MEW_HINT = true
-    game.stack:push(TextBox.new(game,
-      "I saw a strange\nlittle floating\nPOKeMON snooping\nin and around our\nhouse.\fWhy don't you see\nif you can find\nit?",
+    game.stack:push(TextBox.new(game, paged(game,
+      "I saw a strange little floating POKeMON snooping in and around our house.\fWhy don't you see if you can find it?"),
       done))
   end
 

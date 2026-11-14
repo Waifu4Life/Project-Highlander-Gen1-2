@@ -679,7 +679,21 @@ return function(mod)
       if input.state then input.state[dir] = false end
     end
 
+    -- Keyboard and controller alike: every source the game lists for the
+    -- direction is checked on its own key / button (core/held_dirs.lua), so
+    -- a key bound in the game's CONTROLS still counts as held. It used to run
+    -- only after controller input, so on the keyboard a lost release kept
+    -- the cursor going (the PokéBox) until that direction was pressed again.
+    local held = mod.highlander and mod.highlander.heldDirs
+    local function ourHold(dir)
+      return heldBy[dir] ~= nil and next(heldBy[dir]) ~= nil
+    end
+
     local function releaseOrphanDirections(input)
+      if held then
+        held.guard(input, orphanFrames, 15, ourHold)
+        return
+      end
       if input._phLastDevice ~= "pad" then
         for dir in pairs(DIRS) do orphanFrames[dir] = nil end
         return

@@ -255,8 +255,10 @@ return function(mod)
     local ok, TextBox = pcall(require, "src.render.TextBox")
     if not ok then ok, TextBox = pcall(require, "src.ui.TextBox") end
     if ok and TextBox and TextBox.new then
-      pcall(game.stack.push, game.stack, TextBox.new(game,
-        "Calm down, no need to run around until you speak to Prof. Oak."))
+      local text = "Calm down, no need to run around until you speak to Prof. Oak."
+      local paged = mod.highlander and mod.highlander.pagedText
+      if paged then text = paged(game, text) or text end
+      pcall(game.stack.push, game.stack, TextBox.new(game, text))
     end
   end
   local function runActive(ctx)
