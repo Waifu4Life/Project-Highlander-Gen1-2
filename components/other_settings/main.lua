@@ -38,6 +38,11 @@ return function(mod)
       default = true },
     { key = "gen3_catch_rate", label = "GEN3 CATCH RATE", type = "toggle",
       default = true },
+    -- fast_qol.lua
+    { key = "learn_tms_faster", label = "LEARN TMS FASTER", type = "toggle",
+      default = true },
+    { key = "fast_pkmn_center", label = "FAST PKMN CENTER", type = "toggle",
+      default = true },
     { key = "coins_2x", label = "2X COINS FOR CASH",
       type = "toggle", default = true },
     -- Game Corner page (core/hub.lua) also shows these three.
@@ -1540,6 +1545,7 @@ return function(mod)
   end
   loadSibling("map_icon.lua")
   loadSibling("fly_regions.lua")
+  loadSibling("free_map_cursor.lua")
   loadSibling("trainer_card.lua")
   loadSibling("sneakers.lua")
   loadSibling("game_corner.lua")
@@ -1550,6 +1556,8 @@ return function(mod)
   loadSibling("repel_again.lua")
   loadSibling("legendary_persist.lua")
   loadSibling("blue_into_green.lua")
+  loadSibling("fast_qol.lua")
+  loadSibling("heal_boxed.lua")
 
   do
     local src = assert(mod:read("force_crystal.lua"), "force_crystal.lua missing")

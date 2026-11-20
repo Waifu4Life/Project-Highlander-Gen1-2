@@ -315,19 +315,29 @@ return function(mod)
     local p = save.player or {}
     return countBadgeTable(p.kantoBadges) + countBadgeTable(save.kantoBadges)
   end
+  -- Champion = the Hall of Fame was really entered.  Every new Gen 2 save
+  -- starts with hallOfFame = { count = 0, teams = {} }, so the table merely
+  -- existing (or having a `teams` key) proves nothing -- that mistake made
+  -- this true from the first step of the game.  HallOfFame.hasEntered is the
+  -- engine's own reading of the cart bit (count > 0 or `entered`).
   local function champion(save)
-    local f = save.flags or {}
-    local hof = save.hallOfFame
-    if type(hof) == "table" then
-      if (tonumber(hof.count) or 0) >= 1 then return true end
-      if hof[1] or hof.teams or hof.entries then return true end
-      for _ in pairs(hof) do return true end
+    if type(save) ~= "table" then return false end
+    local okH, HoF = pcall(require, "src.core.gen2.HallOfFame")
+    if okH and type(HoF) == "table" and type(HoF.hasEntered) == "function" then
+      local ok, yes = pcall(HoF.hasEntered, save)
+      if ok and yes then return true end
     end
+    local hof = save.hallOfFame
     if hof == true then return true end
-    if kantoBadgeCount(save) >= 8 or badgeCount(save) >= 16 then return true end
-    return f.hallOfFame or f.HALL_OF_FAME or f.BEAT_ELITE_FOUR
+    if type(hof) == "table" then
+      if (tonumber(hof.count) or 0) > 0 or hof.entered == true then return true end
+      if type(hof.teams) == "table" and hof.teams[1] ~= nil then return true end
+    end
+    if kantoBadgeCount(save) >= 8 then return true end
+    local f = save.flags or {}
+    return (f.hallOfFame or f.HALL_OF_FAME or f.BEAT_ELITE_FOUR
       or f.PH_CHAMPION or f.BEAT_CHAMPION
-      or f.EVENT_BEAT_ELITE_FOUR or f.EVENT_HALL_OF_FAME
+      or f.EVENT_BEAT_ELITE_FOUR or f.EVENT_HALL_OF_FAME) and true or false
   end
   local function normSpecies(sp)
     sp = tostring(sp or ""):upper():gsub("%-", "_"):gsub("%s+", "_")
@@ -508,6 +518,8 @@ return function(mod)
     end
   end
 
+  local KANTO_BIRDS = { ARTICUNO = 144, ZAPDOS = 145, MOLTRES = 146 }
+
   local function persistBirdCaught(save, species)
     species = tostring(species or ""):upper()
     local meta = BIRD_CATCH[species]
@@ -535,7 +547,21 @@ return function(mod)
     local e = save.events or {}
     local b = save.phBirds or {}
     local p = (save.player and save.player.phBirds) or {}
-    return f[meta.flag] or e[meta.flag] or b[species] or p[species] or false
+    if f[meta.flag] or e[meta.flag] or b[species] or p[species] then return true end
+    -- Gold/Silver/Crystal have no other Articuno, Zapdos or Moltres: once the
+    -- Pokédex has one CAUGHT, ours was caught, even if the battle's ending
+    -- never got the flag set (older saves too).
+    if KANTO_BIRDS[species] then
+      local dex = save.pokedex
+      local caught = type(dex) == "table" and (dex.caught or dex.owned)
+      local num = KANTO_BIRDS[species]
+      if type(caught) == "table"
+          and (caught[species] or caught[num] or caught[tostring(num)]) then
+        persistBirdCaught(save, species)
+        return true
+      end
+    end
+    return false
   end
 
   local function markBirdCaught(game, species)
@@ -699,6 +725,61 @@ return function(mod)
     sweep(ow)
     sweep(game.world)
     sweep(game.overworld)
+  end
+
+  -- 1.77.0: once the extra starter is taken, nothing stays on Elm's table.
+  -- The older sweep could leave a ball drawn but untouchable (pulled from
+  -- the touch list, not from the map's own object masks). This works on
+  -- Gold's world directly: every Poke Ball object on the table (6-8, 3) gets
+  -- its event flag and mask, and any ball still in the people list goes.
+  local function clearElmTable(game)
+    if not flags(game).PH_ELM_TOOK_2 then return end
+    local world = game.world
+    local def = world and world.map and world.map.def
+    if not (def and type(def.objects) == "table") then return end
+    if not isElmLab(world.map.id or mapId(world)) then return end
+    local onTable = {}
+    local changed = false
+    for i, obj in ipairs(def.objects) do
+      local x, y = tonumber(obj.x), tonumber(obj.y)
+      if y == 3 and x and x >= 6 and x <= 8
+          and tostring(obj.sprite or ""):upper():find("BALL") then
+        onTable[obj] = true
+        if obj.eventFlag and obj.eventFlag ~= 0xFFFF and world.events
+            and type(world.events.set) == "function" then
+          if not world.events:get(obj.eventFlag) then
+            world.events:set(obj.eventFlag, true)
+          end
+        end
+        if type(world.setObjectMask) == "function" then
+          local key = world.objectMaskKey and world:objectMaskKey(obj, i)
+          if not (key and world.objectMasks and world.objectMasks[key]) then
+            world:setObjectMask(obj, i, true)
+            changed = true
+          end
+        end
+      end
+    end
+    local function strip(list)
+      if type(list) ~= "table" then return end
+      for i = #list, 1, -1 do
+        local n = list[i]
+        if type(n) == "table" and n ~= world.player
+            and ((n.def and onTable[n.def]) or n.id == "ph_elm_ball"
+              or (isLabBallNpc(n) and tostring(n.def and n.def.sprite or n.sprite or "")
+                :upper():find("BALL"))) then
+          table.remove(list, i)
+          changed = true
+        end
+      end
+    end
+    strip(world.npcs)
+    strip(world.entities)
+    if changed and type(world.rebuildPeople) == "function" then
+      pcall(world.rebuildPeople, world, { seamless = true })
+      strip(world.npcs)
+      strip(world.entities)
+    end
   end
 
   local function handleElmBall(game, ow, npc)
@@ -966,7 +1047,7 @@ return function(mod)
     return opened
   end
 
-  -- Link C. replaces the bench Pokefan in Ecruteak Center (7,6).
+  -- Link C.'s trades (he is the Game Boy Kid on Goldenrod Dept. Store 4F).
   local TRADE = {
     { need = "KADABRA", item = nil, into = "ALAKAZAM" },
     { need = "HAUNTER", item = nil, into = "GENGAR" },
@@ -1064,30 +1145,29 @@ return function(mod)
       end
     end)
   end
-  local function ecruteakCenter(map)
-    map = tostring(map or ""):upper()
-    if map:find("ECRUTEAK") and (map:find("CENTER") or map:find("POKECENTER") or map:find("POKE_CENTER")) then
-      return true
-    end
-    return map:find("ECRUTEAKPOKECENTER") or map:find("ECRUTEAK_POKECENTER")
+  -- Link C. is the Game Boy Kid on Goldenrod Dept. Store 4F
+  -- (GOLDENROD_DEPT_STORE_4F). He used to replace the bench Pokefan in
+  -- Ecruteak's Center, who is left as the cart has him now.
+  local function linkCMap(map)
+    map = tostring(map or ""):upper():gsub("[^%w]", "")
+    return map:find("GOLDENRODDEPTSTORE4F", 1, true) ~= nil
+  end
+  -- Party followers (engine Follower / Vivid Worlds OG), overworld mons and
+  -- anything not placed by the map are never Link C.: the follower walks
+  -- onto the bench side of the Center and used to be re-skinned as him.
+  local function notMapNpc(npc)
+    return type(npc) ~= "table" or npc.pikachuFollower or npc.follower
+      or rawget(npc, "_wilds") or npc.isFollower or npc.isPlayer
   end
   local function isLinkCTarget(ow, npc)
+    if notMapNpc(npc) then return false end
+    if ow and (npc == ow.follower or npc == ow.player) then return false end
+    if not linkCMap(mapId(ow)) then return false end
     local s = blob(npc)
     if tostring(npc.id or ""):find("ph_linkc") or s:find("LINK C") or s:find("LINKC") then
       return true
     end
-    if not ecruteakCenter(mapId(ow)) then return false end
-    if s:find("NURSE") or s:find("BILL") or s:find("GYM_GUIDE") or s:find("COOLTRAINER") then
-      return false
-    end
-    if s:find("POKEFAN") or s:find("FAT") or s:find("BALD") or s:find("SITTING")
-        or s:find("GAMEBOY") or s:find("GB_KID") then
-      return true
-    end
-    local x, y = npcXY(npc)
-    -- pret: Pokefan M sits at 7,6 on the right benches
-    if x and y and x >= 6 and y >= 5 then return true end
-    return false
+    return s:find("GAMEBOY") ~= nil or s:find("GB_KID") ~= nil
   end
   local function displayCopy(mon)
     if type(mon) ~= "table" then return { species = mon } end
@@ -1279,6 +1359,42 @@ return function(mod)
     askYesNo(game, prompt, function()
       local allow = {}
       for _, t in ipairs(left) do allow[t.need] = t end
+      local function pick(mon)
+        local spec = allow[monSpecies(mon)]
+        if spec and spec.item and not monHolds(mon, spec.item) then spec = nil end
+        if not spec then
+          say(game, "I don't need that one.")
+          return
+        end
+        startLinkTrade(game, spec, mon)
+      end
+      -- The Gen 2 party screen through the registry, so Project Highlander's
+      -- party look (modern sprites) dresses it like every other party menu.
+      local menu
+      local function close()
+        pcall(function()
+          if menu and game.stack:top() == menu then game.stack:pop() end
+        end)
+      end
+      local okS, Screens = pcall(require, "src.ui.Screens")
+      if okS and Screens and Screens.push then
+        local okP, inst = pcall(Screens.push, game, "Gen2PartyMenu", {
+          prompt = "choose",
+          onChoose = function(_, mon)
+            close()
+            if mon and not mon.isEgg then pick(mon)
+            else say(game, "I don't need that one.") end
+          end,
+          onCancel = function()
+            close()
+            say(game, "OK, some other time then.")
+          end,
+        })
+        if okP and inst then
+          menu = inst
+          return
+        end
+      end
       pushScreen(game, "PartyMenu", {
         pickOnly = true,
         onCancel = function() say(game, "OK, some other time then.") end,
@@ -1305,19 +1421,6 @@ return function(mod)
     return true
   end
 
-  local function dayNumber(save)
-    local rtc = save and save.rtc
-    if type(rtc) == "table" and tonumber(rtc.day) then
-      return tonumber(rtc.day) * 1440 + (tonumber(rtc.hour) or 0) * 60 + (tonumber(rtc.minute) or 0)
-    end
-    local pt = save and save.playTime
-    if type(pt) == "table" then
-      return (tonumber(pt.hours) or 0) * 60 + (tonumber(pt.minutes) or 0)
-    end
-    if type(pt) == "number" then return pt
-    end
-    return os.time()
-  end
 
 
   local function injectGsDef(game)
@@ -1374,229 +1477,43 @@ return function(mod)
     end
   end
 
-  local function gsReady(save, f)
-    if not f or not f.PH_GS_AT_KURT then return false end
-    if f.PH_GS_READY then return true end
-    local now = dayNumber(save)
-    local given = tonumber(f.PH_GS_GIVEN_DAY) or 0
-    if given > 0 and now - given >= 1440 then return true end
-    local rtc = save and save.rtc
-    local kday = tonumber(f.PH_GS_KURT_DAY)
-    if rtc and kday and tonumber(rtc.day) and tonumber(rtc.day) > kday then return true end
-    local pt = save and save.playTime
-    local kh = tonumber(f.PH_GS_KURT_HOURS)
-    if pt and kh and tonumber(pt.hours) and tonumber(pt.hours) - kh >= 24 then return true end
-    local wall = tonumber(f.PH_GS_KURT_WALL)
-    if wall and os.time() - wall >= 24 * 3600 then return true end
-    -- Saves that already waited before WALL existed: first talk after this
-    -- patch returns the ball.
-    if not wall then return true end
-    return false
-  end
+  -- The GS Ball / Celebi event lives in gs_ball_event.lua: Crystal's own
+  -- scenes after the Hall of Fame (receptionist, Kurt, Azalea, Ilex shrine),
+  -- scripted on the engine VM for Gold/Silver and unlocked on Crystal's cart.
+  local GSE = (function()
+    local src
+    if type(mod.read) == "function" then
+      local ok, data = pcall(function() return mod:read("gs_ball_event.lua") end)
+      if ok then src = data end
+    end
+    if not src then
+      local fh = io.open((mod.path or ".") .. "/gs_ball_event.lua", "r")
+      if fh then src = fh:read("*a"); fh:close() end
+    end
+    if type(src) ~= "string" or src == "" then return nil end
+    local fn = load(src, "@gs_ball_event")
+    if not fn then return nil end
+    local ok, gs = pcall(function()
+      return fn()(mod, {
+        feat = feat,
+        hasItem = hasItem,
+        takeItem = takeItem,
+        grantGsBall = grantGsBallItem,
+        countSpecies = countSpecies,
+      })
+    end)
+    if not ok then
+      pcall(function() mod.log:error("gs_ball_event failed to load: %s", tostring(gs)) end)
+      return nil
+    end
+    return gs
+  end)()
 
   local function handleKurt(game, npc)
-    if not feat("gen2_celebi") then return false end
-    local s = blob(npc)
-    if not s:find("KURT") then return false end
-    local f = flags(game)
-    if f.PH_CELEBI_CAUGHT then return false end
-    if f.PH_GS_AT_KURT and not f.PH_GS_READY then
-      if gsReady(game.save, f) then
-        f.PH_GS_READY = true
-        grantGsBallItem(game)
-        say(game, "The GS BALL is twitching.\fIlex Forest feels restless.\fTake this to the shrine in ILEX FOREST.")
-        return true
-      end
-      f.PH_GS_GIVEN_DAY = f.PH_GS_GIVEN_DAY or dayNumber(game.save)
-      say(game, "I'm checking this GS BALL. Come back tomorrow.")
-      return true
-    end
-    if f.PH_GS_READY then
-      if not (hasItem(game.save, "GS_BALL") or hasItem(game.save, "GSBALL")) then
-        grantGsBallItem(game)
-      end
-      say(game, "Take the GS BALL to the shrine in ILEX FOREST.")
-      return true
-    end
-    if f.PH_GS_PICKED or hasItem(game.save, "GS_BALL") or hasItem(game.save, "GSBALL") then
-      takeItem(game.save, "GS_BALL")
-      takeItem(game.save, "GSBALL")
-      f.PH_GS_AT_KURT = true
-      f.PH_GS_GIVEN_DAY = dayNumber(game.save)
-      f.PH_GS_KURT_DAY = (game.save.rtc and game.save.rtc.day) or 0
-      f.PH_GS_KURT_HOURS = (game.save.playTime and game.save.playTime.hours) or 0
-      f.PH_GS_KURT_WALL = os.time()
-      say(game, "This GS BALL... I'll look into it. Come see me tomorrow.")
-      return true
-    end
-    return false
+    if not (GSE and game) then return false end
+    return GSE.talk(game.world, npc) and true or false
   end
 
-  local function inGoldenrodCenter(game)
-    local ow = game and (game.overworld or game.world)
-    local mid = mapId(ow)
-    return mid:find("GOLDENROD") and mid:find("CENTER")
-  end
-
-  local function spawnGsBall(game, ow)
-    if not (game and ow and feat("gen2_celebi") and champion(game.save)) then return end
-    pcall(injectGsDef, game)
-    if not inGoldenrodCenter(game) then return end
-    local f = flags(game)
-    -- 2.39 stuffed the bag without a pickup. Take that copy back so the
-    -- counter ball can be picked up for real.
-    if not f.PH_GS_PICKED and not f.PH_GS_AT_KURT then
-      if hasItem(game.save, "GS_BALL") or hasItem(game.save, "GSBALL") then
-        takeItem(game.save, "GS_BALL")
-        takeItem(game.save, "GSBALL")
-      end
-      f.PH_GS_GIVEN = nil
-    end
-    if f.PH_GS_GIVEN or f.PH_GS_AT_KURT or f.PH_GS_READY then
-      for _, n in ipairs(ow.npcs or {}) do
-        if n.id == "ph_gs_ball" then
-          n.hidden = true
-          n.visible = false
-        end
-      end
-      return
-    end
-    if hasItem(game.save, "GS_BALL") or hasItem(game.save, "GSBALL") then return end
-    for _, n in ipairs(ow.npcs or {}) do
-      if n.id == "ph_gs_ball" then
-        n.hidden = false
-        n.visible = true
-        return
-      end
-    end
-    local okN, NPC = pcall(require, "src.world.NPC")
-    if not okN then return end
-    local sprite = "SPRITE_POKE_BALL"
-    if game.data and game.data.sprites then
-      for _, id in ipairs({ "SPRITE_POKE_BALL", "SPRITE_POKEBALL", "SPRITE_BALL" }) do
-        if game.data.sprites[id] then sprite = id break end
-      end
-    end
-    -- Nurse sits at 5,1; desk row is y=2. Ball on the right side of the counter.
-    local obj = {
-      index = 94, movement = "STAY", range = "DOWN",
-      sprite = sprite, text = "GS BALL", x = 4, y = 3, name = "GS BALL",
-    }
-    local ok, npc = pcall(NPC.new, game.data, mapId(ow), obj)
-    if not ok or type(npc) ~= "table" then return end
-    npc.id = "ph_gs_ball"
-    npc.name = "GS BALL"
-    npc.frozen = true
-    npc.px = 4 * 16
-    npc.py = 3 * 16
-    npc.cellX, npc.cellY = 4, 3
-    npc.x, npc.y = 4, 3
-    -- GS Ball: gold cap, silver bowl
-    npc.palette = "PAL_OW_YELLOW"
-    npc.paletteId = 5
-    npc.paletteName = "PAL_OW_YELLOW"
-    if npc.def then
-      npc.def.palette = "PAL_OW_YELLOW"
-      npc.def.x, npc.def.y = 4, 3
-    end
-    if type(npc.sprite) == "table" then
-      npc.sprite.palette = {
-        { 248, 200, 16 },
-        { 184, 184, 200 },
-        { 248, 248, 248 },
-        { 32, 32, 32 },
-      }
-    end
-    ow.npcs = ow.npcs or {}
-    ow.npcs[#ow.npcs + 1] = npc
-    ow.entities = ow.entities or {}
-    ow.entities[#ow.entities + 1] = npc
-    pcall(function()
-      if type(ow.addRuntimeObject) == "function" then ow:addRuntimeObject(npc) end
-      if type(ow.applySpritePalette) == "function" then ow:applySpritePalette(npc) end
-    end)
-  end
-
-  local function giveGsBall(game)
-    local ow = game and (game.overworld or game.world)
-    if not inGoldenrodCenter(game) then return false end
-    spawnGsBall(game, ow)
-    local f = flags(game)
-    if f.PH_GS_MSG then return false end
-    if f.PH_GS_GIVEN or f.PH_GS_AT_KURT then return false end
-    if not (feat("gen2_celebi") and champion(game.save)) then return false end
-    if hasItem(game.save, "GS_BALL") or hasItem(game.save, "GSBALL") then
-      f.PH_GS_GIVEN = true
-      spawnGsBall(game, ow)
-      return false
-    end
-    f.PH_GS_MSG = true
-    say(game, "A strange GS BALL was left in front of the counter!")
-    return true
-  end
-
-  local function despawnGsBall(game, npc)
-    local function strip(holder, n)
-      if not holder then return end
-      if n then
-        pcall(vanishNpc, holder, n)
-        n.hidden = true
-        n.visible = false
-        n.skipDraw = true
-        n.sprite = nil
-      end
-      for _, key in ipairs({ "npcs", "entities", "objects" }) do
-        local list = holder[key]
-        if type(list) == "table" then
-          for i = #list, 1, -1 do
-            local e = list[i]
-            if e and (e == n or e.id == "ph_gs_ball") then
-              pcall(vanishNpc, holder, e)
-              e.hidden = true
-              e.visible = false
-              table.remove(list, i)
-            end
-          end
-        end
-      end
-      pcall(function()
-        if n and type(holder.removeRuntimeObject) == "function" then
-          holder:removeRuntimeObject(n)
-        end
-      end)
-    end
-    strip(game and game.overworld, npc)
-    strip(game and game.world, npc)
-    if npc then
-      npc.hidden = true
-      npc.visible = false
-      npc.skipDraw = true
-    end
-  end
-
-  local function handleGsBall(game, npc)
-    if not npc then return false end
-    local isBall = npc.id == "ph_gs_ball"
-        or (inGoldenrodCenter(game) and blob(npc):find("GS") and blob(npc):find("BALL"))
-    if not isBall then return false end
-    if not feat("gen2_celebi") then return false end
-    local f = flags(game)
-    if f.PH_GS_AT_KURT or hasItem(game.save, "GS_BALL") or hasItem(game.save, "GSBALL") then
-      npc.hidden = true
-      return true
-    end
-    grantGsBallItem(game)
-    f.PH_GS_GIVEN = true
-    f.PH_GS_PICKED = true
-    despawnGsBall(game, npc)
-    say(game, "You got the GS BALL!", nil, "Get_Key_Item")
-    return true
-  end
-
-  local function handleGsCenter(game, npc)
-    if handleGsBall(game, npc) then return true end
-    return false
-  end
 
   -- Gen2 World:startBattle({ wild = Mon }, onDone).
   -- BattleState.newWild is the Gen1 constructor and fails silently here.
@@ -1613,7 +1530,10 @@ return function(mod)
       game._phBirdCool = 45
       local r = tostring(result or ""):lower()
       local nowHas = hasSpecies(game.save, species)
-      if r:find("caught") or r:find("catch") or (nowHas and not alreadyHad) then
+      -- one more of this species than before the fight = caught, even if you
+      -- already had one (party or any box)
+      local gained = countSpecies(game.save, species) > (game._phPendingCount or 0)
+      if r:find("caught") or r:find("catch") or gained or (nowHas and not alreadyHad) then
         markBirdCaught(game, species)
         if species == "MEW" then
           say(game,
@@ -1688,42 +1608,9 @@ return function(mod)
     end
   end)
 
-  local function inIlex(game)
-    local mid = ((game.overworld and mapId(game.overworld)) or "") .. " " .. currentMap(game)
-    mid = mid:upper()
-    return mid:find("ILEX") and mid:find("FOREST")
-  end
-
-  local function isShrineTile(fx, fy)
-    fx, fy = tonumber(fx), tonumber(fy)
-    if not fx or not fy then return false end
-    -- Only the shrine itself. Nearby CUT trees must not fire this.
-    return fx == 8 and (fy == 22 or fy == 21)
-  end
-
   local function tryIlexShrine(game, ow, fx, fy)
-    if not feat("gen2_celebi") then return false end
-    if not inIlex(game) then return false end
-    -- Interact path needs the shrine tile. TextBox plaque path passes nil,nil.
-    if fx ~= nil or fy ~= nil then
-      if not isShrineTile(fx, fy) then return false end
-    end
-    local f = flags(game)
-    if f.PH_CELEBI_CAUGHT then return false end
-    if not (f.PH_GS_READY or hasItem(game.save, "GS_BALL") or hasItem(game.save, "GSBALL")) then
-      return false
-    end
-    if game._phIlexAsk then return true end
-    game._phIlexAsk = true
-    askYesNo(game, "Put the GS BALL in the shrine?", function()
-      game._phIlexAsk = nil
-      takeItem(game.save, "GS_BALL")
-      takeItem(game.save, "GSBALL")
-      startWild(game, ow or game.overworld or game.world, "CELEBI", 30, "PH_CELEBI_CAUGHT")
-    end, function()
-      game._phIlexAsk = nil
-    end)
-    return true
+    if not (GSE and game) then return false end
+    return GSE.interact(game.world, fx, fy) and true or false
   end
 
   local function pickSprite(data, ow, species)
@@ -2002,33 +1889,10 @@ return function(mod)
         end
       end
     end
-    if feat("gen2_celebi") and f.PH_GS_READY and not f.PH_CELEBI_CAUGHT then
-      if mid:find("ILEX") and (mid:find("SHRINE") or mid:find("FOREST")) then
-        spawnStatic(ow, "ph_celebi", "CELEBI", 30, 6, 5)
-      end
-    end
   end
 
   -- Walk-up trigger removed. Birds only fight on A while facing them.
   local function approachBirds() end
-
-  local function tryGsBallInteract(game, ow, fx, fy)
-    if not (feat("gen2_celebi") and inGoldenrodCenter(game)) then return false end
-    if not (fx == 4 and fy == 3) then return false end
-    local f = flags(game)
-    if f.PH_GS_GIVEN or f.PH_GS_AT_KURT then return false end
-    if hasItem(game.save, "GS_BALL") or hasItem(game.save, "GSBALL") then return false end
-    grantGsBallItem(game)
-    f.PH_GS_GIVEN = true
-    f.PH_GS_PICKED = true
-    local ball
-    for _, n in ipairs((ow and ow.npcs) or {}) do
-      if n.id == "ph_gs_ball" then ball = n break end
-    end
-    despawnGsBall(game, ball)
-    say(game, "You got the GS BALL!", nil, "Get_Key_Item")
-    return true
-  end
 
   local function tryBirdInteract(game, ow, fx, fy)
     if not (feat("gen2_birds") and kantoOpen(game.save)) then return false end
@@ -2168,12 +2032,20 @@ return function(mod)
     if not ow then return end
     local mid = mapId(ow)
     if mid == "" and game then mid = currentMap(game) end
-    if not ecruteakCenter(mid) then return end
+    if not linkCMap(mid) then return end
+    -- dress exactly one NPC: the one already tagged, else the first match
+    local pick
     for _, n in ipairs(ow.npcs or {}) do
-      if isLinkCTarget(ow, n) then
-        paintLinkCSprite(game, ow, n)
-        n.id = n.id or "ph_linkc"
+      if not notMapNpc(n) and tostring(n.id or ""):find("ph_linkc") then pick = n break end
+    end
+    if not pick then
+      for _, n in ipairs(ow.npcs or {}) do
+        if isLinkCTarget(ow, n) then pick = n break end
       end
+    end
+    if pick then
+      paintLinkCSprite(game, ow, pick)
+      pick.id = pick.id or "ph_linkc"
     end
   end
 
@@ -2376,7 +2248,6 @@ return function(mod)
       if handleOak(game, npc) then return "handleOak" end
       if handleKim(game, npc) then return "handleKim" end
       if handleLinkC(game, self, npc) then return "handleLinkC" end
-      if handleGsCenter(game, npc) then return "handleGsCenter" end
       if handleKurt(game, npc) then return "handleKurt" end
       return nil
     end)
@@ -2426,7 +2297,6 @@ return function(mod)
           if not fx and self.player and type(self.player.facingCell) == "function" then
             pcall(function() fx, fy = self.player:facingCell() end)
           end
-          if fx and tryGsBallInteract(game, self, fx, fy) then return true end
           if fx and tryIlexShrine(game, self, fx, fy) then return true end
           if fx and tryBirdInteract(game, self, fx, fy) then return true end
           local npc
@@ -2699,6 +2569,7 @@ return function(mod)
           end
         end
         pcall(placeStatics, game, ow)
+        pcall(clearElmTable, game)
         if (game._phBirdCool or 0) > 0 then
           game._phBirdCool = game._phBirdCool - 1
         end
@@ -2724,17 +2595,11 @@ return function(mod)
           end
         end
       end
-      local f = flags(game)
-      pcall(giveGsBall, game)
-      if feat("gen2_celebi") and f.PH_GS_AT_KURT and not f.PH_GS_READY then
-        local rtc = game.save.rtc or {}
-        local day0 = tonumber(f.PH_GS_KURT_DAY)
-        local dayNow = tonumber(rtc.day)
-        local hour0 = tonumber(f.PH_GS_KURT_HOURS) or 0
-        local pt = game.save.playTime or {}
-        local hoursNow = tonumber(pt.hours) or 0
-        if (dayNow and day0 and dayNow > day0) or (hoursNow - hour0 >= 24) then
-          f.PH_GS_READY = true
+      if GSE then
+        local ok, err = pcall(GSE.update, game)
+        if not ok and not game._phGsErr then
+          game._phGsErr = true
+          pcall(function() mod.log:error("GS Ball event: %s", tostring(err)) end)
         end
       end
       return result
@@ -2747,7 +2612,6 @@ return function(mod)
       pcall(hideAndReplaceLinkC, game, ow)
       pcall(spawnElmLeftoverBall, game, ow)
       pcall(approachBirds, game, ow)
-      pcall(giveGsBall, game)
     end
     local maps = {
       "ELMS_LAB", "ELM_LAB", "ELMSLAB",
@@ -2765,7 +2629,6 @@ return function(mod)
           priority = 72,
           onEnter = enter,
           onInteract = function(game, ow, fx, fy)
-            if tryGsBallInteract(game, ow, fx, fy) then return true end
             if tryIlexShrine(game, ow, fx, fy) then return true end
             if tryBirdInteract(game, ow, fx, fy) then return true end
             if handleOak(game, { name = "OAK", sprite = "SPRITE_OAK", id = "OAK" }) then return true end
@@ -2809,35 +2672,5 @@ return function(mod)
       end
       return result
     end)
-  end)
-
-  pcall(function()
-    local TextBox = require("src.render.TextBox")
-    if type(TextBox) ~= "table" or type(TextBox.new) ~= "function" then return end
-    if TextBox.__highlanderIlex then return end
-    TextBox.__highlanderIlex = true
-    local orig = TextBox.new
-    function TextBox.new(game, text, done, opts, ...)
-      local s = tostring(text or ""):upper()
-      local plaque = s:find("PROTECTOR") or s:find("IN HONOR")
-        or (s:find("ILEX") and s:find("SHRINE") and s:find("FOREST") and not s:find("TAKE"))
-      if plaque and game and feat("gen2_celebi") then
-        local f = flags(game)
-        local has = f.PH_GS_READY or hasItem(game.save, "GS_BALL") or hasItem(game.save, "GSBALL")
-        if has and not f.PH_CELEBI_CAUGHT then
-          return orig(game, "Put the GS BALL in the shrine?", done, {
-            choice = function(yes)
-              if yes then
-                takeItem(game.save, "GS_BALL")
-                takeItem(game.save, "GSBALL")
-                startWild(game, game.overworld or game.world, "CELEBI", 30, "PH_CELEBI_CAUGHT")
-              end
-              if done then done() end
-            end,
-          })
-        end
-      end
-      return orig(game, text, done, opts, ...)
-    end
   end)
 end

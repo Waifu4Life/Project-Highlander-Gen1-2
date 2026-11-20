@@ -97,7 +97,28 @@ return function(mod)
     local newTitle = TitleState.new
     TitleState.new = function(game, ...)
       pcall(applyPalette, game)
-      return newTitle(game, ...)
+      local title = newTitle(game, ...)
+      -- 1.78.0: Green opens on Bulbasaur, like Red on Charmander and Blue on
+      -- Squirtle. The title shows list entry 1 first (and again each time it
+      -- restarts), then random picks, so Bulbasaur moves to the front of a
+      -- copy of the list (the game's own list is left alone).
+      if type(title) == "table" and active() and type(title.cycleSpecies) == "table" then
+        pcall(function()
+          local list, at = {}, nil
+          for i, species in ipairs(title.cycleSpecies) do
+            list[i] = species
+            if species == "BULBASAUR" and not at then at = i end
+          end
+          if at and at ~= 1 then
+            list[1], list[at] = list[at], list[1]
+          elseif not at then
+            table.insert(list, 1, "BULBASAUR")
+          end
+          title.cycleSpecies = list
+          title.cycleIndex = 1
+        end)
+      end
+      return title
     end
   end
 

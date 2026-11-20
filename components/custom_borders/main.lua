@@ -326,10 +326,72 @@ return function(mod)
   -- Options, Mods, Trainer ID, any other opaque screen) get one. If nothing
   -- on the stack decides, a running world means "overworld" and anything
   -- else (the title screen) gets the frame.
+  -- Red/Blue/Yellow's PC (1.77.0): its menus float over the overworld, so
+  -- they were skipped, while Gold's PC (its own screen) got the frame. The
+  -- PC session starts at the ui.pc.items hook (the Pokemon Center PC) or on
+  -- one of the PC's own screens (Red's bedroom PC opens PlayerPC directly),
+  -- and lasts until only the overworld is left.
+  local pcSession = false
+  local PC_SCREENS = {}
+  local PC_SCREEN_IDS = { BoxMenu = true, PlayerPC = true, LeaguePC = true }
+  for _, path in ipairs({ "src.ui.BoxMenu", "src.ui.PlayerPC", "src.ui.LeaguePC" }) do
+    local ok, M = pcall(require, path)
+    if ok and type(M) == "table" then PC_SCREENS[M] = true end
+  end
+  if mod.hooks and type(mod.hooks.wrap) == "function" then
+    pcall(function()
+      mod.hooks:wrap("ui.pc.items", function(nextFn, ...)
+        pcSession = true
+        return nextFn(...)
+      end)
+    end)
+  end
+
+  -- The bedroom PC (and the Center's) rings Turn_On_PC before its first
+  -- line, so that line gets the frame too. Red/Blue/Yellow only: Gold keeps
+  -- its overworld off the stack, so the session would never see it end.
+  pcall(function()
+    local GV = require("src.core.GameVersion")
+    if GV.generation and GV.generation() ~= 1 then return end
+    local Sound = require("src.core.Sound")
+    if type(Sound.play) ~= "function" or Sound._phBordersPc then return end
+    Sound._phBordersPc = true
+    local basePlay = Sound.play
+    Sound.play = function(data, id, ...)
+      if id == "Turn_On_PC" then pcSession = true end
+      return basePlay(data, id, ...)
+    end
+  end)
+
+  local function inPcSession(states)
+    local top = states[#states]
+    if type(top) ~= "table" or top.isOverworld then
+      pcSession = false
+      return false
+    end
+    for i = #states, 1, -1 do
+      local s = states[i]
+      if type(s) == "table" then
+        if s.isOverworld then break end
+        -- PlayerPC builds a plain Menu, so the screen's id is the sure test
+        if PC_SCREENS[getmetatable(s)] or PC_SCREEN_IDS[s.screenId] then
+          pcSession = true
+          break
+        end
+      end
+    end
+    return pcSession
+  end
+
   local function classify(game)
     local stack = game and game.stack
     local states = stack and stack.states
     if type(states) == "table" then
+      if inPcSession(states) then
+        local top = states[#states]
+        if type(top) == "table" and isSkipScreen(top) then return "skip" end
+        return "screen"
+      end
       for i = #states, 1, -1 do
         local s = states[i]
         if type(s) == "table" then
@@ -437,6 +499,29 @@ return function(mod)
     local function at(v) return math.floor(v + 0.5) end
     local x0, x1 = rect.x, rect.x + rect.w
     local leftX = at(x0 - set.holeX * ix)
+    -- Black beyond the art. A phone is wider than the SGB frame, and Gold,
+    -- Silver and Crystal draw the title screen, the overworld behind the PC
+    -- and other screens widescreen, so they used to show past the border.
+    -- Red/Blue/Yellow only draw 160x144 there, which is why they were black.
+    do
+      local winW, winH = G.getDimensions()
+      local rightEnd = at(x1 + set.rightW * ix)
+      local topY = at(rect.y - set.holeY * ix)
+      local botEnd = at(rect.y + rect.h + set.botH * ix)
+      G.setColor(0, 0, 0, 1)
+      if leftX > 0 then G.rectangle("fill", 0, 0, leftX, winH) end
+      if rightEnd < winW then G.rectangle("fill", rightEnd, 0, winW - rightEnd, winH) end
+      if topY > 0 then G.rectangle("fill", leftX, 0, rightEnd - leftX, topY) end
+      if botEnd < winH then G.rectangle("fill", leftX, botEnd, rightEnd - leftX, winH - botEnd) end
+      -- no top/bottom art: the bars beside the screen are black too
+      if not set.topL and rect.y > 0 then
+        G.rectangle("fill", leftX, 0, rightEnd - leftX, at(rect.y))
+      end
+      if not set.botL and rect.y + rect.h < winH then
+        G.rectangle("fill", leftX, at(rect.y + rect.h), rightEnd - leftX, winH - at(rect.y + rect.h))
+      end
+      G.setColor(1, 1, 1, 1)
+    end
     -- the two art columns beside the game screen
     G.draw(img, set.left, leftX, at(rect.y), 0, ix, ix)
     G.draw(img, set.right, at(x1), at(rect.y), 0, ix, ix)

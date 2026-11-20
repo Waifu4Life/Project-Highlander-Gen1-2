@@ -135,7 +135,7 @@ return function(mainMod, parts)
     local events = not quiet and game.mods and game.mods.events
     if events then
       -- Once under the main mod with the full key, once under the part with
-      -- its short key (the Crystal and Steel/Fairy parts listen for that one).
+      -- its short key (the Crystal part listens for that one).
       events:emit("mod.options_changed", {
         mod = mainMod.id, key = full, value = value, component = part.id,
       })
@@ -199,10 +199,11 @@ return function(mainMod, parts)
       pokebox = "POKEBOX" },
     crystal = { crystalAnimations = "ANIMATIONS", crystalBattleSprites = "BATTLE SPRITES",
       crystalFrontNPCs = "FRONT NPCS", crystalOverworldNPCs = "OVERWORLD NPCS" },
-    steel = { preset = "PRESET", steel_type = "STEEL", dark_type = "DARK",
-      fairy_type = "FAIRY", ghost_vs_steel = "GHOST/STEEL", dark_vs_steel = "DARK/STEEL",
-      ghost_vs_psychic = "GHOST/PSY", bug_vs_poison = "BUG/POISON", ice_vs_fire = "ICE/FIRE",
-      other_gen1_moves = "OTHER GEN1 MOVES" },
+    types = { steel_moves = "STEEL MOVES", steel_pkmn = "STEEL PKMN",
+      dark_moves = "DARK MOVES", extra_steel_move = "STEEL MOVE",
+      extra_dark_move = "DARK MOVE",
+      fairy_moves = "FAIRY MOVES", fairy_pkmn = "FAIRY PKMN", vs_steel = "VS STEEL",
+      effectiveness = "CHART", other_gen1_moves = "GEN1 MOVES" },
     rumble = { intensity = "INTENSITY", when_hit = "GET HIT", when_hitting = "HIT FOE" },
     custom_borders = { border = "BORDER", border_scope = "SCOPE", screen_ratio = "RATIO" },
     pokemoves = { forgettable_hms = "FORGET HMS", tms_forever = "TMS FOREVER",
@@ -213,7 +214,8 @@ return function(mainMod, parts)
       display_area_names = "AREA NAMES", modern_stores = "STORES", infinite_safari = "SAFARI",
       unlimited_safari_balls = "SAFARI BALLS", safari_no_run = "SAFARI NO RUN",
       sparkling_hidden = "SPARKLES", rematch_anyone = "REMATCH", pikachu_sound = "PIKACHU",
-      force_crystal_settings = "GENDER" },
+      force_crystal_settings = "GENDER", learn_tms_faster = "FAST TMS",
+      fast_pkmn_center = "FAST CENTER" },
     battle_screen = { enemy_hp_counter = "ENEMY HP", low_hp_beep = "LOW HP BEEP",
       status_reset = "STATUS RESET" },
     move_colors = { colored_pokeballs = "POKEBALLS", colored_pokemoves = "MOVES" },
@@ -230,6 +232,14 @@ return function(mainMod, parts)
   -- Storage-only rows ("BY GAME" tables) never show in the Mods menu.
   local NOT_IN_MODS_MENU = { theme_by_game = true, border_by_game = true }
 
+  -- Rows with `gens` only show in those games ({ [1] = true } = Gen 1 only).
+  local function inThisGame(row)
+    if type(row.gens) ~= "table" then return true end
+    local gen = 1
+    pcall(function() gen = require("src.core.GameVersion").generation() end)
+    return row.gens[gen] == true
+  end
+
   function Store:aggregateSchema()
     local rows = {}
     for _, part in ipairs(self.components) do
@@ -242,8 +252,9 @@ return function(mainMod, parts)
     end
     for _, part in ipairs(self.components) do
       for _, row in ipairs(part.schema or {}) do
-        if not NOT_IN_MODS_MENU[row.key] then
+        if not NOT_IN_MODS_MENU[row.key] and inThisGame(row) then
           local entry = deepCopy(row)
+          entry.gens = nil
           entry.key = self:keyFor(part, row.key)
           entry.label = modsMenuLabel(self, part, row)
           rows[#rows + 1] = entry

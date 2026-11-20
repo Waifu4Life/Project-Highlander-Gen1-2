@@ -73,6 +73,36 @@ return function(mod, C)
     C.popupArrows(L)
   end
 
+  -- Held-item tag: a little red badge with a white arrow, tucked against the
+  -- bottom-right of the party icon (7x8 px, just left of the "HP:" label).
+  local HELD_TAG = {
+    ".KKKKK.",
+    "KRRWRRK",
+    "KRWWWRK",
+    "KWRWRWK",
+    "KRRWRRK",
+    "KRRWRRK",
+    "KRRRRRK",
+    ".KKKKK.",
+  }
+  local HELD_COLORS = {
+    K = { 0, 0, 0 }, R = { 232, 40, 48 }, W = { 255, 255, 255 },
+  }
+  local function drawHeldTag(x, y)
+    local r0, g0, b0, a0 = G.getColor()
+    for r, line in ipairs(HELD_TAG) do
+      for col = 1, #line do
+        local c = HELD_COLORS[line:sub(col, col)]
+        if c then C.rect(c, x + col - 1, y + r - 1, 1, 1) end
+      end
+    end
+    G.setColor(r0, g0, b0, a0)
+  end
+  local function holdsItem(mon)
+    local id = type(mon) == "table" and not mon.isEgg and mon.item
+    return id ~= nil and id ~= false and id ~= "" and id ~= 0 and id ~= "NO_ITEM"
+  end
+
   -- Laid out like the Gen 1 list: icon, name, level (and status) on the
   -- first line; HP bar and HP numbers on the second; XP bar on the third.
   local function drawParty(self)
@@ -93,8 +123,10 @@ return function(mod, C)
           i == self.index, self.clock or 0) then
         self:drawIcon(mon, ix, iy)
       end
+      if holdsItem(mon) then pcall(drawHeldTag, 22, y0 + 8) end
       local hp = self:shownHpFor(i, mon)
-      local row = PartyMenu.rowFor(mon, hp, statuses)
+      -- rowFor reads "FNT" and "EGG" from the ROM text, so it needs the data
+      local row = PartyMenu.rowFor(mon, hp, statuses, self.game and self.game.data)
       Chrome.print(row.name, 3, nameY)
       if row.level and LevelDisplay.visible(mon, "party", self.game) then
         Chrome.print(row.level, 13, nameY)

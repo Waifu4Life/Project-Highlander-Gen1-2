@@ -17,7 +17,7 @@ under `components/` and is installed as if it were a small mod of its own.
 | rumble | rumble | Controller Rumble |
 | pokemoves | pokemoves | PokéMoves |
 | full_control | full_control | Full Control and the Jukebox button |
-| steel_typing | steel_typing | Steel/Fairy and Typing Charts (zyrancz) |
+| extra_types | extra_types | Extra Types: Fairy/Steel/Dark moves and typings, TM51–62, the extra Nurse Joys, type chart choices |
 | crystal_animated_sprites_with_shiny_visuals | crystal_animated_sprites_with_shiny_visuals | Crystal sprites (TRW) |
 | shortcuts | shortcuts | Ball and Item Shortcuts |
 | custom_borders | custom_borders | Custom Borders and Screen Ratio |

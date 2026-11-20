@@ -61,6 +61,8 @@ return function(mod)
     local Pokegear = require("src.ui.gen2.Pokegear")
     if type(Pokegear) ~= "table" or Pokegear._phFlyRegions then return end
     Pokegear._phFlyRegions = true
+    -- free_map_cursor.lua shows its "Select: Switch Map" hint off this
+    Pokegear._phKantoUnlocked = kantoUnlocked
 
     local origRegion = Pokegear.region
     if type(origRegion) == "function" then
@@ -84,6 +86,24 @@ return function(mod)
         self.fly = F.flyPoints(save, landmarks, region) or {}
       end
       self.flyIndex = 1
+      -- drawMap picks the Fly map's artwork from flyRegion
+      self.flyRegion = region
+    end
+
+    -- The player icon belongs to the region the player is really in. After
+    -- Select shows the other region, drawing it would put it at its own
+    -- region's coordinates on the wrong map.
+    if type(Pokegear.playerLandmark) == "function" and type(origRegion) == "function" then
+      local origPlayerLandmark = Pokegear.playerLandmark
+      function Pokegear:playerLandmark(...)
+        local landmark = origPlayerLandmark(self, ...)
+        if landmark and self.phRegion then
+          local ok, real = pcall(origRegion, self)
+          local shown = (self.fly and self.flyRegion) or self.phRegion
+          if ok and real ~= shown then return nil end
+        end
+        return landmark
+      end
     end
 
     local function onMapCard(self)
@@ -144,7 +164,10 @@ return function(mod)
       function Pokegear.new(game, opts)
         local self = origNew(game, opts)
         if type(self) == "table" and self.fly then
-          if type(self.region) == "function" then
+          -- start from the region the Fly map actually opened on
+          if self.flyRegion == "johto" or self.flyRegion == "kanto" then
+            self.phRegion = self.flyRegion
+          elseif type(self.region) == "function" then
             self.phRegion = self:region()
           end
         end

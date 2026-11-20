@@ -1,3 +1,99 @@
+## [1.82.0] — Bike shortcut, Link C. moves, held-item tag
+- ITEM SHORTCUTS (Gold/Silver/Crystal): choosing the BICYCLE from the SELECT box no longer leaves a black screen. You get on (or off) the bike at once, silently, the same as a registered SELECT press. Your own registered SELECT item is kept.
+- LINK C. (Gold/Silver/Crystal, ALL PKMN): Link C. is now the Game Boy Kid on the 4th floor of Goldenrod Dept. Store. The man on the bench in Ecruteak's Pokémon Center is back to his normal self.
+- PARTY (Gold/Silver/Crystal): a Pokémon holding an item shows a little red tag at the bottom-right of its icon.
+
+## [1.81.2] — Fairy moves really pink, Kanto map hint
+- FAIRY MOVES (Red/Blue/Yellow and Gold/Silver/Crystal): Fairy-type move animations are now pink. Crystal Animated Sprites colors moves by type, and its list of type colors had no Fairy. So in Gold/Silver/Crystal a Fairy move came out with no colors at all, and in Red/Blue/Yellow it stayed gray. Its list now has Fairy pink. Any type it doesn't know keeps the move's normal colors.
+- POKéGEAR and FLY MAPS (Gold/Silver/Crystal): on Kanto, the Start/Select hint now sits in the empty top-left corner, as on Johto, above Indigo Plateau's road. It no longer covers the area around Route 3 and Mt. Moon or the box at the top of the map.
+
+## [1.81.1] — Pink Fairy moves, map hint placement, black past the borders
+- COLORED MOVES (Gold/Silver/Crystal): always on. Gold/Silver/Crystal have no toggle for it, so the Red/Blue/Yellow setting no longer turns it off there.
+- COLORED MOVES: Fairy-type moves are pink. In Gold/Silver/Crystal their whole animation turns pink, including the red, blue and yellow pieces they borrow from Charm, Sweet Kiss and Flash. The pink is brighter in Red/Blue/Yellow too.
+- POKéGEAR and FLY MAPS (Gold/Silver/Crystal): the Start/Select hint now sits inside the map, on empty land in its top-left part. On Johto that is the corner above Routes 38 and 39. On Kanto it is the land beside Indigo Plateau, above Pewter City.
+- CUSTOM BORDERS (Gold/Silver/Crystal): on screens wider than the border art, such as phones, everything past the border is now black. The title screen and the overworld behind the PC used to show there. Red/Blue/Yellow already looked this way.
+
+## [1.81.0] — Map fixes, Fairy animations in Gen 1, Colored Moves in Gen 2
+- MAP CURSOR: the "Start: Switch Cursor" hint (and "Select: Switch Map" in Gold/Silver/Crystal) is now a small drawn label in the top-left corner of the map, always shown. It replaces the big text box.
+- POKéGEAR MAP (Gold/Silver/Crystal): the free cursor now works on the Kanto map. It snaps to Kanto's towns and routes and shows their names. Before, it only knew the few places around Victory Road.
+- POKéGEAR and FLY MAPS (Gold/Silver/Crystal): switching between Johto and Kanto with Select no longer mixes up the regions. Your own icon only shows on the map of the region you're in. The Fly map now redraws the region you switched to.
+- BATTLE (Gold/Silver/Crystal): the game no longer crashes when one of your Pokémon faints (`PartyMenu.lua:113: ROM text FntString is not in the cache`).
+- MODERN STORAGE: Bill no longer calls about switching Boxes while a Box still has room. He only calls when every Box is full.
+- BATTLE SCREEN (Gold/Silver/Crystal): the "30/30" counter and the caught marker are hidden while the game asks if you want to nickname the Pokémon you just caught.
+- LINK C. (Gold/Silver/Crystal): talking to Link C. no longer gives his look to your following Pokémon (Vivid Worlds OG). Only the man on the bench in Ecruteak's Pokémon Center becomes Link C. Choosing a Pokémon to trade now uses the Highlander party screen with the modern sprites.
+- KANTO BIRDS (Gold/Silver/Crystal, ALL PKMN): Articuno, Zapdos and Moltres leave their spots once you have caught them. Older saves are fixed the next time you load, using your Pokédex.
+- COLORED MOVES (Gold/Silver/Crystal): move animations are now colored by the move's type, as in Red/Blue/Yellow. Only the gray pieces are recolored. Fire, water and other pieces that were already colored stay as Gold drew them.
+- EXTRA TYPES (Red/Blue/Yellow): Baby-Doll Eyes, Draining Kiss and Dazzling Gleam now use their Gen 2 animations (Charm's hearts, Sweet Kiss's angel and Flash's sparkles), like Taunt does with Metronome's hand.
+
+## [1.80.0] — Free map cursor
+- MAP CURSOR (Red/Blue/Yellow and Gold/Silver/Crystal): press Start on the Town Map, the POKéGEAR MAP or a Fly map to switch to a cursor you can move anywhere with the d-pad. It snaps to the nearest town, route or landmark and shows its name. Away from every place the name is blank. Press Start again for the original cursor. Your choice is remembered.
+- On a Fly map the free cursor only snaps to places you can fly to, and A flies there. A does nothing when the cursor isn't on one.
+- POKéGEAR MAP: while the free cursor is on, Left and Right move it instead of changing cards. Press Start or B to get back to the cards. The ▲▼ arrows are hidden while it's on.
+- A short "Start: Switch Cursor" hint shows when a map opens, plus "Select: Switch Map" in Gold/Silver/Crystal once Kanto is open.
+
+## [1.79.1] — Kris on the map
+- GENDER MOD (Gold/Silver): playing as Kris, the POKéGEAR MAP and the Fly map now show Kris instead of Gold. Only the overworld had been switched.
+
+## [1.79.0] — Crystal's GS Ball event in Gold/Silver
+- GS BALL (Gold/Silver, ALL PKMN > CELEBI): the GS Ball no longer appears on the floor of Goldenrod's Pokémon Center. It could show up on a new game, as early as 2 badges, because an empty Hall of Fame counted as "Champion". It now waits until you have entered the Hall of Fame.
+- After that, Gold and Silver play Crystal's event, with Crystal's text:
+  - Walk into Goldenrod's Pokémon Center. The receptionist comes over, congratulates you and gives you the GS Ball.
+  - Show it to Kurt in Azalea Town. He keeps it to check it.
+  - Come back the next day. The ball shook, and Kurt runs out of the house.
+  - Kurt waits by his door in Azalea Town. He says Ilex Forest is restless and gives the ball back.
+  - Put the GS Ball in the Ilex Forest shrine to fight Celebi (Lv30). If you catch it, Kurt comes over to thank you. As in Crystal, if Celebi gets away, the GS Ball is gone too.
+- Crystal: the cart's own GS Ball event is unlocked once you are Champion. The mod no longer hands the ball over itself.
+- Older saves: a GS Ball you got before entering the Hall of Fame is taken back, and the event plays properly once you are Champion. If you were already Champion, the event picks up where you left off.
+
+## [1.78.0] — Bedroom PC border, Bulbasaur on Green's title
+- CUSTOM BORDERS (Red/Blue/Yellow): the PC in your room now shows the border too, from "turned on the PC" to LOG OFF, like the Pokémon Center PC since 1.77.0.
+- BLUE INTO GREEN: the title screen now opens on Bulbasaur, the way Red opens on Charmander and Blue on Squirtle. After that it cycles through Blue's other title Pokémon as before. Turning the option off brings Squirtle back.
+
+## [1.77.0] — TM/HM pocket order, PC borders in Gen 1, Elm's table
+- TM/HM POCKET (Gold/Silver/Crystal): the HMs no longer mix in with Extra Types' TMs. Gold numbers HM01-07 as 51-57, the same numbers as TM51-57, so a Fairy TM could sit between two HMs. The HMs now always come after every TM, in every sort (by number, A-Z, and either one reversed), with the Highlander Bag On or Off. Red/Blue/Yellow's Highlander Bag does the same: its A-Z sort lists the TMs A-Z, then the HMs A-Z.
+- CUSTOM BORDERS (Red/Blue/Yellow): using a PC now shows the border, as it already did in Gold/Silver/Crystal. That covers the Pokémon Center PC (from "turned on the PC" to LOG OFF, with Bill's PC, your PC, Prof. Oak's PC and the PKMN League) and the PC in your room. Walking around and ordinary text still have no border.
+- ELM'S LAB (Gold/Silver/Crystal, ALL PKMN): after you take the extra starter from Elm's table, no Poké Ball is left behind. A ball could stay on the table that you couldn't pick up or talk to. Older saves are cleaned up the next time you enter the lab.
+
+## [1.76.0] — PC: Bag for deposits, Heal Boxed PKMN, League pictures
+- HIGHLANDER BAG (Red/Blue/Yellow): DEPOSIT ITEM in the item PC (Pokémon Center and your room) now opens the Highlander Bag, with its pockets, Start: Sort and item descriptions. "How many?" and "... was stored via PC." show in the bag's bottom box. WITHDRAW and TOSS still list the PC's own items. Gold/Silver/Crystal's DEPOSIT already opened the Highlander PACK.
+- NEW: HEAL BOXED PKMN, a row right under Bill's PC in the PC menu (all six games). It plays the Pokémon Center healing music and heals every Pokémon in the boxes: full HP, no status, full PP. Gold/Silver/Crystal already heal a Pokémon as it goes into a box, so there it mostly helps Pokémon boxed some other way.
+- PKMN LEAGUE (Red/Blue/Yellow): the Hall of Fame records in the PC show the Pokémon's picture again. CRYSTAL > POKéDEX PICTURES picks it: OG shows the game's own picture, CRYSTAL shows Crystal's, animated per CRYSTAL > ANIMATIONS (LOOP, or PLAY ONCE each time a Pokémon comes up). A Pokémon with no Crystal art, or no Crystal installed, shows the OG picture.
+
+## [1.75.0] — Metronome hand for Taunt and Metronome
+- EXTRA TYPES: TAUNT now uses Gold/Silver/Crystal's METRONOME animation: the little hand wagging its finger beside the user while sparkles drift down.
+  - Gold/Silver/Crystal: the game's own Metronome animation (was Swagger's).
+  - Red/Blue/Yellow: the same hand and sparkles, drawn frame by frame like in Gold, beside whichever side uses the move. Their 6 tiles come with the mod (components/extra_types/assets/metronome_hand.png).
+- Red/Blue/Yellow: METRONOME itself uses the hand too, instead of the Pokémon shaking side to side.
+
+## [1.74.0] — Taunt replaces Snatch, TM59 in Gen 2
+- EXTRA TYPES: SNATCH is gone; TAUNT (Dark) takes its place. For 2 turns the target can only use attacking moves: status moves like Swords Dance, Recover, Thunder Wave or Reflect are refused ("<PKMN> can't use <MOVE> after the TAUNT!") and cost no PP. Moves with fixed or special damage (Seismic Toss, Night Shade, Counter, Super Fang, Dragon Rage, Psywave, OHKO moves, Bide...) still work. A taunted Pokémon with only status moves left uses Struggle, and the trainer AI only picks attacks. Taunting a Pokémon that is already taunted fails. Switching out ends it.
+- TM numbers now match in every game: TM59 Taunt, TM62 Iron Tail (was TM59).
+  - Red/Blue/Yellow: Celadon's Nurse Joy gives TM59 Taunt, Pewter's gives TM62 Iron Tail.
+  - Taunt is learned by the same Pokémon as in Emerald (TM12, plus Murkrow and Sneasel, who learn it by level).
+- NEW (Gold/Silver/Crystal): EXTRA TYPES > EXTRA DARK MOVE (Off by default). Adds Taunt as TM59; a Nurse Joy in Cherrygrove City's Pokémon Center gives it once per save.
+- Old saves are converted when loaded: a TM62 Snatch in the bag or PC becomes TM59 Taunt, Snatch on any Pokémon (party, boxes, Day Care) becomes Taunt with the same PP, and Nurse Joys you already got a TM from remember it (Celadon stays done, Pewter still gives Iron Tail if you never had TM59 Iron Tail, and the other way round).
+
+## [1.73.0] — Learn TMs Faster, Fast PKMN Center
+- NEW: OTHER SETTINGS > LEARN TMS FASTER (On by default). No "Booted up a TM/HM" question, no "already knows 4 moves… delete an older one?" and no "1, 2 and… Poof!" text. A Pokémon with 4 moves goes straight to the move list and you only see "<PKMN> learned <MOVE>!". B on the list cancels quietly; an HM move still can't be picked to forget. Level-up moves are unchanged.
+- NEW: OTHER SETTINGS > FAST PKMN CENTER (On by default). Nurse Joy says "Welcome to the POKéMON CENTER! May I heal your POKéMON?". NO: "Thank you! Come again!". YES: she heals right away with the normal machine animation, then "All done! Thank you, come again!". All six games; Pokérus news and the extra Nurse Joys from Extra Types are kept.
+
+## [1.72.1] — Snatch crash fix
+- EXTRA TYPES: using SNATCH (and the "snatched the move!" / Draining Kiss lines) no longer crashes the game on G1R 0.4.6. The game changed how it writes a Pokémon's battle name ("Enemy RATTATA"), and Extra Types now works with both the old and the new way.
+- Gold/Silver/Crystal: G1R 0.4.6 no longer lists a "requires src.ui.OptionRows" error for Project Highlander. The Gen 1 options-page code is only loaded in Red/Blue/Yellow now (the Highlander hub and the Crystal Animated Sprites page).
+
+## [1.72.0] — Extra Types: Fairy, Steel and Dark TMs
+- EXTRA TYPES (Mechanics) replaces STEEL/FAIRY. zyrancz's type-chart part is no longer included; this one is Project Highlander's own. Old Steel/Fairy settings don't carry over: every option starts from its default.
+- 12 new TMs, numbered the same in every game: TM51 Dazzling Gleam, TM52 Disarming Voice, TM53 Draining Kiss, TM54 Play Rough, TM55 Moonblast, TM56 Fairy Wind, TM57 Baby-Doll Eyes (Fairy), TM58 Metal Sound, TM59 Iron Tail, TM60 Steel Wing (Steel), TM61 Pursuit, TM62 Snatch (Dark). Red/Blue/Yellow get all 12, Gold/Silver/Crystal get TM51-58. They go in the TM pocket.
+- Who learns them: the Steel and Dark TMs go to Pokémon that learn the move in Gen 2 or 3, the Fairy TMs to Pokémon that learn it in Gen 6 or 7. Evolutions keep their pre-evolution's TMs. Fairy Wind is for Fairy types only.
+- A second Nurse Joy stands left of the PC in some Pokémon Centers. The first time you talk to her she gives that center's TM; after that she just says "Have a nice day!".
+  - Red/Blue/Yellow: Viridian TM51, Pewter TM59, Mt. Moon TM52, Cerulean TM61, Vermilion TM53, Rock Tunnel TM60, Lavender TM54, Celadon TM62, Saffron TM57, Fuchsia TM58, Cinnabar TM55, Indigo Plateau TM56.
+  - Gold/Silver/Crystal: Violet TM51, Route 32 TM52, Azalea TM53, Ecruteak TM58, Olivine TM54, Cianwood TM57, Mahogany TM56, Blackthorn TM55.
+- The moves work like in later games. Draining Kiss heals 3/4 of the damage, Play Rough may lower Attack, Moonblast may lower Special (Sp. Atk in Gen 2), Baby-Doll Eyes always goes first, Metal Sound sharply lowers Special (Sp. Def in Gen 2) and Disarming Voice never misses. In Red/Blue/Yellow, Pursuit does double damage to a Pokémon being switched out, and Snatch steals the foe's next self-help move (Swords Dance, Recover, Reflect...). Fairy and Dark moves are special, Steel moves physical.
+- Options, all OFF by default except the chart choices:
+  - Red/Blue/Yellow: STEEL TYPE MOVES (TM58-60), STEEL TYPE PKMN (Magnemite and Magneton Electric/Steel), DARK TYPE MOVES (Bite, TM61-62), FAIRY TYPE MOVES (TM51-57), FAIRY TYPE PKMN (Clefairy, Clefable, Jigglypuff, Wigglytuff, Mr. Mime), VS. STEEL TYPES (Gen2/Gen6), EFFECTIVENESS (Gen1/Gen2) and OTHER GEN1 MOVE CHANGES.
+  - Gold/Silver/Crystal: EXTRA STEEL MOVE (TM58), FAIRY TYPE MOVES (also Charm, Moonlight and Sweet Kiss), FAIRY TYPE PKMN (adds Cleffa, Igglybuff, Togepi, Togetic, Marill, Azumarill, Snubbull and Granbull) and VS. STEEL TYPES.
+- Every option works at once, without restarting G1R. With a moves option OFF those moves are Normal and its Nurse Joys are gone. TMs you already have stay and still teach the same Pokémon, and turning the option back on never gives a second TM. With a typing option OFF the Pokémon have the game's own typing.
+
 ## [1.71.0] — Red caught ball in Gen 2, more speeches wait for A
 - BATTLE SCREEN (Gen 2): the little Poké Ball beside a wild Pokémon you've already caught is now red and white, like in Gen 1. It was meant to be already, but it never showed, so you only saw the game's own black-and-white one.
 - MOM (Gen 1, Secret Mew): her talk about the strange little Pokémon around the house now stops after every 2 lines and waits for A, like the other added speeches.

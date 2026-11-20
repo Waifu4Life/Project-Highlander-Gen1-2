@@ -3,9 +3,6 @@
 -- Mid stops track Bulbapedia type-icon colors; highlight/edge keep a
 -- falling brightness so 8x8 tiles do not invert.
 return function(mod)
-  local BattleState = require("src.battle.BattleState")
-  local AnimPlayer = require("src.battle.AnimPlayer")
-
   local function enabled()
     local ok, value = pcall(mod.options.get, mod.options, "colored_pokemoves")
     return ok and value == true
@@ -34,7 +31,7 @@ return function(mod)
     DRAGON   = { { 184, 168, 255 }, { 112,  56, 248 }, {  40,  16, 112 } },
     DARK     = { { 160, 144, 136 }, { 112,  88,  72 }, {  40,  32,  24 } },
     STEEL    = { { 224, 224, 232 }, { 184, 184, 208 }, {  72,  72,  96 } },
-    FAIRY    = { { 255, 216, 224 }, { 238, 153, 172 }, { 136,  64,  88 } },
+    FAIRY    = { { 255, 224, 240 }, { 248, 152, 200 }, { 168,  64, 120 } },
   }
 
   local MOVES = {
@@ -55,6 +52,70 @@ return function(mod)
     local def = moves and moves[moveId]
     if not def then return nil end
     return rampForType(def.type)
+  end
+
+  ------------------------------------------------------------------ Gen 2
+  -- Gold/Silver/Crystal colour each animation object with one of the GBC
+  -- battle palettes, and most objects use PAL_BATTLE_OB_GRAY, which is why
+  -- the moves looked black and white. Gray objects take the move's type
+  -- ramp instead; the coloured palettes (fire red, water blue, ...) and the
+  -- battlers' own colours stay as the game draws them. Fairy moves borrow
+  -- Gen 2 animations whose pieces are red, blue or yellow, so for them every
+  -- fixed palette turns pink. Always on in Gen 2 (no toggle on its menus).
+  pcall(function()
+    local G2State = require("src.ui.gen2.BattleState")
+    local View = require("src.ui.gen2.BattleAnimView")
+    if type(G2State) ~= "table" or type(View) ~= "table" or View._phMoveColors then return end
+    if type(G2State.animForMove) ~= "function" or type(View.objPalette) ~= "function"
+        or type(View.drawObjects) ~= "function" then return end
+    View._phMoveColors = true
+
+    local origAnimForMove = G2State.animForMove
+    function G2State:animForMove(moveId, ...)
+      local started = origAnimForMove(self, moveId, ...)
+      if started and type(self.anim) == "table" then
+        self.anim._phMove = moveId
+        self.anim._phData = self.game and self.game.data
+      end
+      return started
+    end
+
+    local origDraw = View.drawObjects
+    function View:drawObjects(runner, ...)
+      self._phRunner = runner
+      local ok, err = pcall(origDraw, self, runner, ...)
+      self._phRunner = nil
+      if not ok then error(err, 0) end
+    end
+
+    local cache = {}
+    local origPalette = View.objPalette
+    function View:objPalette(name, battle, ...)
+      local runner = self._phRunner
+      if runner and runner._phMove and name ~= "PAL_BATTLE_OB_ENEMY"
+          and name ~= "PAL_BATTLE_OB_PLAYER" then
+        local pal = paletteFor(runner._phMove, runner._phData)
+        if pal and (name == "PAL_BATTLE_OB_GRAY" or pal == TYPES.FAIRY) then
+          -- one table per ramp: the view only swaps shaders when it changes
+          local colors = cache[pal]
+          if not colors then
+            local lo = pal[3]
+            colors = { { 255, 255, 255 }, pal[2], lo,
+              { math.floor(lo[1] / 2), math.floor(lo[2] / 2), math.floor(lo[3] / 2) } }
+            cache[pal] = colors
+          end
+          return colors
+        end
+      end
+      return origPalette(self, name, battle, ...)
+    end
+  end)
+
+  ------------------------------------------------------------------ Gen 1
+  local okB, BattleState = pcall(require, "src.battle.BattleState")
+  local okA, AnimPlayer = pcall(require, "src.battle.AnimPlayer")
+  if not (okB and okA and type(BattleState) == "table" and type(AnimPlayer) == "table") then
+    return
   end
 
   if not BattleState._phMoveColorOriginalDraw then

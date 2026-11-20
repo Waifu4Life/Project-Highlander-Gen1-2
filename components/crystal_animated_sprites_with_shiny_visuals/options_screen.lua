@@ -12,7 +12,13 @@
 -- row by main.lua).  The dedicated screen is Gen 1-only -- it is drawn
 -- with Gen 1's OptionRows, which the Gen 2 adapter does not serve.
 
-local okOptionRows, OptionRows = pcall(require, "src.ui.OptionRows")
+-- Loaded on first use (Gen 1 only): a Gen 2 boot must never ask for it,
+-- since the game reports that as a mod error.
+local OptionRows = setmetatable({}, { __index = function(t, k)
+  local real = require("src.ui.OptionRows")
+  setmetatable(t, { __index = real })
+  return real[k]
+end })
 
 local CrystalOptions = {}
 CrystalOptions.__index = CrystalOptions

@@ -362,8 +362,29 @@ return function(mod, settings)
   -- own SEL, hidden. The watcher below learns the field when the Pack closes,
   -- puts back whatever was registered before and then uses the item through
   -- the registered path. This happens once; the field is remembered.
+  -- Gen 2, the engine's own registered item: save.registeredItem = { id = ... }
+  -- (World:registeredItemId / World:registerItem). Lend the shortcut item to
+  -- it for one native SELECT, so the BICYCLE mounts silently exactly like a
+  -- registered SELECT press, then put the player's own registration back.
+  local function useEngineSelect(game, id)
+    local native = M._nativeSelect
+    local world = game and game.world
+    local save = game and game.save
+    if type(native) ~= "function" or type(save) ~= "table" or type(world) ~= "table"
+        or type(world.registeredItemId) ~= "function" then
+      return false
+    end
+    local saved = save.registeredItem
+    if saved ~= nil and type(saved) ~= "table" then return false end
+    save.registeredItem = { id = id }
+    local ok = pcall(native, game)
+    save.registeredItem = saved
+    return ok
+  end
+
   local useGen2Pack
   local function useGen2(game, id)
+    if useEngineSelect(game, id) then return true end
     if useRegistered(game, id) then return true end
     return useGen2Pack(game, id)
   end
@@ -442,6 +463,8 @@ return function(mod, settings)
             return false
           end
         end
+        -- No SEL row: never leave the Pack hidden on top of the overworld.
+        show()
         return true
       elseif stage == "close" then
         -- Once the item is done (its message read, map closed...), close

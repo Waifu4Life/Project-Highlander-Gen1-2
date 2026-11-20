@@ -238,6 +238,7 @@ return function(mod, S, gen2)
     FAIRY = { "FAIRY", { 232, 128, 168 } },
     CURSE_TYPE = { "???", { 104, 160, 144 } },
     CURSE = { "???", { 104, 160, 144 } },
+    TYPELESS = { "???", { 104, 160, 144 } },
   }
   local UNKNOWN_TAG = { 104, 160, 144 }
 

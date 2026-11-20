@@ -37,6 +37,7 @@ return function(mod)
     GHOST = { 162, 146, 188 }, DRAGON = { 162, 125, 250 },
     DARK = { 162, 146, 136 }, STEEL = { 209, 209, 224 },
     FAIRY = { 244, 189, 201 }, CURSE_TYPE = { 157, 193, 183 },
+    TYPELESS = { 157, 193, 183 },
   }
   local UNKNOWN_COLOR = { 216, 216, 216 }
   local DISABLED_COLOR = { 176, 176, 176 }
@@ -330,6 +331,7 @@ return function(mod)
     BUG = { 130, 150, 20 }, ROCK = { 150, 125, 35 }, GHOST = { 110, 85, 150 },
     DRAGON = { 110, 55, 240 }, DARK = { 105, 80, 65 }, STEEL = { 120, 120, 155 },
     FAIRY = { 215, 100, 140 }, CURSE_TYPE = { 90, 150, 135 },
+    TYPELESS = { 90, 150, 135 },
   }
   local TYPE_ORDER = {
     "NORMAL", "FIRE", "WATER", "ELECTRIC", "GRASS", "ICE", "FIGHTING",

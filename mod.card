@@ -19,6 +19,7 @@ return {
       "PokeMoves: Forgettable HMs, TMs Forever, Instant TMs/HMs, No Learn HMs, Move Relearning",
       "Other Settings: Get All Pokemon, Gender Mod, running shoes, area names, modern stores, hidden-item sparkles, Repel again, rematches",
       "Full Control, Shortcuts, Controller Rumble, Jukebox, Custom Borders and Screen Ratio",
+      "Extra Types: Fairy/Steel/Dark moves and typings, TM51-62 from extra Nurse Joys, type chart choices",
     },
     known = {
       "Turning a screen off takes effect the next time that screen opens",
@@ -32,7 +33,6 @@ return {
     { who = "Gen1Recomp", for_ = "native mod platform, controllers, data and renderer" },
     { who = "NikoIchu", for_ = "CC0 1-bit Pixel Icons used by the Start Menu" },
     { who = "YoDrehDenSwagAuf", for_ = "poke_followers GSC icons (MIT, from Wilds of Kanto 2.1.9)" },
-    { who = "zyrancz", for_ = "Steel/Fairy and Typing Charts (with permission)" },
     { who = "TRW", for_ = "Crystal Animated Sprites with Shiny Visuals (with permission)" },
     { who = "Game Freak", for_ = "interface and storage interaction inspiration" },
   },

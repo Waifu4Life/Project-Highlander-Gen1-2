@@ -225,6 +225,7 @@ return function(mod)
     GHOST = { 162, 146, 188 }, DRAGON = { 162, 125, 250 },
     DARK = { 162, 146, 136 }, STEEL = { 209, 209, 224 },
     FAIRY = { 244, 189, 201 }, CURSE_TYPE = { 157, 193, 183 },
+    TYPELESS = { 157, 193, 183 },
   }
   local UNKNOWN_COLOR = { 216, 216, 216 }
   function C.typeColor(t)

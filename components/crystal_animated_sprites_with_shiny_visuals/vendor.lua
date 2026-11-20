@@ -1750,6 +1750,13 @@ local function syncTrueColor()
 end
 syncTrueColor()
 
+-- The record's own flag, before syncTrueColor (Highlander's PKMN LEAGUE
+-- picture draws the OG art and needs to know if it is full-colour).
+mod.exports.ogTrueColor = function(species)
+  if crystalDefs[species] then return crystalDefTrueColor[species] end
+  return nil
+end
+
 mod.hooks:wrap("pokemon.sprite", function(next, originalPath, ctx)
   if ctx and ctx.species == GHOST_SPECIES and battleSpritesOn() then
     local p = ghostFrontPath()
@@ -2459,6 +2466,8 @@ local TYPE_RAMPS = {
   -- Gen 2-only types; the Gen 1 tables never look them up.
   STEEL        = { { 224, 224, 232 }, { 136, 144, 160 }, { 64, 72, 96 } },
   DARK         = { { 168, 152, 168 }, { 104, 88, 104 },  { 40, 40, 48 } },
+  -- Extra Types' Fairy moves (both generations): pink.
+  FAIRY        = { { 255, 224, 240 }, { 248, 152, 200 }, { 168, 64, 120 } },
 }
 
 local typeRampCache = {}  -- type id -> { fwd = {3 RGB triples}, rev = {...} }
@@ -2893,7 +2902,9 @@ if isGen2 then
             and name ~= "PAL_BATTLE_OB_PLAYER" then
           local vanilla = innerObjPalette(self, name, battle)
           if vanilla then
-            return gen2TintedPalette(name, typeId, vanilla)
+            -- a type with no ramp keeps the palette it came with (it used to
+            -- come back false, which drew the pieces uncoloured)
+            return gen2TintedPalette(name, typeId, vanilla) or vanilla
           end
           return vanilla
         end
@@ -4240,6 +4251,34 @@ if isGen2 then
       local oam = GEN2_ROD_OAM[facing] or GEN2_ROD_OAM.down
       sprite:drawTile(self.fishSheet, sx + oam.dx, sy + oam.dy, oam.flip,
         self.fishQuads.rod[oam.tile])
+    end
+  end
+
+  -- The POKeGEAR MAP card and the Fly map (the same screen in fly mode) draw
+  -- the player icon from self.sprites[SPRITE_CHRIS] directly, never through
+  -- Player2, so Gender Mod's Kris walked the overworld while Gold stood on
+  -- the map.  loadPlayerIcon sees a sprites table whose SPRITE_CHRIS is the
+  -- skinned record for the duration of the call; its palette setup runs
+  -- unchanged, exactly as the overworld Player2 hook does it.
+  local okGear, Pokegear = pcall(require, "src.ui.gen2.Pokegear")
+  if okGear and type(Pokegear) == "table"
+      and type(Pokegear.loadPlayerIcon) == "function" then
+    Pokegear.__crystalOrig = Pokegear.__crystalOrig or {}
+    Pokegear.__crystalOrig.loadPlayerIcon = Pokegear.__crystalOrig.loadPlayerIcon
+      or Pokegear.loadPlayerIcon
+    local innerLoadIcon = Pokegear.__crystalOrig.loadPlayerIcon
+    function Pokegear:loadPlayerIcon(...)
+      if self.playerIcon ~= nil then return innerLoadIcon(self, ...) end
+      local sprites = self.sprites
+      local vanilla = type(sprites) == "table" and sprites.SPRITE_CHRIS
+      local sheet = vanilla and overworldSheetPath()
+      if not sheet then return innerLoadIcon(self, ...) end
+      local skinned = skinDef(vanilla, sheet)
+      self.sprites = setmetatable({ SPRITE_CHRIS = skinned },
+        { __index = sprites })
+      local ok, err = pcall(innerLoadIcon, self, ...)
+      self.sprites = sprites
+      if not ok then error(err, 0) end
     end
   end
 end

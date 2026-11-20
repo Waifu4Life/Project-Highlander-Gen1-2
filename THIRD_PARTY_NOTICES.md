@@ -33,17 +33,6 @@ Copyright (c) 2026 YoDrehDenSwagAuf
 The license text is shipped next to the PNGs at
 `assets/poke_followers/LICENSE`.
 
-## zyrancz — STEEL/FAIRY AND TYPING CHARTS
-
-Typing-chart and Steel/Dark/Fairy mechanics from
-STEEL/FAIRY AND TYPING CHARTS v2.0.1 (`steel_typing`), integrated with
-permission from zyrancz (Discord, 2026-09-11).
-
-https://github.com/ZyranCZ/Fairy-Steel-Dark-and-Typing-Charts
-
-Copyright (c) zyrancz
-
-
 ## TRW — Crystal Animated Sprites with Shiny Visuals
 
 Bundled v2.0.3, adapted as 2.1.0 (`crystal_animated_sprites_with_shiny_visuals`) with permission

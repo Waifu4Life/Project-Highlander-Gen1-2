@@ -139,8 +139,8 @@ return {
     installOrder = 8,
     defaultEnabled = true,
     files = { "main.lua", "secret_mew.lua", "all_pkmn_gen1.lua", "all_pkmn_gen2.lua",
-      "force_crystal.lua", "catch_rate.lua", "legendary_persist.lua",
-      "blue_into_green.lua" },
+      "gs_ball_event.lua", "force_crystal.lua", "catch_rate.lua", "legendary_persist.lua",
+      "blue_into_green.lua", "fast_qol.lua", "heal_boxed.lua" },
     assets = { "assets/sparkle.png",
       "assets/blue_into_green/title_player.png",
       "assets/blue_into_green/title_version.png",
@@ -188,14 +188,24 @@ return {
     },
   },
   {
-    id = "steel_typing",
-    key = "steel",
-    name = "Steel/Fairy and Typing Charts",
-    short = "STEEL/FAIRY",
-    version = "2.0.1",
+    -- Extra Types: Steel/Dark/Fairy moves and typings, the extra TMs and
+    -- the Nurse Joys who hand them out, and the type chart choices.
+    id = "extra_types",
+    key = "types",
+    name = "Extra Types",
+    short = "EXTRA TYPES",
+    version = "1.0.0",
     installOrder = 12,
     defaultEnabled = true,
-    files = { "main.lua" },
+    -- Every row is its own switch; no ON/OFF for the whole page.
+    alwaysOn = true,
+    rowOrder = {
+      "steel_moves", "steel_pkmn", "dark_moves", "extra_steel_move", "extra_dark_move",
+      "fairy_moves", "fairy_pkmn", "vs_steel", "effectiveness",
+      "other_gen1_moves",
+    },
+    files = { "main.lua", "data.lua", "effects.lua", "nurses.lua", "hand_anim.lua" },
+    assets = { "assets/metronome_hand.png" },
   },
   {
     id = "crystal_animated_sprites_with_shiny_visuals",
@@ -215,7 +225,7 @@ return {
     },
     files = {
       "main.lua", "vendor.lua", "options_screen.lua",
-      "species_map.lua", "crystal_source.lua", "portrait.lua",
+      "species_map.lua", "crystal_source.lua", "portrait.lua", "league_pc.lua",
     },
   },
   {

@@ -14,7 +14,13 @@ return function(mod, settings, state, components)
   -- Gen 2's sub-menus have no BACK row (B leaves); Gen 1's options screen
   -- always adds one under the rows. Take it off Gen 1's pages too: the
   -- cursor wraps between the first and last row, and B still leaves.
-  local OptionRows = require("src.ui.OptionRows")
+  -- Gen 1 only: loaded the first time a Gen 1 page needs it, so a Gen 2
+  -- boot never asks for it (the game reports that as a mod error).
+  local OptionRows
+  local function optionRows()
+    OptionRows = OptionRows or require("src.ui.OptionRows")
+    return OptionRows
+  end
 
   -- Gen 2's options screen prints a value at column 11 (8 characters, past
   -- the middle of the page), so values that fit on Gen 1's pages had to
@@ -78,14 +84,14 @@ return function(mod, settings, state, components)
       if input and #rows > 0 and (input:wasPressed("up") or input:wasPressed("down")) then
         local step = input:wasPressed("up") and -1 or 1
         self.index = ((self.index or 1) - 1 + step) % #rows + 1
-        self.scroll = OptionRows.clampScroll(self.index, self.scroll or 0, #rows)
+        self.scroll = optionRows().clampScroll(self.index, self.scroll or 0, #rows)
         return
       end
       return baseUpdate(self, dt, ...)
     end
     page.draw = function(self)
       local rows = self.view or self.rows or {}
-      OptionRows.draw(self.game, rows, self.index, self.scroll or 0)
+      optionRows().draw(self.game, rows, self.index, self.scroll or 0)
     end
     return page
   end
@@ -147,7 +153,14 @@ return function(mod, settings, state, components)
         coins_2x = true, slot_odds = true, slot_bigger_payouts = true,
         slot_all_lucky = true,
       }
-      if not (skip and skip[row.key]) and not row.hidden
+      -- row.gens = { [1] = true } shows a row only in those generations.
+      local genOk = true
+      if type(row.gens) == "table" then
+        local gen = 1
+        pcall(function() gen = require("src.core.GameVersion").generation() end)
+        genOk = row.gens[gen] == true
+      end
+      if genOk and not (skip and skip[row.key]) and not row.hidden
           and row.key ~= "enabled"
           and row.key ~= "theme_by_game" and row.key ~= "border_by_game"
           and not (component.key == "other_settings" and hideOther[row.key])
@@ -527,13 +540,6 @@ return function(mod, settings, state, components)
     local rows = {}
     if not component.alwaysOn then rows[1] = enabledRow end
     for _, row in ipairs(body) do rows[#rows + 1] = row end
-    if component.key == "steel" then
-      rows[#rows + 1] = {
-        id = "steel.copyright",
-        label = "Copyright (c) zyrancz",
-        value = function() return "" end,
-      }
-    end
     if component.key == "crystal" then
       -- Every game but Crystal: the note that the art comes from Crystal,
       -- right under the Gen 1 NPC rows (the rows above it need nothing from
@@ -868,7 +874,7 @@ return function(mod, settings, state, components)
   local CATEGORIES = {
     { id = "cat_mechanics", label = "MECHANICS", entries = {
       "battle_screen", "overworld", "pokemoves", "shortcuts",
-      "game_corner", "safari_zone", "steel_typing",
+      "game_corner", "safari_zone", "extra_types",
     } },
     { id = "cat_system", label = "SYSTEM", entries = {
       "highlander_start", "other_settings",
@@ -884,6 +890,7 @@ return function(mod, settings, state, components)
     highlander_start = "Start Menu",
     pokemoves = "PokéMoves",
     rumble = "CONT. RUMBLE",
+    extra_types = "Extra Types",
   }
 
   local function entryItem(id)

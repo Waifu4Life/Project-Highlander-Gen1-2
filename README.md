@@ -60,7 +60,7 @@ The mod adds one entry to the game's **OPTION** menu: **ProjectHighlander**. It 
 
 | Category | Pages |
 | --- | --- |
-| **MECHANICS** | Battle Screen, Overworld Screen, PokéMoves, Shortcuts, Game Corner, Safari Zone *(Gen 1 only)*, Steel/Fairy |
+| **MECHANICS** | Battle Screen, Overworld Screen, PokéMoves, Shortcuts, Game Corner, Safari Zone *(Gen 1 only)*, Extra Types |
 | **SYSTEM** | Start Menu, Other Settings, Full Control, Cont. Rumble, Get All Pokémon |
 | **COSMETICS** | Jukebox, Custom Borders, Crystal, PokéIcons |
 
@@ -180,8 +180,27 @@ Works in Gen 1 and Gen 2.
 | No Running Away | On | Wild Safari Pokémon never flee (Bait/Rock still affect catch rate). |
 | Unlimited Balls | On | The Safari Ball count stays at 30. |
 
-### Steel/Fairy *(by zyrancz)*
-Type-chart presets: **Vanilla**, **Gen II (Steel + Dark)**, **Gen VI (Steel + Dark + Fairy)** (default) or **Custom**, with individual Steel/Dark/Fairy types, Ghost vs Steel, Dark vs Steel, Ghost vs Psychic, Bug vs Poison and Ice vs Fire fixes, and Other Gen1 Move Changes (Gust → Flying, Karate Chop → Fighting, Sand-Attack → Ground, Struggle typeless). Chart changes take effect after restarting G1R.
+### Extra Types
+New TMs, numbered the same in every game: **TM51** Dazzling Gleam, **TM52** Disarming Voice, **TM53** Draining Kiss, **TM54** Play Rough, **TM55** Moonblast, **TM56** Fairy Wind, **TM57** Baby-Doll Eyes *(Fairy)*, **TM58** Metal Sound, **TM60** Steel Wing, **TM62** Iron Tail *(Steel)*, **TM59** Taunt, **TM61** Pursuit *(Dark)*. Red/Blue/Yellow get all 12, Gold/Silver/Crystal get TM51–59.
+
+Taunt: for 2 turns the foe can only use attacking moves (moves with power, plus Seismic Toss, Night Shade, Counter, Super Fang and the like). A taunted Pokémon that only has status moves left uses Struggle. An extra Nurse Joy left of the PC in some Pokémon Centers gives each one once per save.
+
+Who learns them: the Steel and Dark TMs go to Pokémon that learn the move in Gen 2 or 3, the Fairy TMs to Pokémon that learn it in Gen 6 or 7, and evolutions keep their pre-evolution's TMs. Fairy Wind is for Fairy types only.
+
+| Option | Default | What it does |
+| --- | --- | --- |
+| Steel Type Moves *(Gen1)* | Off | TM58, TM60 and TM62 are Steel and their Nurse Joys appear. |
+| Steel Type PKMN *(Gen1)* | Off | Magnemite and Magneton are Electric/Steel. |
+| Dark Type Moves *(Gen1)* | Off | Bite, Taunt and Pursuit are Dark and their Nurse Joys appear. |
+| Extra Steel Move *(Gen2)* | Off | Metal Sound (TM58) is Steel and its Nurse Joy appears. |
+| Extra Dark Move *(Gen2)* | Off | Taunt (TM59) is added and its Nurse Joy appears in Cherrygrove City. |
+| Fairy Type Moves | Off | TM51–57 are Fairy and their Nurse Joys appear. Gen 2: Charm, Moonlight and Sweet Kiss are Fairy too. |
+| Fairy Type PKMN | Off | Clefairy, Clefable, Jigglypuff, Wigglytuff and Mr. Mime get their Gen 6 typing. Gen 2 adds Cleffa, Igglybuff, Togepi, Togetic, Marill, Azumarill, Snubbull and Granbull. |
+| Vs. Steel Types | Gen2 | Ghost and Dark against Steel: ½x (Gen2) or 1x (Gen6). |
+| Effectiveness *(Gen1)* | Gen1 | Gen2: Ghost hits Psychic 2x, Bug hits Poison ½x, Poison hits Bug 1x, Ice hits Fire ½x. |
+| Other Gen1 Move Changes *(Gen1)* | Off | Gust Flying, Karate Chop Fighting, Sand-Attack Ground, Struggle typeless. |
+
+Every option works at once, without a restart. With a moves option OFF those moves are Normal and its Nurse Joys are gone. TMs you already have stay and still teach. Turning it back on never gives a second TM.
 
 ---
 
@@ -196,7 +215,9 @@ Type-chart presets: **Vanilla**, **Gen II (Steel + Dark)**, **Gen VI (Steel + Da
 | **Highlander PC** | On | Highlander PC on/off. |
 | Blue Into Green | Off | *(Blue only)* Title, logo colour, "Green Version" and Nidorino intro turn Blue into Green. Custom Borders' and the Start Menu's Automatic pick Green. |
 | Decap. Words | On | Turns ALL-CAPS game text into normal case, keeping abbreviations (TM, HM, PKMN, HP, PP…) in capitals. |
+| Fast PKMN Center | On | Nurse Joy just asks "May I heal your Pokémon?". NO: "Thank you, come again!". YES: she heals right away (normal machine animation), then "All done! Thank you, come again!". |
 | Gender Mod | On | Boy/Girl choice in Red/Blue/Yellow/Gold/Silver (Red/Green, Gold/Kris): portrait, battle back sprite and overworld walk/bike. Hidden in Crystal. |
+| Learn TMs Faster | On | No "Booted up a TM" / "already knows 4 moves" / "1, 2 and… Poof!" text: a Pokémon with 4 moves goes straight to the move list, and you only see "<PKMN> learned <MOVE>!". B on the list cancels quietly. |
 | Pikachu Sound | Yellow | *(Yellow only)* Yellow's Pikachu voice or the original cry. |
 
 ### Full Control
@@ -286,7 +307,6 @@ Don't enable these together with Project Highlander Gen1+2 (their features are b
 - Turning a Highlander screen off takes effect the next time that screen opens.
 - The bigger Bag stays active when Highlander Bag is Off, to protect saves.
 - Exporting to an original cartridge save is limited to cartridge-era item counts.
-- Steel/Fairy chart changes need a G1R restart.
 - Infinite Tries for Limited Encounters is fully active in Gen 1; in Gen 2 (Lugia, Ho-Oh, Snorlax, Sudowoodo, Red Gyarados) it only detects the encounters for now.
 
 ---
@@ -295,7 +315,6 @@ Don't enable these together with Project Highlander Gen1+2 (their features are b
 
 - **Waifu4Life** — Project Highlander
 - **Gen1Recomp** — native mod platform, controllers, data and renderer
-- **zyrancz** — Steel/Fairy and Typing Charts (used with permission)
 - **TRW** — Crystal Animated Sprites with Shiny Visuals (used with permission)
 - **YoDrehDenSwagAuf** — poke_followers GSC icons from Wilds of Kanto 2.1.9 (MIT)
 - **NikoIchu** — 1-bit Pixel Icons (CC0) used by the Start Menu

@@ -381,6 +381,20 @@ return function(mod, gen2)
         end
         return useItem(self, itemId, ...)
       end
+      -- A catch that fills the current box sets battle.boxFilled, and the
+      -- overworld then rings Bill ("You'll have to switch Boxes..."). With
+      -- the Highlander PC the boxes are one big box, so Bill only calls once
+      -- every box is full.
+      if type(screen.update) == "function" then
+        local update = screen.update
+        screen.update = function(self, ...)
+          local battle, save = self.battle, self.save
+          if battle and battle.boxFilled and save and S.firstBoxWithRoom(save) then
+            battle.boxFilled = nil
+          end
+          return update(self, ...)
+        end
+      end
     end)
   end
 

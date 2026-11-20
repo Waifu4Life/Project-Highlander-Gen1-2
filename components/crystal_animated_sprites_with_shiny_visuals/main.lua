@@ -87,6 +87,14 @@ return function(mod)
     end
   end)
 
+  -- PKMN LEAGUE pictures (Red/Blue/Yellow's Hall of Fame PC), 1.76.0
+  do
+    local ok, err = pcall(function() mod:load("league_pc.lua")(mod) end)
+    if not ok and mod.log and mod.log.warn then
+      mod.log:warn("league pc: %s", tostring(err))
+    end
+  end
+
   if mod.log and mod.log.info then
     mod.log:info("crystal sprites 2.1.0 ready (TRW; art from the Crystal install)")
   end

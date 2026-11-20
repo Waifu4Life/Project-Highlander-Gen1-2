@@ -13,7 +13,7 @@ This is the successor of *Project Highlander – A Modern UI Suite Fork* (last b
 - **Highlander Dex** — a Gold-based Pokédex for all six games with Area, Locations, Stats, Family and Moves pages.
 - **Highlander Trainer ID** — Gold's trainer card in Gen 1 with STATUS and BADGES pages.
 - **Battle Screen** — Highlander HUD move grid with PP and effectiveness icons, Enemy HP Counter, Gen 2-style EXP bar in Gen 1, Lock OG Layout, Gen3 Catch Rate, Boosted EXP and Modern EXP Share.
-- **Plus**: PokéMoves, Ball and Item Shortcuts, Running Shoes, Repel prompts, Modern Stores, Game Corner and Safari Zone options, Get All Pokémon, Steel/Fairy type charts, Full Control button mapping, Controller Rumble, Jukebox, Custom Borders with 16:9 Screen Ratio, and Crystal sprites read from your own Crystal install.
+- **Plus**: PokéMoves, Ball and Item Shortcuts, Running Shoes, Repel prompts, Modern Stores, Game Corner and Safari Zone options, Get All Pokémon, Extra Types (Fairy/Steel/Dark TMs and typings), Full Control button mapping, Controller Rumble, Jukebox, Custom Borders with 16:9 Screen Ratio, and Crystal sprites read from your own Crystal install.
 
 See the [README](https://github.com/Waifu4Life/Project-Highlander-Gen1-2#readme) for the full feature list.
 
@@ -64,8 +64,7 @@ For every change since 1.0.0, see `CHANGELOG.md` inside the zip.
 - Turning a Highlander screen off takes effect the next time that screen opens.
 - The bigger Bag stays active when Highlander Bag is Off, to protect saves.
 - Exporting to an original cartridge save is limited to cartridge-era item counts.
-- Steel/Fairy chart changes need a G1R restart.
 
 ## Credits
 
-Waifu4Life (Project Highlander) · Gen1Recomp · zyrancz (Steel/Fairy and Typing Charts) · TRW (Crystal Animated Sprites with Shiny Visuals) · YoDrehDenSwagAuf (GSC follower icons) · NikoIchu (1-bit Pixel Icons). Full notices in `THIRD_PARTY_NOTICES.md`.
+Waifu4Life (Project Highlander) · Gen1Recomp · TRW (Crystal Animated Sprites with Shiny Visuals) · YoDrehDenSwagAuf (GSC follower icons) · NikoIchu (1-bit Pixel Icons). Full notices in `THIRD_PARTY_NOTICES.md`.

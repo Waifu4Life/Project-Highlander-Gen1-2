@@ -50,8 +50,17 @@ return function(mod)
     return tonumber(mon.hp) or 0
   end
 
+  -- After a catch the foe's HUD is gone: the caught line, the Pokédex page and
+  -- "Give a nickname?" show the mon's picture alone.
+  local function caughtScreen(screen)
+    local battle = screen.battle
+    return screen.phase == "ask-nickname" or screen.nicknameMon ~= nil
+      or (type(battle) == "table" and battle.outcome == "caught")
+  end
+
   local function drawCounter(screen)
     if not counterOn() or type(screen) ~= "table" then return end
+    if caughtScreen(screen) then return end
     if type(screen.activeMon) ~= "function" or not screen.showEnemyHud then return end
     if type(screen.statusHUDVisible) == "function" and not screen:statusHUDVisible() then return end
     if type(screen.hudCleared) == "function" and screen:hudCleared("enemy") then return end
@@ -235,7 +244,7 @@ return function(mod)
   }
   local function drawCaughtMarker(screen)
     if type(screen) ~= "table" or type(screen.activeMon) ~= "function"
-        or not screen.showEnemyHud then return end
+        or not screen.showEnemyHud or caughtScreen(screen) then return end
     if type(screen.statusHUDVisible) == "function" and not screen:statusHUDVisible() then return end
     if type(screen.hudCleared) == "function" and screen:hudCleared("enemy") then return end
     local enemy = screen:activeMon("enemy")

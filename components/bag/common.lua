@@ -170,10 +170,21 @@ return function(mod)
     b.tmSort = value ~= "category" and value or nil
   end
 
-  -- number: TM number (HMs after the TMs); name: the move's name
+  -- number: TM number; name: the move's name. Either way the HMs come as
+  -- their own group after the TMs (1.77.0: Gen 2's HM01-07 share numbers
+  -- 51-57 with Extra Types' TMs, so they used to mix in with them).
+  local function isHM(row)
+    return tostring(row.id or row.value or ""):sub(1, 3) == "HM_"
+  end
+
   function C.sortMachines(list, numberOf, nameOf, save)
     local kind, descending = C.tmSort(save)
     table.sort(list, function(a, b)
+      local ha, hb = isHM(a), isHM(b)
+      if ha ~= hb then
+        if descending then return ha end
+        return hb
+      end
       local ka, kb
       if kind == "name" then
         ka, kb = tostring(nameOf(a) or ""):lower(), tostring(nameOf(b) or ""):lower()

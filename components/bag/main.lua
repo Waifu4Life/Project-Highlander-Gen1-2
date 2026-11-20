@@ -3,6 +3,7 @@
 -- PACK (with money, the slot counter and Start: Sort) in Gold/Silver/Crystal.
 -- OTHER SETTINGS > HIGHLANDER BAG: OFF (the game's own bag), a default
 -- pocket to open on, or LAST OPENED (the default). The bigger bag (255 items) stays on either way.
+-- The item PC's DEPOSIT ITEM shows the same screen in both generations.
 return function(mod)
   local GameVersion = require("src.core.GameVersion")
   local gen2 = GameVersion.generation and GameVersion.generation() == 2
@@ -39,6 +40,9 @@ return function(mod)
     local G1 = mod:load("gen1.lua")(mod, C)
     decorateScreen("BagMenu", "src.ui.BagMenu", G1.decorate)
     decorateScreen("ShopMenu", "src.ui.ShopMenu", G1.decorateShop)
+    -- the item PC's DEPOSIT ITEM list (Gen 2's DEPOSIT already opens the
+    -- PACK above, through the screen registry)
+    decorateScreen("PlayerPC", "src.ui.PlayerPC", G1.decoratePC)
   end
   mod.log:info("Highlander Bag ready (Gen %d)", gen2 and 2 or 1)
 end

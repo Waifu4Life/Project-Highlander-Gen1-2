@@ -188,18 +188,17 @@ return function(mod, C)
       end
     end
 
-    -- TM/HM pocket: the game sorts by number; apply a Names / DESC choice.
+    -- TM/HM pocket: the game sorts by number, but its HM01-07 are numbers
+    -- 51-57 like Extra Types' TM51-57, so always re-sort (HMs after TMs)
+    -- and apply a Names / DESC choice.
     local baseRebuild = menu.rebuild
     menu.rebuild = function(self, ...)
       local keep = selectedId(self)
       baseRebuild(self, ...)
       if self:pocket().id == "TM_HM" then
-        local kind, descending = C.tmSort(self.save)
-        if kind ~= "category" or descending then
-          C.sortMachines(self.rows, function(r) return self:tmhmKey(r.id) end,
-            function(r) return r.teaches or r.name end, self.save)
-          selectId(self, keep)
-        end
+        C.sortMachines(self.rows, function(r) return self:tmhmKey(r.id) end,
+          function(r) return r.teaches or r.name end, self.save)
+        selectId(self, keep)
       end
     end
     pcall(menu.rebuild, menu)

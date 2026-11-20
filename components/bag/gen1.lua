@@ -299,6 +299,12 @@ return function(mod, C)
       return
     end
 
+    -- DEPOSIT: a "No room" line clears once the cursor moves on
+    if self.hbDeposit and self.footer ~= self.pcPrompt
+        and (input:wasPressed("left") or input:wasPressed("right") or dir) then
+      self.footer = self.pcPrompt
+    end
+
     if input:wasPressed("left") then
       switchPocket(self, -1)
     elseif input:wasPressed("right") then
@@ -358,6 +364,33 @@ return function(mod, C)
       end)
     end
     return moveDescs[clean(moveId)] or (mv and moveDescs[clean(mv.name)]) or ""
+  end
+
+  -- The item PC's DEPOSIT: its prompts ("How many?", "... was stored via
+  -- PC.", "No room...") take the bottom box while they are up; browsing
+  -- shows the item's description like the bag does.
+  local function depositLine(self)
+    if not self.hbDeposit or self.hbSort or self.hbMove then return nil end
+    local footer = self.footer
+    if type(footer) ~= "string" or footer == "" then return nil end
+    local busy = self.pcCompletion or self.game.stack:top() ~= self
+    if busy or (footer ~= self.pcPrompt and footer ~= self.listPrompt) then
+      return footer
+    end
+    return nil
+  end
+
+  local function footerLines(footer)
+    local flat = {}
+    local ok = pcall(function()
+      for _, page in ipairs(require("src.render.TextBox").paginate(footer)) do
+        for _, line in ipairs(page) do flat[#flat + 1] = line end
+      end
+    end)
+    if not ok or #flat == 0 then
+      for line in (footer .. "\n"):gmatch("([^\n]*)\n") do flat[#flat + 1] = line end
+    end
+    return flat
   end
 
   local function description(self)
@@ -427,8 +460,16 @@ return function(mod, C)
 
       -- the description
       box(0, 12, 20, 6)
-      local desc = description(self)
-      if desc and desc ~= "" then
+      local prompt = depositLine(self)
+      local desc = not prompt and description(self) or nil
+      if prompt then
+        local flat = footerLines(prompt)
+        local y = 112
+        for i = math.max(1, #flat - 1), #flat do
+          text(flat[i], 8, y)
+          y = y + 16
+        end
+      elseif desc and desc ~= "" then
         local first, second = desc:match("^(.-)<NEXT>(.*)$")
         if not first then first, second = desc:match("^(.-)\n(.*)$") end
         text(first or desc, 8, 112)
@@ -509,6 +550,37 @@ return function(mod, C)
             return list
           end
           local ok, err = pcall(openSell, ...)
+          ListMenu.new = make
+          if not ok then error(err, 0) end
+        end
+      end
+    end
+    return menu
+  end
+
+  -- The item PC (Pokémon Center and bedroom): DEPOSIT ITEM builds a
+  -- ListMenu of the bag during its one press, the same way the mart's SELL
+  -- does. That list gets the Bag screen; the game's own onChoose still asks
+  -- "How many?" and stores the item. WITHDRAW and TOSS list the PC's own
+  -- items, so they stay the game's list.
+  function H.decoratePC(menu)
+    if type(menu) ~= "table" or type(menu.items) ~= "table" then return menu end
+    local ListMenu = require("src.ui.ListMenu")
+    local depositLabel = Strings("DEPOSIT ITEM")
+    for _, entry in ipairs(menu.items) do
+      if entry.label == depositLabel and type(entry.onSelect) == "function"
+          and not entry.highlanderBag then
+        entry.highlanderBag = true
+        local openDeposit = entry.onSelect
+        entry.onSelect = function(...)
+          local make = ListMenu.new
+          ListMenu.new = function(...)
+            ListMenu.new = make
+            local list = H.decorate(make(...))
+            if type(list) == "table" and list.highlanderBag then list.hbDeposit = true end
+            return list
+          end
+          local ok, err = pcall(openDeposit, ...)
           ListMenu.new = make
           if not ok then error(err, 0) end
         end
