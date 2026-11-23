@@ -89,16 +89,17 @@ A full-screen Start Menu (160×144, the cart's own font) with 2 columns × 5 row
 - **SELECT** picks up a Pokémon to swap it with another.
 - The A menu is a centred box in a fixed order: Stats, (Gen 2: Move, Item), Switch, Relearn, Rename, Dismiss/Follow, TM field moves, HM field moves, Cancel.
 - **RENAME** any Pokémon, traded ones included.
+- Gen 2: a Pokémon holding an item shows a small red tag at the bottom-right of its icon.
 - Gen2-style 3-page summary (Pink: HP/status/types/EXP · Green: item and coloured moves table · Blue: ID, OT, stats).
 - Gen 1 gets Gen2's move screen: type, power and Crystal's move descriptions, and reorder moves with A.
 
 ### Highlander Bag
 - Gen2's **PACK** in both generations (rebuilt from scratch for Gen 1 with four pockets: Items, Balls, Key Items, TM/HM).
 - Money in the header and a used/255 counter.
-- **START: SORT** per pocket: Category Asc/Desc, Names A-Z/Z-A. TM/HM pocket in number order unless name-sorted (kept in the save).
+- **START: SORT** per pocket: Category Asc/Desc, Names A-Z/Z-A. TM/HM pocket in number order unless name-sorted (kept in the save). HMs always come after every TM, in every sort.
 - **SELECT** moves an item inside its pocket.
 - A description for every Gen 1 item; TMs/HMs show their move's.
-- Poké Mart **SELL** opens the same Bag, in both generations.
+- Poké Mart **SELL** and the item PC's **DEPOSIT ITEM** open the same Bag, in both generations.
 
 ### Highlander PC
 - All boxes shown as **one big box**, 5 wide: 240 Pokémon in Gen 1, 280 in Gen 2, always packed with no gaps. The game's own boxes stay underneath, so turning it off or exporting a cartridge save works as normal.
@@ -129,7 +130,7 @@ A Gen2-based Pokédex for all six games, drawn at Game Boy size and framed in ea
 | Option | Default | What it does |
 | --- | --- | --- |
 | **Highlander HUD** | On | FIGHT opens a 3-column grid: type-coloured move names, PP lined up on "/", and 0x / ½x / 1x / 2x effectiveness icons against the current foe (Steel/Dark/Fairy aware). START shows a type-colour and effectiveness help screen. |
-| Colored Moves | On | Move animations take their type's colour. (Gen1 only) |
+| Colored Moves | On | Move animations take their type's colour (Fairy is pink). The toggle is Gen1 only: Gold/Silver/Crystal always colour them, recolouring only the gray pieces. |
 | Colored Pokeballs | On | Poké Balls are drawn in their own colours. (Gen1 only) |
 | Enemy HP Counter | On | Shows the foe's HP as numbers under its bar. |
 | Gen3 Catch Rate | On | Gen 3 catch formula (Apricorn balls use HGSS modifiers). |
@@ -187,6 +188,8 @@ Taunt: for 2 turns the foe can only use attacking moves (moves with power, plus 
 
 Who learns them: the Steel and Dark TMs go to Pokémon that learn the move in Gen 2 or 3, the Fairy TMs to Pokémon that learn it in Gen 6 or 7, and evolutions keep their pre-evolution's TMs. Fairy Wind is for Fairy types only.
 
+Animations: Taunt uses Gold's Metronome animation (a little hand wagging its finger while sparkles drift down), and so does Red/Blue/Yellow's Metronome. In Red/Blue/Yellow, Baby-Doll Eyes, Draining Kiss and Dazzling Gleam use their Gen 2 animations (Charm's hearts, Sweet Kiss's angel and Flash's sparkles). Fairy-type move animations are pink in both generations.
+
 | Option | Default | What it does |
 | --- | --- | --- |
 | Steel Type Moves *(Gen1)* | Off | TM58, TM60 and TM62 are Steel and their Nurse Joys appear. |
@@ -213,10 +216,10 @@ Every option works at once, without a restart. With a moves option OFF those mov
 | **Highlander Dex** | On | Highlander Dex on/off. |
 | **Highlander Party** | On | Highlander Party on/off. |
 | **Highlander PC** | On | Highlander PC on/off. |
-| Blue Into Green | Off | *(Blue only)* Title, logo colour, "Green Version" and Nidorino intro turn Blue into Green. Custom Borders' and the Start Menu's Automatic pick Green. |
+| Blue Into Green | Off | *(Blue only)* Title, logo colour, "Green Version" and Nidorino intro turn Blue into Green. Custom Borders' and the Start Menu's Automatic pick Green. The title screen opens on Bulbasaur. |
 | Decap. Words | On | Turns ALL-CAPS game text into normal case, keeping abbreviations (TM, HM, PKMN, HP, PP…) in capitals. |
 | Fast PKMN Center | On | Nurse Joy just asks "May I heal your Pokémon?". NO: "Thank you, come again!". YES: she heals right away (normal machine animation), then "All done! Thank you, come again!". |
-| Gender Mod | On | Boy/Girl choice in Red/Blue/Yellow/Gold/Silver (Red/Green, Gold/Kris): portrait, battle back sprite and overworld walk/bike. Hidden in Crystal. |
+| Gender Mod | On | Boy/Girl choice in Red/Blue/Yellow/Gold/Silver (Red/Green, Gold/Kris): portrait, battle back sprite, overworld walk/bike and the Town Map, POKéGEAR and Fly map icon. Hidden in Crystal. |
 | Learn TMs Faster | On | No "Booted up a TM" / "already knows 4 moves" / "1, 2 and… Poof!" text: a Pokémon with 4 moves goes straight to the move list, and you only see "<PKMN> learned <MOVE>!". B on the list cancels quietly. |
 | Pikachu Sound | Yellow | *(Yellow only)* Yellow's Pikachu voice or the original cry. |
 
@@ -244,11 +247,11 @@ Only the page for the running generation is shown. Every option is On by default
 - Get All Starters — Prof. Elm gives the leftover Johto starters.
 - Get OG Starters — the Kanto starters.
 - Kim Fossil Trades — fossil Pokémon via trades.
-- GS Ball — the GS Ball event with Kurt and the Ilex Forest shrine.
-- Get Legend. Birds — Articuno, Zapdos and Moltres in Kanto.
+- GS Ball — Crystal's GS Ball event in Gold and Silver, with Crystal's text, once you have entered the Hall of Fame: the Goldenrod Pokémon Center receptionist gives you the ball, Kurt checks it, then Celebi (Lv30) waits in the Ilex Forest shrine. In Crystal, the cart's own event unlocks once you're Champion.
+- Get Legend. Birds — Articuno, Zapdos and Moltres in Kanto. Each leaves its spot once caught.
 - Get Mew/Mewtwo.
 - Roaming Hunter — 100% encounter with a roaming beast on its current route, no fleeing, no Roar.
-- Trade w/ Link C.
+- Trade w/ Link C. — the Game Boy Kid on the 4th floor of Goldenrod Dept. Store. Choosing a Pokémon to trade uses the Highlander party screen.
 - Infinite Tries for Limited Encounters.
 
 ---
@@ -261,7 +264,7 @@ Every background song of the game you're playing, each On by default (ALL SONGS 
 To listen to a song, press **SELECT** on it in the Jukebox page: it plays, looping (the row shows PLAY), until you press SELECT on it again or leave the page. SELECT on another song switches to it.
 
 ### Custom Borders
-Super Game Boy-style borders around the 4:3 screen (title, Options, Trainer ID, OG battles, Start Menu).
+Super Game Boy-style borders around the 4:3 screen (title, Options, Trainer ID, OG battles, Start Menu, PCs). On screens wider than the border art, such as phones, everything past the border is black.
 - **Border**: Automatic, Classic/Modern 1/Modern 2 Red, Classic/Modern 1/Modern 2 Green, Classic/Modern Blue, Yellow, Classic/Modern Gold, Silver and Crystal, Custom 1-4.
 - **Border Scope**: by Save or by Game.
 - **Screen Ratio**: Off / 16:9 — runs the whole game in a 16:9 area on any screen shape (Steam Deck, ultrawide). Off by default.
@@ -269,7 +272,7 @@ Super Game Boy-style borders around the 4:3 screen (title, Options, Trainer ID, 
 ### Crystal *(by TRW)*
 Crystal's animated Pokémon sprites and shiny visuals, read from **your own Pokémon Crystal install** in G1R (no Pokémon sprites are bundled).
 - **Front NPCs** / **Overworld NPCs** *(Gen 1)*: OG or GEN2 trainers.
-- **Pokédex Pictures**: OG (default) or Crystal — Crystal's animated pictures in the Highlander Dex *(not in Crystal)*.
+- **Pokédex Pictures**: OG (default) or Crystal — Crystal's animated pictures in the Highlander Dex and in Red/Blue/Yellow's Hall of Fame records in the PC *(not in Crystal)*.
 - **Battle Sprites**: OG or Crystal *(not in Crystal)*.
 - **Animations**: Loop or Play Once.
 - An INSTALLED / NOT INSTALLED line tells you if Crystal was found.
@@ -288,6 +291,8 @@ Crystal's animated Pokémon sprites and shiny visuals, read from **your own Pok�
 - **Bigger Bag**: 255 items, stacks up to 999; the Gen 1 item PC holds 255.
 - **Town Map marker** follows Boy/Girl.
 - **Fly map / Pokégear**: SELECT swaps Johto and Kanto once Kanto is reachable.
+- **Free map cursor**: START on the Town Map, the POKéGEAR MAP or a Fly map switches to a cursor you move anywhere with the d-pad. It snaps to the nearest town, route or landmark and shows its name; on a Fly map it only snaps to places you can fly to, and A flies there. START again brings back the original cursor, and your choice is remembered.
+- **Heal Boxed PKMN**: a row under Bill's PC in the PC menu heals every Pokémon in the boxes (full HP, no status, full PP).
 - **Window focus**: grabs keyboard/controller focus when launched from a frontend, Playnite or a shortcut.
 
 ---
