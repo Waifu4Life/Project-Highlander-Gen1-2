@@ -310,12 +310,23 @@ return function(mod)
       if type(choice)=="function" then pcall(choice,true) return end
       if type(top.onDone)=="function" then pcall(top.onDone) end
     end
+    -- Only the overworld's own text boxes. In battle the top of the stack is
+    -- the battle itself, whose message ("BEEDRILL used ROCK SMASH!") matched
+    -- too, and popping it ended the battle (a trainer then spotted you again).
+    local okTB, TextBox=pcall(require,"src.render.TextBox")
+    if not okTB or type(TextBox)~="table" then TextBox=nil end
+    local function isTextBox(top)
+      if top._phHmSkip then return true end
+      return TextBox~=nil and getmetatable(top)==TextBox
+    end
     local function skipSmash(game)
       if not on("instant_tmhm") or not game or not game.stack or not game.stack.top then return end
+      local world=game.world
+      if type(world)=="table" and world.battleActive then return end
       local n=0
       while n<4 do
         local top=game.stack:top()
-        if type(top)~="table" or not isSmash(top) then break end
+        if type(top)~="table" or not isTextBox(top) or not isSmash(top) then break end
         n=n+1
         pcall(game.stack.pop, game.stack)
         runCont(top)

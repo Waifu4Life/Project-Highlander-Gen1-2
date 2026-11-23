@@ -1,3 +1,6 @@
+## [1.82.1] — Rock Smash in battle
+- INSTANT TMS/HMS (Gold/Silver/Crystal): using Rock Smash in a battle no longer ends the battle. The skip for the "Want to use ROCK SMASH?" question was also closing the battle screen when it said "used ROCK SMASH!", so a trainer would spot you and start the fight again. It now only answers the question on the overworld.
+
 ## [1.82.0] — Bike shortcut, Link C. moves, held-item tag
 - ITEM SHORTCUTS (Gold/Silver/Crystal): choosing the BICYCLE from the SELECT box no longer leaves a black screen. You get on (or off) the bike at once, silently, the same as a registered SELECT press. Your own registered SELECT item is kept.
 - LINK C. (Gold/Silver/Crystal, ALL PKMN): Link C. is now the Game Boy Kid on the 4th floor of Goldenrod Dept. Store. The man on the bench in Ecruteak's Pokémon Center is back to his normal self.
