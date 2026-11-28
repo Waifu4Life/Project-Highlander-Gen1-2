@@ -182,22 +182,36 @@ return function(mod)
     -- desync between what the engine expected and what actually happened
     -- is consistent with a silent total hang: nothing ever threw, so there
     -- was nothing to catch or log.
+    -- Only the field-move lines themselves, by their shape: "Want to (use)
+    -- MOVE", "X used MOVE!", and the engine's fixed lines. A bare move name
+    -- anywhere in the text (the old test) also caught lines like
+    -- "KRIS learned SURF!" and NPC talk about moves.
     local FLAVOR_WORDS = {
-      "HEADBUTT", "ROCK SMASH", "ROCKSMASH", "CUT", "SURF", "STRENGTH",
-      "FLASH", "WHIRLPOOL", "WATERFALL", "SWEET SCENT",
+      "HEADBUTT", "CUT", "SURF", "STRENGTH", "FLASH", "WHIRLPOOL",
+      "WATERFALL", "SWEET SCENT", "DIG", "TELEPORT", "FLY",
+    }
+    local PHRASES = {
+      "CAN MOVE BOULDERS", "BOULDERS MAY NOW BE MOVED",
+      "A BLINDING FLASH LIGHTS THE AREA", "DID A HEADBUTT",
     }
     local function isFlavor(text)
-      local s=tostring(text or ""):upper()
+      local s=tostring(text or "")
       if type(text)=="table" then
         local parts={}
         for _,row in ipairs(text) do parts[#parts+1]=tostring(row) end
-        s=table.concat(parts," "):upper()
+        s=table.concat(parts," ")
       end
-      s=s:gsub("[\nvrft]"," ")
+      s=s:upper():gsub("{[^}]*}"," "):gsub("%c"," "):gsub("%s+"," ")
+      s=s:gsub("^ ",""):gsub(" $","")
       for _, word in ipairs(FLAVOR_WORDS) do
-        if s:find("%f[%a]" .. word:gsub(" ", "%%s") .. "%f[%A]") then
+        if s:find("%f[%a]WANT TO USE " .. word .. "%f[%A]")
+            or s:find("%f[%a]WANT TO " .. word .. "%f[%A]")
+            or (#s <= 40 and s:find("%f[%a]USED " .. word .. "[!.]?$")) then
           return true
         end
+      end
+      for _, phrase in ipairs(PHRASES) do
+        if s:find(phrase, 1, true) then return true end
       end
       return false
     end

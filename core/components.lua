@@ -140,7 +140,7 @@ return {
     defaultEnabled = true,
     files = { "main.lua", "secret_mew.lua", "all_pkmn_gen1.lua", "all_pkmn_gen2.lua",
       "gs_ball_event.lua", "force_crystal.lua", "catch_rate.lua", "legendary_persist.lua",
-      "blue_into_green.lua", "fast_qol.lua", "heal_boxed.lua" },
+      "blue_into_green.lua", "fast_qol.lua", "heal_boxed.lua", "evo_clerk.lua" },
     assets = { "assets/sparkle.png",
       "assets/blue_into_green/title_player.png",
       "assets/blue_into_green/title_version.png",

@@ -816,6 +816,35 @@ return function(mod, S, gen2)
   ---------------------------------------------------------------- drawing
   local function cellRect(x, y) return x + 1, y + 1, CELL - 1, PITCH - 1 end
 
+  -- Held-item tag, the same badge the Highlander Party list puts on its
+  -- icons (components/party/gen2.lua): red, white arrow, 7x8 px, against
+  -- the icon's bottom-right, inside the cursor frame.
+  local HELD_TAG = {
+    ".KKKKK.",
+    "KRRWRRK",
+    "KRWWWRK",
+    "KWRWRWK",
+    "KRRWRRK",
+    "KRRWRRK",
+    "KRRRRRK",
+    ".KKKKK.",
+  }
+  local HELD_COLORS = {
+    K = { 0, 0, 0 }, R = { 232, 40, 48 }, W = { 255, 255, 255 },
+  }
+  local function drawHeldTag(x, y)
+    for r, line in ipairs(HELD_TAG) do
+      for col = 1, #line do
+        local c = HELD_COLORS[line:sub(col, col)]
+        if c then rect(c, x + col - 1, y + r - 1, 1, 1) end
+      end
+    end
+  end
+  local function holdsItem(mon)
+    local id = type(mon) == "table" and not mon.isEgg and mon.item
+    return id ~= nil and id ~= false and id ~= "" and id ~= 0 and id ~= "NO_ITEM"
+  end
+
   local function frame(c, x, y, w, h, t)
     rect(c, x, y, w, t); rect(c, x, y + h - t, w, t)
     rect(c, x, y, t, h); rect(c, x + w - t, y, t, h)
@@ -890,6 +919,9 @@ return function(mod, S, gen2)
       drawIcon(self, mon, cx + 4, cy + 2, chosen and not held)
     end
     if chosen then frame(pal[3], cx, cy, cw, ch, 2) end
+    if gen2 and mon and not origin and holdsItem(mon) then
+      drawHeldTag(cx + 15, cy + 10)
+    end
   end
 
   function PC:draw()

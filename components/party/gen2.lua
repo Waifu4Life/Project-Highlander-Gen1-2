@@ -201,6 +201,26 @@ return function(mod, C)
   ---------------------------------------------------------------------------
   local WHITE_ROW = { WHITE, WHITE, WHITE, BLACK }
 
+  -- Footsteps until an egg hatches. mon.eggSteps is the cart's hatch counter
+  -- in 256-step cycles; DoEggStep ticks it once per cycle, when the step
+  -- counter (save.stepCount, 0-255) reaches $80, and the egg hatches on the
+  -- tick that takes it to 0. Only eggs in the party tick.
+  local STEP_CYCLE, EGG_STEP_PHASE = 256, 0x80
+  local Breeding = req("src.core.gen2.Breeding")
+  if Breeding then
+    STEP_CYCLE = tonumber(Breeding.STEP_CYCLE) or STEP_CYCLE
+    EGG_STEP_PHASE = tonumber(Breeding.EGG_STEP_PHASE) or EGG_STEP_PHASE
+  end
+  local function eggStepsLeft(save, mon)
+    if type(mon) ~= "table" or not mon.isEgg then return nil end
+    local cycles = math.floor(tonumber(mon.eggSteps) or 0)
+    if cycles <= 0 then return 0 end
+    local count = math.floor(tonumber(save and save.stepCount) or 0)
+    local toTick = (EGG_STEP_PHASE - count) % STEP_CYCLE
+    if toTick == 0 then toTick = STEP_CYCLE end
+    return toTick + (cycles - 1) * STEP_CYCLE
+  end
+
   local function typeIds(self)
     local def = self:speciesDef()
     local list = (self.mon and self.mon.types) or (def and def.types) or {}
@@ -391,6 +411,20 @@ return function(mod, C)
       self:pageTile(0x41, 19, 16, WHITE_ROW)
       C.setFont(self.game and self.game.data and self.game.data.font)
       drawTypeLabels(self)
+    end
+
+    -- Egg page: the game's own screen, plus how many steps are left before
+    -- it hatches on the free bottom row (the flavour text ends on row 15).
+    local nativeEggPage = summary.drawEggPage
+    if nativeEggPage then
+      summary.drawEggPage = function(self, ...)
+        local out = pack(nativeEggPage(self, ...))
+        local ok, steps = pcall(eggStepsLeft, self.game and self.game.save, self.mon)
+        if ok and steps then
+          Chrome.print(Strings("STEPS LEFT:") .. " " .. tostring(steps), 1, 17)
+        end
+        return unpackValues(out, 1, out.n)
+      end
     end
 
     summary.drawMoveDetail = drawMoveDetail

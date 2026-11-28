@@ -761,31 +761,46 @@ return function(mod)
       end
       return s:find("%f[%a]" .. word .. "%f[%A]") ~= nil
     end
-    local function isHmFlavor(text)
+    -- Only the engine's own field-move lines, by their shape. The old test
+    -- (a move name plus any of USE / WANT / "?" / TREE / WATER ...) also
+    -- matched ordinary NPC lines, and this box hides the text and answers
+    -- YES on its own: the Indigo Plateau ABRA man ("...It can TELEPORT you
+    -- home. Would you like to go home now?") vanished and left his script
+    -- waiting forever, and lines like "Have you taught your bird POKéMON
+    -- how to FLY?" or "They don't have the power to move boulders aside"
+    -- were at risk the same way. Gen 2 shows its map text through this
+    -- same TextBox, so this covers both games.
+    local PROMPT_MOVES = {
+      "CUT", "SURF", "STRENGTH", "FLASH", "FLY", "WHIRLPOOL", "WATERFALL",
+      "DIG", "TELEPORT", "HEADBUTT", "SWEET SCENT",
+    }
+    local PROMPT_PHRASES = {
+      "HACKED AWAY WITH CUT", "A BLINDING FLASH LIGHTS THE AREA",
+      "CAN MOVE BOULDERS", "BOULDERS MAY NOW BE MOVED", "DID A HEADBUTT",
+    }
+    local function normalize(text)
       local s = flatten(text):upper()
-      s = s:gsub("[\r\n\t]", " ")
-      if s:find("GOT ON", 1, true) or s:find("HACKED", 1, true)
-          or s:find("AWAY WITH CUT", 1, true)
-          or s:find("MOVE BOULDERS", 1, true)
-          or s:find("BLINDING", 1, true)
-          or s:find("LIGHTS THE AREA", 1, true) then
-        return true
+      s = s:gsub("{[^}]*}", " "):gsub("%c", " "):gsub("%s+", " ")
+      return (s:gsub("^ ", ""):gsub(" $", ""))
+    end
+    local function isHmFlavor(text)
+      local s = normalize(text)
+      for _, mv in ipairs(PROMPT_MOVES) do
+        -- "Want to use CUT?", "Want to SURF?", "Want to HEADBUTT it?"
+        if s:find("%f[%a]WANT TO USE " .. mv .. "%f[%A]")
+            or s:find("%f[%a]WANT TO " .. mv .. "%f[%A]") then
+          return true
+        end
+        -- "KRIS used CUT!" -- short, and the move ends the line
+        if #s <= 40 and s:find("%f[%a]USED " .. mv .. "[!.]?$") then
+          return true
+        end
       end
-      local hit = false
-      for name in pairs(MOVES) do
-        if wordMatch(s, name) then hit = true; break end
+      for _, phrase in ipairs(PROMPT_PHRASES) do
+        if s:find(phrase, 1, true) then return true end
       end
-      if wordMatch(s, "HEADBUTT") then
-        return true
-      end
-      if not hit then return false end
-      for _, word in ipairs({
-        "USE", "USED", "WANT", "?", "TREE", "WATER", "BOULDER", "ROCK",
-        "DARK", "CURRENT", "WHIRL", "CALM", "CAN BE", "SMASH", "HEADBUTT",
-        "SCENT", "GOT ON", "HACKED",
-      }) do
-        if wordMatch(s, word) then return true end
-      end
+      -- "RED got on LAPRAS!" (Surf), kept as before but short lines only
+      if #s <= 40 and s:find("%f[%a]GOT ON%f[%A]") then return true end
       return false
     end
     function TextBox.new(game, text, onDone, opts, ...)

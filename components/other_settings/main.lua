@@ -1558,6 +1558,7 @@ return function(mod)
   loadSibling("blue_into_green.lua")
   loadSibling("fast_qol.lua")
   loadSibling("heal_boxed.lua")
+  loadSibling("evo_clerk.lua")
 
   do
     local src = assert(mod:read("force_crystal.lua"), "force_crystal.lua missing")

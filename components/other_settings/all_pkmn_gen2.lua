@@ -1562,7 +1562,11 @@ return function(mod)
         local ret = ow:startBattle({ wild = mon, battleType = 9 }, finish)
         if ret == false then error("startBattle false") end
       end)
-      if not ok then game._phBirdStarting = nil end
+      if not ok then
+        game._phBirdStarting = nil
+        -- the fight never started, so nothing is pending any more
+        game._phPendingBird = nil
+      end
     end
     pcall(function()
       require("src.core.Sound").playCry(game.data, species)
@@ -1838,23 +1842,34 @@ return function(mod)
   local function placeStatics(game, ow)
     local mid = mapId(ow)
     local f = flags(game)
+    -- Each bird's clean-up runs on that bird's own map only. hideBirdAtTile
+    -- hides whoever stands on the cell, so run everywhere it took out
+    -- Lugia (Whirl Islands chamber, 9,5 -- Articuno's Ice Path cell) and
+    -- the Goldenrod Dept. Store 4F clerk (13,5 -- Moltres's 9,1 + 4,4).
+    -- The save-side scrub stays global: it only touches our own records.
     if birdTaken(game, "MOLTRES") then
-      hideBirdBySpecies(ow, "MOLTRES")
-      hideBirdAtTile(ow, 9, 1)
       stripRuntimeBirds(game, "MOLTRES")
-      stripMapBird(ow, "MOLTRES")
+      if cinnabarOverworld(mid) then
+        hideBirdBySpecies(ow, "MOLTRES")
+        hideBirdAtTile(ow, 9, 1)
+        stripMapBird(ow, "MOLTRES")
+      end
     end
     if birdTaken(game, "ZAPDOS") then
-      hideBirdBySpecies(ow, "ZAPDOS")
-      hideBirdAtTile(ow, 2, 11)
       stripRuntimeBirds(game, "ZAPDOS")
-      stripMapBird(ow, "ZAPDOS")
+      if zapdosOutside(mid) then
+        hideBirdBySpecies(ow, "ZAPDOS")
+        hideBirdAtTile(ow, 2, 11)
+        stripMapBird(ow, "ZAPDOS")
+      end
     end
     if birdTaken(game, "ARTICUNO") then
-      hideBirdBySpecies(ow, "ARTICUNO")
-      hideBirdAtTile(ow, 9, 5)
       stripRuntimeBirds(game, "ARTICUNO")
-      stripMapBird(ow, "ARTICUNO")
+      if icePathB3(mid) then
+        hideBirdBySpecies(ow, "ARTICUNO")
+        hideBirdAtTile(ow, 9, 5)
+        stripMapBird(ow, "ARTICUNO")
+      end
     end
     if feat("gen2_birds") and kantoOpen(game.save) then
       if cinnabarOverworld(mid) and not birdTaken(game, "MOLTRES") then
@@ -2167,6 +2182,8 @@ return function(mod)
     local row = byMap[mapName .. "|" .. terrain]
     if not row then return result end
     local tod = tostring(ctx.daytime or "DAY"):upper()
+    -- the engine's grassSlot reads DARK as the night list; do the same
+    if tod == "DARK" then tod = "NITE" end
     local list = row.ANY or row[tod]
     if not list then return result end
     for _, e in ipairs(list) do
@@ -2393,13 +2410,14 @@ return function(mod)
         local wrapped = function(outcome, battle)
           if game and isGen2(game) then
             local r = tostring(outcome or ""):lower()
-            local sp = game._phPendingBird
-            if not sp and opts.wild then
-              sp = tostring(opts.wild.species or ""):upper()
-            end
-            if sp and BIRD_CATCH[sp] then
+            -- The species actually fought decides it; a leftover
+            -- _phPendingBird must never turn some other catch into a bird.
+            local sp = opts.wild and tostring(opts.wild.species or ""):upper() or ""
+            if sp == "" then sp = tostring(game._phPendingBird or ""):upper() end
+            if BIRD_CATCH[sp] then
+              local pending = game._phPendingBird == sp
               if r:find("caught") or r:find("catch")
-                  or countSpecies(game.save, sp) > (game._phPendingCount or 0) then
+                  or (pending and countSpecies(game.save, sp) > (game._phPendingCount or 0)) then
                 markBirdCaught(game, sp)
               end
             end
@@ -2502,22 +2520,18 @@ return function(mod)
         game = ok and Game or nil
       end
       if not (game and isGen2(game)) then return end
+      -- Only the Pokémon actually received counts. This used to fall back to
+      -- the map (anything caught on Ice Path B3F counted as Articuno, on
+      -- Cinnabar as Moltres, on Route 10 as Zapdos) and to let a leftover
+      -- _phPendingBird override the real species, so catching a Jynx or a
+      -- Delibird in Ice Path marked Articuno caught without ever meeting it.
       local raw = ev.species or ev.id or (ev.mon and ev.mon.species) or ""
       local sp = tostring(raw):upper()
-      if sp == "144" then sp = "ARTICUNO" end
-      if sp == "145" then sp = "ZAPDOS" end
-      if sp == "146" then sp = "MOLTRES" end
-      if game._phPendingBird then
-        sp = game._phPendingBird
-      end
-      if not BIRD_CATCH[sp] then
-        local mid = mapId(game.world or game.overworld)
-        if cinnabarOverworld(mid) then sp = "MOLTRES"
-        elseif zapdosOutside(mid) then sp = "ZAPDOS"
-        elseif icePathB3(mid) then sp = "ARTICUNO"
-        end
-      end
-      markBirdCaught(game, sp)
+      local BY_NUM = { ["144"] = "ARTICUNO", ["145"] = "ZAPDOS", ["146"] = "MOLTRES",
+        ["150"] = "MEWTWO", ["151"] = "MEW", ["251"] = "CELEBI" }
+      sp = BY_NUM[sp] or sp
+      if sp == "" then sp = tostring(game._phPendingBird or ""):upper() end
+      if BIRD_CATCH[sp] then markBirdCaught(game, sp) end
     end
     mod.events:on("pokemon.caught", onGotMon)
     pcall(function() mod.events:on("pokemon.given", onGotMon) end)
@@ -2637,9 +2651,17 @@ return function(mod)
       end)
     end
   end)
+  -- >0 while the engine's own encounter.roll chain is running.  The engine's
+  -- vanilla roll calls Encounter.grassSlot / waterSlot inside that chain, and
+  -- the hook below already handles it (with its contest / script filter), so
+  -- the slot wrappers further down must leave those calls alone.
+  local engineRollDepth = 0
   pcall(function()
     mod.hooks:wrap("encounter.roll", function(next, encDef, ctx)
-      local result = next(encDef, ctx)
+      engineRollDepth = engineRollDepth + 1
+      local okN, result = pcall(next, encDef, ctx)
+      engineRollDepth = engineRollDepth - 1
+      if not okN then error(result, 0) end
       if type(result) ~= "table" then return result end
       if not feat("gen2_exclusive") then return result end
       ctx = ctx or {}
@@ -2650,6 +2672,31 @@ return function(mod)
       end
       return exclusiveRoll(result, ctx)
     end)
+  end)
+  -- Visible-spawn mods (Vivid Worlds: OG) pick their species by calling
+  -- Encounter.grassSlot / waterSlot directly, outside encounter.roll, so the
+  -- hook above never sees them -- and with their Classic Encounters off, no
+  -- exclusive could ever be met.  Give those direct calls the same roll.
+  pcall(function()
+    local Encounter = require("src.battle.gen2.Encounter")
+    if type(Encounter) ~= "table" or Encounter.__phExclusivesWrapped then return end
+    local origGrass, origWater = Encounter.grassSlot, Encounter.waterSlot
+    if type(origGrass) ~= "function" or type(origWater) ~= "function" then return end
+    Encounter.__phExclusivesWrapped = true
+    local function direct(result, mapId, terrain, daytime)
+      if engineRollDepth > 0 or type(result) ~= "table" then return result end
+      if not feat("gen2_exclusive") then return result end
+      local ok, out = pcall(exclusiveRoll, result,
+        { mapId = mapId, terrain = terrain, daytime = daytime })
+      if ok and type(out) == "table" then return out end
+      return result
+    end
+    Encounter.grassSlot = function(encounters, mapId, daytime, random)
+      return direct(origGrass(encounters, mapId, daytime, random), mapId, "grass", daytime)
+    end
+    Encounter.waterSlot = function(encounters, mapId, random)
+      return direct(origWater(encounters, mapId, random), mapId, "water", nil)
+    end
   end)
   pcall(function()
     mod.hooks:wrap("encounter.fishing", function(next, rod, mapId, candidates, ctx)

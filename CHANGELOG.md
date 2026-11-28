@@ -1,3 +1,28 @@
+## [1.84.0] — Egg steps left, held-item tag in the PC
+- PARTY (Gold/Silver/Crystal): an Egg's stats page now shows STEPS LEFT on its bottom line: how many steps you still have to walk before it hatches. Eggs only count down while they are in the party.
+- PC (Gold/Silver/Crystal): a Pokémon holding an item shows the same little red tag at the bottom-right of its icon as in the party list, in the party column and in the big box.
+
+## [1.83.4] — Other-version exclusives in visible spawns
+- GET EXCLUSIVE PKMN FROM OTHER GEN2 GAMES (Gold/Silver/Crystal): the other version's exclusives now also turn up as visible wild Pokémon from overworld-spawn mods such as Vivid Worlds: OG. Those mods pick their Pokémon straight from the map's grass and water lists, outside the step-encounter roll this option used, so with their random battles turned off no exclusive could ever appear. Normal step encounters keep the same rates (never rolled twice), and the Bug-Catching Contest and scripted encounters still never get exclusives.
+- The same option now also works late at night: the "DARK" part of the night used to match none of the exclusive lists, so they only appeared in the morning, day and early night.
+
+## [1.83.3] — Indigo Plateau ABRA man talks again
+- INSTANT TMS/HMS (Gold/Silver/Crystal and Red/Blue/Yellow): talking to the man with the ABRA in the Indigo Plateau Pokémon Center no longer leaves you stuck with no text. His line mentions TELEPORT and asks a question, and the skip treated that as a field-move prompt: it hid his text and left his script waiting. The skip now only answers the game's own field-move lines ("Want to use CUT?", "KRIS used SURF!", "...hacked away with CUT!" and the like). It also stops catching other NPC lines that just mention a move, such as Chuck's wife giving you STRENGTH or "KRIS learned SURF!".
+
+## [1.83.2] — No more phantom bird catches
+- GET ALL PKMN (Gold/Silver/Crystal): catching any Pokémon on Ice Path B3F, Cinnabar Island or Route 10 no longer marks Articuno, Moltres or Zapdos as caught. The catch check used to guess the bird from the map when the caught Pokémon wasn't one, and a leftover "bird fight" marker could also turn an ordinary catch into a bird. Now only the Pokémon actually caught counts. A save that already got a false mark needs the PH_<BIRD> flag and phBirds entry removed to get that bird back.
+
+## [1.83.1] — Lugia is back
+- WHIRL ISLANDS (Gold/Silver/Crystal, GET ALL PKMN): Lugia is visible again. Once you had caught the Kanto Articuno, the clean-up that keeps it gone from Ice Path also hid whoever stood on Articuno's spot on every other map, and Lugia stands on that same spot in its chamber. Moltres's and Zapdos's clean-up had the same mistake (it could hide the Goldenrod Dept. Store 4F clerk, for one). Each bird's clean-up now runs only on its own map.
+
+## [1.83.0] — Evolution item clerk, boxes heal in Gen 1
+- GOLDENROD DEPT. STORE 4F (Gold/Silver/Crystal): a second clerk stands next to the floor's own clerk behind the counter. He sells all six evolution stones (Fire, Water, Thunder, Leaf, Moon, Sun), Metal Coat, Dragon Scale, King's Rock and Up-Grade, all for ¥2100, the price of a stone in Red/Blue/Yellow. Selling to him pays the usual half of an item's own price.
+- PC (Red/Blue/Yellow): a Pokémon is now healed (full HP, no status, full PP) as it goes into a box, like in Gold/Silver/Crystal. That covers depositing at BILL's PC and catching one with a full party. Pokémon already in a box hurt get healed the next time you open the PC.
+- PC (Red/Blue/Yellow and Gold/Silver/Crystal): the HEAL BOXED PKMN menu row is gone. It is no longer needed.
+
+## [1.82.2] — Infinite Tries for the roaming beasts
+- INFINITE TRIES FOR LIMITED ENCOUNTERS (Gold/Silver/Crystal): now covers Raikou, Entei and Suicune. Knocking one out no longer removes it for good. It runs off like it fled and comes back at full HP, with the same DVs. Catching one still removes it as normal.
+
 ## [1.82.1] — Rock Smash in battle
 - INSTANT TMS/HMS (Gold/Silver/Crystal): using Rock Smash in a battle no longer ends the battle. The skip for the "Want to use ROCK SMASH?" question was also closing the battle screen when it said "used ROCK SMASH!", so a trainer would spot you and start the fight again. It now only answers the question on the overworld.
 

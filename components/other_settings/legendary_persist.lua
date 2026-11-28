@@ -281,5 +281,37 @@ return function(mod)
     end
   end)
 
-  mod.log:info("Infinite Tries for Limited Encounters ready (Gen1 active for birds/Mewtwo, Gen2 detection-only, both default off)")
+  ---------------------------------------------------------------------------
+  -- Gen 2 -- the roaming beasts (Raikou, Entei, Suicune). Active, not
+  -- detection-only: the base game's Roamers.endBattle (src/core/gen2/
+  -- Roamers.lua, BattleEnd_HandleRoamMons) clears a slot's species and map
+  -- on BOTH "win" and "caught", so knocking a beast out removes it forever.
+  -- With the feature on, a "win" is handed to the original as a "run"
+  -- instead: the beast keeps its slot and DVs, moves on like it fled, and is
+  -- banked at the 255 HP cap so beginBattle's min(slot.hp, maxHp) brings it
+  -- back at full HP next time. "caught" is passed through untouched, so a
+  -- caught beast still leaves the roster normally.
+  ---------------------------------------------------------------------------
+  pcall(function()
+    local Roamers = require("src.core.gen2.Roamers")
+    if type(Roamers) ~= "table" or type(Roamers.endBattle) ~= "function"
+        or Roamers._phLegendaryPersist then
+      return
+    end
+    Roamers._phLegendaryPersist = true
+    local origEnd = Roamers.endBattle
+    function Roamers.endBattle(save, index, outcome, hp, ...)
+      if outcome == "win" and on("gen2_legendary_persist") then
+        local slot = type(Roamers.slot) == "function" and Roamers.slot(save, index) or nil
+        if type(slot) == "table" and slot.species then
+          logOnce("Infinite Tries (Gen2): roaming %s knocked out, kept roaming at full HP",
+            "roamko:" .. tostring(slot.species), tostring(slot.species))
+          return origEnd(save, index, "run", Roamers.MAX_STORED_HP or 255, ...)
+        end
+      end
+      return origEnd(save, index, outcome, hp, ...)
+    end
+  end)
+
+  mod.log:info("Infinite Tries for Limited Encounters ready (Gen1 active for birds/Mewtwo, Gen2 active for roaming beasts + detection-only for statics, both default off)")
 end
