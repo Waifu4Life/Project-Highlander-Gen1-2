@@ -292,8 +292,10 @@ Crystal's animated Pokémon sprites and shiny visuals, read from **your own Pok�
 - **Town Map marker** follows Boy/Girl.
 - **Fly map / Pokégear**: SELECT swaps Johto and Kanto once Kanto is reachable.
 - **Free map cursor**: START on the Town Map, the POKéGEAR MAP or a Fly map switches to a cursor you move anywhere with the d-pad. It snaps to the nearest town, route or landmark and shows its name; on a Fly map it only snaps to places you can fly to, and A flies there. START again brings back the original cursor, and your choice is remembered.
-- **Heal Boxed PKMN**: a row under Bill's PC in the PC menu heals every Pokémon in the boxes (full HP, no status, full PP).
 - **Window focus**: grabs keyboard/controller focus when launched from a frontend, Playnite or a shortcut.
+- **See amount of steps required for an Egg to hatch**: In the status of in Egg from the party menu, see the amount of steps required for it to hatch.
+- **Gen1 PC box heals**: Just like in Gen2, sending a PKMN to a PC box will automatically heal it.
+- **Evolution Items for sale**: GOLDENROD DEPT. STORE 4F, evolution items are now up for sale by a new NPC clerk.
 
 ---
 
